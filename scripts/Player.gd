@@ -126,7 +126,6 @@ func respawn():
 func damage(amount):
 	if !is_dead and !is_invul:
 		player_info["health"] -= amount
-		
 		$Hud.pain()
 			
 		Global.play_rand($Pain, pain_sounds)
