@@ -14,7 +14,6 @@
 [ext_resource path="res://sounds/br/aug_clipout.wav" type="AudioStream" id=17]
 [ext_resource path="res://sounds/items/tick.wav" type="AudioStream" id=19]
 
-
 [sub_resource type="CylinderShape" id=1]
 height = 0.01
 
