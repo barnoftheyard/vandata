@@ -1,2 +1,2 @@
-# vandata
-Godot Game
+# Vandata
+An in-development Godot FPS game.
