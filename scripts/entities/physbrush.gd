@@ -24,7 +24,7 @@ func _ready():
 	contacts_reported = 4
 	connect("body_entered", self, "_on_body_entered")
 	
-	#add our sound impact node
+	#add our sound impact node, test
 	var sound = AudioStreamPlayer3D.new()
 	sound.name = "impact"
 	sound.max_db = 6
