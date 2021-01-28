@@ -135,7 +135,6 @@ func damage(amount):
 remote func bullet_hit(damage, id, bullet_hit_pos, _force_multiplier):			#handles how bullets push the prop
 	var direction_vect = global_transform.origin - bullet_hit_pos
 	direction_vect = direction_vect.normalized()
-	#move_and_slide(direction_vect * damage, Vector3(0, 1, 0), 0.05, 4, deg2rad(MAX_SLOPE_ANGLE), false)
 	damage(damage)
 	
 	#if we got killed handle the score
