@@ -2,7 +2,7 @@
 
 [ext_resource path="res://scripts/Weapon.gd" type="Script" id=1]
 [ext_resource path="res://sounds/double barrel/sbarrel1.wav" type="AudioStream" id=2]
-[ext_resource path="res://scenes/EndPoint.gd" type="Script" id=3]
+[ext_resource path="res://scripts/EndPoint.gd" type="Script" id=3]
 [ext_resource path="res://sounds/dryfire1.wav" type="AudioStream" id=4]
 [ext_resource path="res://sounds/pistol/p228_clipout.wav" type="AudioStream" id=5]
 [ext_resource path="res://sounds/pistol/p228-1.wav" type="AudioStream" id=9]
@@ -13,6 +13,7 @@
 [ext_resource path="res://sounds/br/aug-1.wav" type="AudioStream" id=16]
 [ext_resource path="res://sounds/br/aug_clipout.wav" type="AudioStream" id=17]
 [ext_resource path="res://sounds/items/tick.wav" type="AudioStream" id=19]
+
 
 [sub_resource type="CylinderShape" id=1]
 height = 0.01
