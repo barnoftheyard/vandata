@@ -135,10 +135,6 @@ light_energy = 3.0
 spot_range = 20.0
 spot_angle = 30.0
 
-[node name="Camera2" type="Camera" parent="Camera"]
-transform = Transform( 1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1.28407, 2.25882 )
-fov = 90.0
-
 [node name="AnimController" type="Spatial" parent="."]
 script = ExtResource( 5 )
 
