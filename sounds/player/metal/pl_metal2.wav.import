@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/pl_metal2.wav-ffae1f901d95ecf102887b7056e3ae0c.sample"
+
+[deps]
+
+source_file="res://sounds/player/metal/pl_metal2.wav"
+dest_files=[ "res://.import/pl_metal2.wav-ffae1f901d95ecf102887b7056e3ae0c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

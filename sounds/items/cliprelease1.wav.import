@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/cliprelease1.wav-c1295cf399b4a50ca21e5adbc7d1e30c.sample"
+
+[deps]
+
+source_file="res://sounds/items/cliprelease1.wav"
+dest_files=[ "res://.import/cliprelease1.wav-c1295cf399b4a50ca21e5adbc7d1e30c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

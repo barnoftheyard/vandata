@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/dbarrel1.wav-e732a7d7a5f1342ed7d669bbe6d3b564.sample"
+
+[deps]
+
+source_file="res://sounds/double barrel/dbarrel1.wav"
+dest_files=[ "res://.import/dbarrel1.wav-e732a7d7a5f1342ed7d669bbe6d3b564.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

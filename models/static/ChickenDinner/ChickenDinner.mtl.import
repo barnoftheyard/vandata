@@ -1,0 +1,16 @@
+[remap]
+
+importer="mtl.loader"
+type="SpatialMaterial"
+path="res://.import/ChickenDinner.mtl-59353af4064538682d0c77627ec5595f.material"
+
+[deps]
+
+files=[ "res://models/static/ChickenDinner/chicken.material", "res://models/static/ChickenDinner/buh.material" ]
+
+source_file="res://models/static/ChickenDinner/ChickenDinner.mtl"
+dest_files=[ "res://.import/ChickenDinner.mtl-59353af4064538682d0c77627ec5595f.material", "res://models/static/ChickenDinner/chicken.material", "res://models/static/ChickenDinner/buh.material" ]
+
+[params]
+
+generate_multiple_files=true

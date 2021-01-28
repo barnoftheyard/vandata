@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/temple.5.map-a08043113633c9400e6c7c652ad9d06f.tres"
+
+[deps]
+
+source_file="res://maps/autosave/temple.5.map"
+dest_files=[ "res://.import/temple.5.map-a08043113633c9400e6c7c652ad9d06f.tres" ]
+
+[params]
+

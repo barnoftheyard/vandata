@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/gourdchat.ogg-6d63e2d9fe820e842e9ece4f8d1b88f0.oggstr"
+
+[deps]
+
+source_file="res://sounds/music/gourdchat.ogg"
+dest_files=[ "res://.import/gourdchat.ogg-6d63e2d9fe820e842e9ece4f8d1b88f0.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/pl_duct4.wav-42db0ba4a800f711dc5660491a32e3a7.sample"
+
+[deps]
+
+source_file="res://sounds/player/duct/pl_duct4.wav"
+dest_files=[ "res://.import/pl_duct4.wav-42db0ba4a800f711dc5660491a32e3a7.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

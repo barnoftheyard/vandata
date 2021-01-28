@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/pl_wade3.wav-6a853024b87bec2965aa67dbe2892c78.sample"
+
+[deps]
+
+source_file="res://sounds/player/wade/pl_wade3.wav"
+dest_files=[ "res://.import/pl_wade3.wav-6a853024b87bec2965aa67dbe2892c78.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

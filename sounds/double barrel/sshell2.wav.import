@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/sshell2.wav-7082c7a208b77877009dd7ba7c5335bf.sample"
+
+[deps]
+
+source_file="res://sounds/double barrel/sshell2.wav"
+dest_files=[ "res://.import/sshell2.wav-7082c7a208b77877009dd7ba7c5335bf.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

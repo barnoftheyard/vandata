@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/pl_fallpain3.wav-9dcd272525224d8d88032c50ad7e1b8f.sample"
+
+[deps]
+
+source_file="res://sounds/player/fallpain/pl_fallpain3.wav"
+dest_files=[ "res://.import/pl_fallpain3.wav-9dcd272525224d8d88032c50ad7e1b8f.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

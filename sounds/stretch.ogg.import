@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/stretch.ogg-f0d851a4031618785ae8f9dbb679b5dc.oggstr"
+
+[deps]
+
+source_file="res://sounds/stretch.ogg"
+dest_files=[ "res://.import/stretch.ogg-f0d851a4031618785ae8f9dbb679b5dc.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

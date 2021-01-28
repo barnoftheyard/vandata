@@ -1,0 +1,15 @@
+TODO:
+	DONE: static/rigid prop nodes X
+	DONE: multiplayer
+	DONE: fix text sizing problem
+	add explosion effects
+	add rain effects
+	
+	DONE: add in signal to weapon.gd that fires reload_weapon() at the end of the
+	reloading animation
+	
+	DONE: add in weapon get entity, in entity have it so it adds a timer to weapons
+	that need it
+	
+	Remember you only need to add the network prefixes (remote, sync, puppet, master)
+	to functions IF you're going to call them through rpc

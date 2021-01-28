@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://models/k98/k98.glb" type="PackedScene" id=1]
+
+
+[node name="k98" index="0" instance=ExtResource( 1 )]

@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/ChickenDinner.obj-bf1410d496bc263f511b397e72cc9eb1.mesh"
+
+[deps]
+
+files=[ "res://.import/ChickenDinner.obj-bf1410d496bc263f511b397e72cc9eb1.mesh" ]
+
+source_file="res://models/static/ChickenDinner/ChickenDinner.obj"
+dest_files=[ "res://.import/ChickenDinner.obj-bf1410d496bc263f511b397e72cc9eb1.mesh", "res://.import/ChickenDinner.obj-bf1410d496bc263f511b397e72cc9eb1.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

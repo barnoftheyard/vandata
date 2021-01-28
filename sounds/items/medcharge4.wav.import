@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/medcharge4.wav-ad69bcaa19e9d1a009e91b698271c1da.sample"
+
+[deps]
+
+source_file="res://sounds/items/medcharge4.wav"
+dest_files=[ "res://.import/medcharge4.wav-ad69bcaa19e9d1a009e91b698271c1da.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

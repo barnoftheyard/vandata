@@ -1,0 +1,305 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://resources/DynamicFonts/buttons.tres" type="DynamicFont" id=1]
+[ext_resource path="res://textures/crosshairs64.png" type="Texture" id=2]
+[ext_resource path="res://scripts/control/Hud.gd" type="Script" id=3]
+[ext_resource path="res://resources/DynamicFonts/greekish.tres" type="DynamicFont" id=4]
+[ext_resource path="res://textures/player/hurt.png" type="Texture" id=5]
+[ext_resource path="res://textures/player/vignette.png" type="Texture" id=6]
+[ext_resource path="res://resources/DynamicFonts/denmark.tres" type="DynamicFont" id=7]
+[ext_resource path="res://resources/StyleBoxFlat/Hud.tres" type="StyleBox" id=8]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.352941, 0.784314, 1, 1 )
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color( 0.2, 0.2, 0.2, 1 )
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.198107, 0.255268, 0.28125, 0.784314 )
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color( 0.356863, 0.0784314, 0.0784314, 1 )
+border_blend = true
+
+[sub_resource type="Animation" id=3]
+resource_name = "fadeout"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[node name="Hud" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.0734863
+margin_top = -0.139801
+margin_right = 0.0734863
+margin_bottom = -0.139771
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerName" type="Label" parent="."]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 384.0
+margin_bottom = 49.0
+custom_fonts/font = ExtResource( 7 )
+custom_colors/font_color_shadow = Color( 0.2, 0.2, 0.2, 1 )
+text = "PLAYER"
+valign = 1
+clip_text = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthMeter" type="ProgressBar" parent="."]
+margin_left = 10.0
+margin_top = 50.0
+margin_right = 384.0
+margin_bottom = 80.0
+custom_styles/fg = SubResource( 1 )
+custom_styles/bg = SubResource( 2 )
+step = 1.0
+value = 100.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ClipCounter" type="Label" parent="."]
+anchor_left = 0.90625
+anchor_top = 0.933333
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 1 )
+align = 2
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="AmmoCounter" type="Label" parent="."]
+anchor_left = 0.90625
+anchor_top = 0.873333
+anchor_right = 1.0
+anchor_bottom = 0.933333
+custom_fonts/font = ExtResource( 1 )
+align = 2
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="WeaponName" type="Label" parent="."]
+anchor_left = 0.8125
+anchor_top = 0.786667
+anchor_right = 1.0
+anchor_bottom = 0.846667
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 0.784314 )
+align = 2
+valign = 2
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -20.0
+margin_right = 20.0
+margin_bottom = 20.0
+rect_pivot_offset = Vector2( 20, 20 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Crosshair" type="Sprite" parent="CenterContainer"]
+self_modulate = Color( 1, 1, 1, 0 )
+position = Vector2( 20, 20 )
+texture = ExtResource( 2 )
+vframes = 8
+hframes = 8
+
+[node name="Line2D" type="Line2D" parent="CenterContainer/Crosshair"]
+position = Vector2( -20, -24 )
+points = PoolVector2Array( 19.9265, 15.8898, 19.9265, -0.110199 )
+width = 2.0
+default_color = Color( 0.415686, 1, 0.25098, 1 )
+
+[node name="Line2D2" type="Line2D" parent="CenterContainer/Crosshair"]
+position = Vector2( -20, -24 )
+points = PoolVector2Array( 11.9265, 23.8898, -4.07349, 23.8898 )
+width = 2.0
+default_color = Color( 0.415686, 1, 0.25098, 1 )
+
+[node name="Line2D3" type="Line2D" parent="CenterContainer/Crosshair"]
+position = Vector2( -20, -24 )
+points = PoolVector2Array( 27.9265, 23.8898, 43.9265, 23.8898 )
+width = 2.0
+default_color = Color( 0.415686, 1, 0.25098, 1 )
+
+[node name="Line2D4" type="Line2D" parent="CenterContainer/Crosshair"]
+position = Vector2( -20, -24 )
+points = PoolVector2Array( 19.9265, 31.8898, 19.9265, 47.8898 )
+width = 2.0
+default_color = Color( 0.415686, 1, 0.25098, 1 )
+
+[node name="Line2D5" type="Line2D" parent="CenterContainer/Crosshair"]
+position = Vector2( -20, -24 )
+points = PoolVector2Array( 19.9265, 22.1398, 19.9265, 26.1398 )
+width = 2.0
+default_color = Color( 0.415686, 1, 0.25098, 1 )
+
+[node name="Line2D6" type="Line2D" parent="CenterContainer/Crosshair"]
+position = Vector2( -20, -24 )
+points = PoolVector2Array( 17.9265, 24.1398, 21.9265, 24.1398 )
+width = 2.0
+default_color = Color( 0.415686, 1, 0.25098, 1 )
+
+[node name="Fps" type="Label" parent="."]
+anchor_left = 0.937
+anchor_right = 1.02344
+anchor_bottom = 0.026
+margin_left = 0.511963
+margin_bottom = -1.6
+text = "FPS:       "
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="PainOverlay" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 5 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DeathOverlay" type="TextureRect" parent="."]
+visible = false
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -0.0734863
+margin_top = -0.110199
+margin_right = -0.0734863
+margin_bottom = -0.110229
+texture = ExtResource( 6 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="DeathOverlay"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -21.5002
+margin_right = 20.0
+margin_bottom = 21.5002
+custom_fonts/font = ExtResource( 4 )
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ChatBox" type="Label" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -128.0
+margin_right = 320.0
+valign = 2
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="ChatBox"]
+wait_time = 5.0
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ChatBox"]
+anims/fadeout = SubResource( 3 )
+
+[node name="ChatLine" type="LineEdit" parent="."]
+visible = false
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -24.0
+margin_right = 320.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+color = Color( 0.243137, 0.243137, 0.243137, 0.509804 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerList" type="PanelContainer" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -192.0
+margin_top = -84.0
+margin_right = 192.0
+margin_bottom = 84.0
+custom_styles/panel = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PlayerList"]
+margin_right = 384.0
+margin_bottom = 168.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerList/VBoxContainer2"]
+margin_right = 384.0
+margin_bottom = 14.0
+
+[node name="Label" type="Label" parent="PlayerList/VBoxContainer2/VBoxContainer"]
+margin_right = 384.0
+margin_bottom = 14.0
+text = "Player List:"
+
+[node name="Grid" type="GridContainer" parent="PlayerList/VBoxContainer2"]
+margin_top = 18.0
+margin_right = 384.0
+margin_bottom = 18.0
+columns = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="draw" from="ChatBox" to="." method="_on_ChatBox_draw"]
+[connection signal="timeout" from="ChatBox/Timer" to="." method="_on_Timer_timeout"]
+[connection signal="text_entered" from="ChatLine" to="." method="_on_LineEdit_text_entered"]

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/p228_slidepull.wav-968aa72f0bff6cb6d797c6741229e523.sample"
+
+[deps]
+
+source_file="res://sounds/pistol/p228_slidepull.wav"
+dest_files=[ "res://.import/p228_slidepull.wav-968aa72f0bff6cb6d797c6741229e523.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

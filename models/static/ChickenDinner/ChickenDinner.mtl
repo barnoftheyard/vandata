@@ -1,0 +1,21 @@
+# Material file for ChickenDinner.obj
+
+newmtl chicken
+	Ns 0
+	d 1
+	illum 2
+	Kd 0.8 0.8 0.8
+	Ks 0.0 0.0 0.0
+	Ka 0.2 0.2 0.2
+	map_Kd chickenskin.png
+
+newmtl buh
+	Ns 0
+	d 1
+	illum 2
+	Kd 0.8 0.8 0.8
+	Ks 0.0 0.0 0.0
+	Ka 0.2 0.2 0.1
+	map_Kd buh.png
+
+

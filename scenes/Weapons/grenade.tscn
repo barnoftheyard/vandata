@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://models/frag/frag.glb" type="PackedScene" id=1]
+
+[node name="grenade" type="Spatial"]
+visible = false
+
+[node name="ThrowPower" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="frag" parent="." instance=ExtResource( 1 )]
+transform = Transform( 0.0819152, 0, 0.0573577, 0, 0.1, 0, -0.0573577, 0, 0.0819152, 0, 0, 0 )
+
+[node name="dummy" type="AnimationPlayer" parent="."]

@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=2]
+
+[ext_resource path="res://textures/lake.jpg" type="Texture" id=1]
+[ext_resource path="res://shaders/water.shader" type="Shader" id=2]
+
+[resource]
+shader = ExtResource( 2 )
+shader_param/ramp = 2.0
+shader_param/rippleFactor = 0.75
+shader_param/tilling = 1.0
+shader_param/metallic = 0.0
+shader_param/roughness = 0.1
+shader_param/waterTint1 = Vector3( 0, 0.1, 0 )
+shader_param/waterTint2 = Vector3( 0, 0.02, 0.01 )
+shader_param/chromatic_aberration = true
+shader_param/chromatic_aberration_level = 2.0
+shader_param/ripple = ExtResource( 1 )

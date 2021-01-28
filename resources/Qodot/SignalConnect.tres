@@ -1,0 +1,32 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://scripts/entities/signal_connect.gd" type="Script" id=1]
+[ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_point_class.gd" type="Script" id=2]
+
+[resource]
+script = ExtResource( 2 )
+class_options = "----------------------------------------------------------------"
+classname = "signal_connect"
+description = "Connects a signal between and origin point and a target."
+qodot_internal = false
+base_classes = [  ]
+class_properties = {
+"emitter": "",
+"signal": "",
+"target": ""
+}
+class_property_descriptions = {
+"emitter": "The origin from where the signal will originate.",
+"signal": "The name of the signal that will be connected and sent.",
+"target": "The target object that will react upon recieving the signal."
+}
+meta_properties = {
+"color": Color( 0.8, 0.8, 0.8, 1 ),
+"size": AABB( -8, -8, -8, 8, 8, 8 )
+}
+node_options = "----------------------------------------------------------------"
+node_class = ""
+transient_node = false
+scene = "----------------------------------------------------------------"
+scripting = "----------------------------------------------------------------"
+script_class = ExtResource( 1 )

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/grenade_hit2.wav-1703e5f3ac5fe60b9454d351f6e521e9.sample"
+
+[deps]
+
+source_file="res://sounds/grenade/grenade_hit2.wav"
+dest_files=[ "res://.import/grenade_hit2.wav-1703e5f3ac5fe60b9454d351f6e521e9.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

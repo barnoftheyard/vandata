@@ -1,0 +1,88 @@
+5/2/2020 - 
+added in water shader
+added in water mechanics on player
+5/3/20
+implemented the qodot addon
+added in reload anim checking, can no longer fire during the reloading animation
+CHIMKEN
+chicken particles
+5/4/20
+chicken turning???
+not really lmao
+fuck me
+5/5/20
+still not chicken turning
+qodot map importing!
+5/6/20
+custom qodot map entities
+5/7/20
+RigidBody AND KinematicBody water physics
+5/8/20
+Added in Qodot property reading
+5/9/20
+Added in Qodot texturing
+5/10/20
+Added in 3D text and support for it in Qodot
+5/11/20
+Added in water brush support in Qodot
+Added in random player spawns
+Fixed taking damage after respawning bug
+5/12/20
+added in first-time load random player spawn (at first you spawned at the player
+node coords no matter the situation)
+5/13/20
+added in text chat
+5/16/20
+fully made the .mtl loader!!!
+5/17/20
+added the conduit font for UI
+5/18/20
+organized code more neatly in order for multiplayer to be added
+player_dic template added in global, player_info is set at _ready() to this
+player_name added back into settings
+changing player name through settings now works
+5/20/20 - 5/24/20
+multiplayer working? LMAO NO
+replicator plugin implemented
+5/25/20
+use button working
+6/8/20
+Player list tab menu
+6/22/20
+Added in working player list
+added in idle breathing to view models
+6/23/20
+Added in signal connects
+7/1/20
+Added in flashlight
+7/21/20
+Fixed the ability to load in different maps
+9/16/20
+Command Console
+9/23/20
+MULTIPLAYER WORKING
+9/24/20 - 10/3/20
+Weapon pick ups added
+10/4/20
+Arm aiming animations implemented
+Chat box fading added
+10/5/20
+Crouching
+10/10/20
+Working viewmodels
+Recoil and weapon inaccuracy
+10/12/20
+weapon switching animation
+added switch_to_weapon
+10/18/20
+Added different sliding door interpolation options
+Add more features to jungle.map
+12/29/20
+Added a video player
+12/30/20?
+Added shooting ID information and kill score logic
+1/27/21
+Added grabbing and throwing
+Fixed "files_in_dir" function
+Added metal impact and sound impact to PhysBrushes
+Added health respawn

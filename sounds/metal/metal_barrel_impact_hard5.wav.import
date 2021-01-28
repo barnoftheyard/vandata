@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/metal_barrel_impact_hard5.wav-b4dfe828557c04a4f466fa2b97d5ce1f.sample"
+
+[deps]
+
+source_file="res://sounds/metal/metal_barrel_impact_hard5.wav"
+dest_files=[ "res://.import/metal_barrel_impact_hard5.wav-b4dfe828557c04a4f466fa2b97d5ce1f.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

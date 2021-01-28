@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/bhit_helmet-1.wav-0aefc0d2165321ed9faa196e4db88dec.sample"
+
+[deps]
+
+source_file="res://sounds/player/bhit/bhit_helmet-1.wav"
+dest_files=[ "res://.import/bhit_helmet-1.wav-0aefc0d2165321ed9faa196e4db88dec.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

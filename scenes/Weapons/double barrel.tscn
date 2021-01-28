@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://models/double barrel/double barrel.glb" type="PackedScene" id=1]
+
+[node name="double barrel" type="Spatial"]
+
+[node name="double barrel model" parent="." instance=ExtResource( 1 )]

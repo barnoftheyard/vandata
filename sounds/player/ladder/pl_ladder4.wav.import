@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/pl_ladder4.wav-5d6affa0cf697dd14c984e8a25bdf678.sample"
+
+[deps]
+
+source_file="res://sounds/player/ladder/pl_ladder4.wav"
+dest_files=[ "res://.import/pl_ladder4.wav-5d6affa0cf697dd14c984e8a25bdf678.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

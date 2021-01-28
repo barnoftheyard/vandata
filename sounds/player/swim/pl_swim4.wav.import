@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/pl_swim4.wav-7c6f154bb6615f22935919aa1e54b1ba.sample"
+
+[deps]
+
+source_file="res://sounds/player/swim/pl_swim4.wav"
+dest_files=[ "res://.import/pl_swim4.wav-7c6f154bb6615f22935919aa1e54b1ba.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

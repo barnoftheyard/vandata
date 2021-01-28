@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/pl_step3.wav-3b41d8985b0a34ff3decb454b45cb9a4.sample"
+
+[deps]
+
+source_file="res://sounds/player/step/pl_step3.wav"
+dest_files=[ "res://.import/pl_step3.wav-3b41d8985b0a34ff3decb454b45cb9a4.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

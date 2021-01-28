@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/jungle.2.map-5bbc9d95090092f614ed3995b4bdce4c.tres"
+
+[deps]
+
+source_file="res://maps/autosave/jungle.2.map"
+dest_files=[ "res://.import/jungle.2.map-5bbc9d95090092f614ed3995b4bdce4c.tres" ]
+
+[params]
+

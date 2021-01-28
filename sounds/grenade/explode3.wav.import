@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/explode3.wav-0c37f61351dbd2c11e2043931afe667a.sample"
+
+[deps]
+
+source_file="res://sounds/grenade/explode3.wav"
+dest_files=[ "res://.import/explode3.wav-0c37f61351dbd2c11e2043931afe667a.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
