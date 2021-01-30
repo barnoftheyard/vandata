@@ -81,22 +81,27 @@ func _on_WeaponPickup_body_entered(body):
 				
 			#add our weapon to our specific player
 			#if its ourself
+			
+			target.hitscan.add_child(our_weapon)
+			
 			if is_network_master():
-				target.hitscan.add_child(our_weapon)
 				#print to ourselves
 				print("weapon picked up: ", to_load)
 				body.get_node("Hud/ChatBox").text += "\n" + "weapon picked up: " + to_load
 				
+				$pickup.play()
+				
 			#if its another player
 			else:
-				target.hitscan.rpc_id(int(body.name), "add_child", our_weapon)
+				#target.hitscan.rpc_id(int(body.name), "add_child", our_weapon)
+				$pickup.rpc_id(int(body.name), "play")
 			
 			#emit a signal to our weapon node to update the weapon list data
 			emit_signal("update_weapon_list")
-			
+			#switch to our weapon
 			target.switch_to_weapon(to_load)
 				
-		$pickup.play()
+		
 		$CollisionShape.disabled = true
 		hide()
 

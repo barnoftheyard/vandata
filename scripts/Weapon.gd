@@ -130,11 +130,14 @@ func reload_weapon():
 	else:
 		_on_animation_finished("reload")
 	
+#switch to specific weapon index
 func switch_weapon(index):
 	
 	pos += index
 	if pos > weapon_num:			#don't go past our total number of weapons available
 		pos = weapon_num
+	elif pos < 0:
+		pos = 0
 	weapon_nodes[pos - index].hide()
 	weapon_nodes[pos].show()
 	
@@ -157,7 +160,8 @@ func switch_weapon(index):
 		anim = null
 		
 	emit_signal("weapon_switch")
-		
+	
+#switch to specific weapon name
 func switch_to_weapon(weapon):
 	#start from 0 and count up the list of weapons we have
 	var inc = 0
@@ -196,7 +200,7 @@ func fire_hitscan(damage):
 			#is it a player?
 			if body is Player:
 				#serverside, fire damage, id, collision point, and force
-				body.rpc_id(int(body.name), "bullet_hit", damage, ray.get_collision_point(), 0.5)
+				body.rpc_id(int(body.name), "bullet_hit", damage, player_node.name, ray.get_collision_point(), 0.5)
 			#if not, its an NPC/physics object
 			else:
 				#serverside, fire damage, id, collision point, and force
@@ -282,12 +286,21 @@ func _physics_process(delta):
 	#object grabbing logic
 	if grab_target != null:
 		if grab:
+			#client side
 			grab_target.global_transform.origin = grab_target.global_transform.origin.linear_interpolate(
 				$UseCast/EndPoint.global_transform.origin, sway * delta)
+			#server side
+			grab_target.rset_unreliable("global_transform.origin", grab_target.global_transform.origin.linear_interpolate(
+				$UseCast/EndPoint.global_transform.origin, sway * delta))
 		else:
 			grab_target.sleeping = false
+			
 			#set the velocity of the object when we let go of it (allows throwing)
+			#client side
 			grab_target.linear_velocity = ($UseCast/EndPoint.velocity.normalized() + player_node.vel) * (1 / grab_target.mass)
+			#server side
+			grab_target.rset_unreliable("linear_velocity", ($UseCast/EndPoint.velocity.normalized() + player_node.vel) * (1 / grab_target.mass))
+			
 			grab_target = null
 			
 	#directional sway

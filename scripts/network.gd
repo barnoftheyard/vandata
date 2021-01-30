@@ -6,6 +6,9 @@ const DEFAULT_PORT = 27015
 
 var world_good = false
 
+var server_map = null
+var client_map = null
+
 # To use a background server download the server export template without graphics and audio from:
 # https://godotengine.org/download/server
 # And choose it as a custom template upon export
@@ -44,30 +47,32 @@ func join_server(ip, port):
 	# Upon successful connection get the unique network ID
 	# This ID is used to name the character node so the network can distinguish the characters
 	var id = get_tree().get_network_unique_id()
-	#$display/output.text = "Connected! ID: " + str(id)
-	# Hide a menu
-	#$display/menu.visible = false
-	# Create a player
-	#TEMP, do not use a definite path! Get map from server
+	
+	#yield program until we get our map name from server
+	#yield()
+	
+	#load our map
 	var scene = load("res://scenes/Qodot.tscn")
+	
+	# Create a player
 	if get_tree().change_scene_to(scene) == OK:
 		# Create our player, 1 is a reference for a host/server
 		print("We connected")
 		call_deferred("create_player", id, false)
-	#create_player(id, false)
 
 func _on_peer_connected(id):
 	# When other players connect a character and a child player controller are created
+	rset_id(id, "client_map", server_map)
+	rpc_id(id, "resume")
+	
 	create_player(id, true)
-	print("Player ", id, " connected")
 
 func _on_peer_disconnected(id):
 	# Remove unused nodes when player disconnects
 	remove_player(id)
-	print("Player ", id, " disconnected")
 
 func _on_connected_to_server():
-	pass
+	print("Connected to server.")
 
 func _on_connection_failed():
 	# Upon failed connection reset the RPC system
@@ -87,12 +92,13 @@ func create_server(map, port):
 	net.create_server(port, MAX_PLAYERS - 1)
 	get_tree().set_network_peer(net)
 	
-	var scene = load(map)
+	server_map = map
+	var scene = load(server_map)
 	if get_tree().change_scene_to(scene) == OK:
 		# Create our player, 1 is a reference for a host/server
 		call_deferred("create_player", 1, false)
 		
-	print("Server created. Host has joined")
+	print("Server created on port ", port,". Playing on ", server_map)
 
 func create_player(id, is_peer):
 	# Create a player with a client or a peer controller attached
@@ -114,16 +120,18 @@ func create_player(id, is_peer):
 	player.name = str(id)
 	#Set authority over themselves
 	player.set_network_master(id)
+	
+	
 	#create a new node as a parent to our characters
-	var char_node = Node.new()
-	char_node.name = "characters"
-	get_node("/root/").add_child(char_node)
+	if get_node_or_null("/root/characters") == null:
+		var char_node = Node.new()
+		char_node.name = "characters"
+		get_node("/root/").add_child(char_node)
+		
 	# Add the player to this (main) scene
 	get_node("/root/characters").call_deferred("add_child", player)
-	# Spawn the character at random location within 40 units from the center
-	# Enable the controller's camera if it's not an other player 
-	#controller.get_node("camera").current = !is_peer
 
 func remove_player(id):
+	print("Player ", get_node("/root/characters/" + str(id)).player_info["name"], " disconnected")
 	# Remove unused characters
-	get_node("/root/characters").get_node(str(id)).free()
+	get_node("/root/characters/" + id).call_deferred("free")

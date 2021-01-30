@@ -85,6 +85,8 @@ func init():
 	player_info["name"] = Global.game_config["player_name"]
 	player_info["speed"] = RUN_SPEED
 	
+	print("Player ", player_info["name"], " connected")
+	
 func death():
 	is_dead = true
 	
