@@ -42,15 +42,19 @@ func distance(a, b):
 func files_in_dir(path, check_ext):
 	var files = []
 	var dir = Directory.new()
-	dir.open(path)
+	
+	if dir.open(path) != OK:
+		print("shit")
+		return
+		
 	dir.list_dir_begin()
 
 	while true:
 		var file = dir.get_next()
 		if file == "":
 			break
-		elif not file.begins_with(".") and file.ends_with(".wav"):
-			files.append(path + file)
+		elif not file.begins_with(".") and file.ends_with(check_ext + ".import"):
+			files.append(path + file.replace(".import", ""))
 
 	dir.list_dir_end()
 

@@ -114,6 +114,7 @@ wait_time = 3.0
 [node name="Screenshot" type="Node" parent="."]
 script = ExtResource( 8 )
 shortcut_action = "ui_screenshot"
+output_path = "res://screenshots"
 
 [node name="SpawnPointController" type="Node" parent="."]
 script = ExtResource( 9 )

@@ -13,17 +13,17 @@
 [ext_resource path="res://textures/rcaf5Tj.png" type="Texture" id=11]
 [ext_resource path="res://resources/Panels/panel.tres" type="StyleBox" id=12]
 
-[sub_resource type="Environment" id=2]
+[sub_resource type="Environment" id=1]
 background_mode = 1
 background_color = Color( 0.109804, 0.152941, 0.215686, 1 )
 background_energy = 9.33
 ambient_light_color = Color( 0.470588, 0.627451, 0.870588, 1 )
 ambient_light_energy = 2.04
 
-[sub_resource type="World" id=3]
-environment = SubResource( 2 )
+[sub_resource type="World" id=2]
+environment = SubResource( 1 )
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 resource_name = "spin"
 length = 6.0
 loop = true
@@ -47,7 +47,7 @@ tracks/1/keys = {
 "values": [ Vector3( 0.00210392, -0.638931, -3.00122 ), Vector3( 0.00210392, -0.529351, -3.00122 ), Vector3( 0.00210392, -0.638931, -3.00122 ) ]
 }
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=4]
 size = 84
 use_mipmaps = true
 use_filter = true
@@ -85,7 +85,7 @@ __meta__ = {
 [node name="Viewport" type="Viewport" parent="ViewportContainer"]
 size = Vector2( 1024, 600 )
 own_world = true
-world = SubResource( 3 )
+world = SubResource( 2 )
 handle_input_locally = false
 render_target_update_mode = 3
 
@@ -97,7 +97,7 @@ transform = Transform( 0.551024, -0.175324, 0.815864, 0.0610656, 0.983531, 0.170
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="ViewportContainer"]
 autoplay = "spin"
-anims/spin = SubResource( 4 )
+anims/spin = SubResource( 3 )
 
 [node name="TextureRect" type="TextureRect" parent="ViewportContainer"]
 anchor_right = 1.0
@@ -139,7 +139,7 @@ __meta__ = {
 [node name="Title" type="Label" parent="ScrollContainer/VBoxContainer"]
 margin_right = 241.0
 margin_bottom = 83.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 4 )
 text = "VANDATA"
 align = 1
 valign = 1
@@ -273,7 +273,7 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer2"]
 margin_right = 400.0
-margin_bottom = 436.0
+margin_bottom = 430.0
 
 [node name="PanelContainer" type="PanelContainer" parent="ScrollContainer2/VBoxContainer"]
 margin_right = 513.0
