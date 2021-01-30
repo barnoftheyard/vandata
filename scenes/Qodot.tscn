@@ -1,4 +1,4 @@
-[gd_scene load_steps=143 format=2]
+[gd_scene load_steps=145 format=2]
 
 [ext_resource path="res://textures/Dark/texture_01.png" type="Texture" id=1]
 [ext_resource path="res://textures/Dark/texture_10.png" type="Texture" id=2]
@@ -22,7 +22,7 @@
 [ext_resource path="res://scripts/entities/physics_sliding_door.gd" type="Script" id=20]
 [ext_resource path="res://game-definitions/fgd/solid_classes/button.gd" type="Script" id=21]
 [ext_resource path="res://textures/Dark/texture_13.png" type="Texture" id=22]
-[ext_resource path="res://scenes/Fire.tscn" type="PackedScene" id=23]
+[ext_resource path="res://scenes/Entities/Fire.tscn" type="PackedScene" id=23]
 
 [sub_resource type="SpatialMaterial" id=1]
 
@@ -705,6 +705,13 @@ albedo_color = Color( 1, 1, 1, 0.392157 )
 
 [sub_resource type="SphereMesh" id=119]
 material = SubResource( 118 )
+
+[sub_resource type="ProceduralSky" id=121]
+ground_horizon_color = Color( 0.839216, 0.917647, 0.980392, 1 )
+
+[sub_resource type="Environment" id=122]
+background_mode = 2
+background_sky = SubResource( 121 )
 
 [node name="Qodot" type="Spatial"]
 
@@ -1556,8 +1563,18 @@ material/0 = null
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.70697, 19.5 )
 to_load = "br"
 
+[node name="WeaponPickup2" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2.70697, 19.5 )
+to_load = "pistol"
+properties = {
+
+}
+
 [node name="Fire" parent="." instance=ExtResource( 23 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.19769, 1.5, 0 )
 properties = {
 
 }
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 122 )

@@ -78,6 +78,8 @@ func _on_WeaponPickup_body_entered(body):
 				our_weapon.add_child(add_timer(0.1))
 			elif to_load == "br":
 				our_weapon.add_child(add_timer(0.1))
+			elif to_load == "pistol":
+				our_weapon.translation.y -= 0.5
 				
 			#add our weapon to our specific player
 			#if its ourself

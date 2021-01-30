@@ -20,8 +20,8 @@ export var player_info = {
 	"deaths": 0,
 	"id": 0,
 	"actor_path": "res://scenes/Player.tscn",
-	"transform": Transform(),
-	"playermodel": NodePath()
+	"transform": null,
+	"playermodel": null
 }
 
 export var vel = Vector3()
@@ -47,8 +47,6 @@ var is_jumping = false
 var is_inwater = false
 
 var mouse_colliding = false
-
-onready var steps = Global.files_in_dir("res://sounds/player/step/", ".wav")
 var steps_target
 
 var has_hud = false
@@ -59,13 +57,18 @@ var is_crouching = false
 onready var step_sound = $Steps
 onready var camera = $Camera
 onready var weapon = $Camera/Weapon
-
 onready var playermodel = $AnimController/ussr_male
+onready var start_point = self.transform
+
+#arrays of paths to appropriate sounds that we can play
+onready var steps = Global.files_in_dir("res://sounds/player/step/", ".wav")
+onready var pain_sounds = Global.files_in_dir("res://sounds/player/pain/", ".wav")
 
 var spawn_point = null
 var is_invul = false
-onready var start_point = self.transform
 
+#multiplayer data commands, to send forth over the network to tell clients how to
+#move our player node
 enum Command {FORWARD, BACKWARD, LEFT, RIGHT, JUMP, RUN, CROUCH, FLASHLIGHT, 
 	PRIMARY, SECONDARY, USE, RELOAD}
 var cmd = [false, false, false, false, false, false, false, false, false, false,
@@ -75,8 +78,6 @@ var cmd = [false, false, false, false, false, false, false, false, false, false,
 #signal damaged
 #signal died
 #signal respawned
-		
-onready var pain_sounds = Global.files_in_dir("res://sounds/player/pain/", ".wav")
 
 #parts of this might be transfered over to lobby.gd
 func init():

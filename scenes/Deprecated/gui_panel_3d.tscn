@@ -1,7 +1,8 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://scripts/gui_3d.gd" type="Script" id=1]
+[ext_resource path="res://scripts/control/gui_3d.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
+
 
 [sub_resource type="QuadMesh" id=1]
 size = Vector2( 3, 2 )

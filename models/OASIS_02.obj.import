@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/OASIS_02.obj-75f648a42aa768c3fdd55332bd0dca6e.mesh"
+
+[deps]
+
+files=[ "res://.import/OASIS_02.obj-75f648a42aa768c3fdd55332bd0dca6e.mesh" ]
+
+source_file="res://models/OASIS_02.obj"
+dest_files=[ "res://.import/OASIS_02.obj-75f648a42aa768c3fdd55332bd0dca6e.mesh", "res://.import/OASIS_02.obj-75f648a42aa768c3fdd55332bd0dca6e.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( 0, 0, 0 )
+optimize_mesh=true

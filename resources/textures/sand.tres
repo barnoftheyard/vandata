@@ -1,0 +1,19 @@
+[gd_resource type="SpatialMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://resources/NoiseTexture/noisetexture.tres" type="Texture" id=1]
+
+[resource]
+albedo_color = Color( 0.576471, 0.352941, 0.203922, 1 )
+metallic_specular = 0.0
+roughness = 0.75
+emission_enabled = true
+emission = Color( 0.521569, 0.4, 0.25098, 1 )
+emission_energy = 0.5
+emission_operator = 1
+emission_on_uv2 = false
+emission_texture = ExtResource( 1 )
+rim_enabled = true
+rim = 0.75
+rim_tint = 1.0
+uv1_triplanar = true
+uv1_triplanar_sharpness = 3.0

@@ -3,7 +3,7 @@ class_name Client
 
 #All the client code goes here
 
-var options_scene = preload("res://scenes/Options.tscn")
+var options_scene = preload("res://scenes/Control/Options.tscn")
 var options_node = null
 
 signal paused

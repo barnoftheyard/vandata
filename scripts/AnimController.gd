@@ -82,6 +82,7 @@ func _physics_process(delta):
 	
 	tilt = clamp(get_parent().get_node("Camera").rotation_degrees.x, -65, 65)
 	$ussr_male/Armature/Skeleton/tilt.rotation_degrees.x = -tilt
+	$ussr_male/Armature/Skeleton/tilt.rset("rotation_degrees.x", -tilt)
 	
 sync func network_update(new_anim_strafe_interp, new_anim_strafe_dir_interp,
 	new_jumpscale, new_anim_run_interp, new_tilt):
@@ -92,4 +93,5 @@ sync func network_update(new_anim_strafe_interp, new_anim_strafe_dir_interp,
 	tilt = new_tilt
 	
 func _on_change_playermodel_weapon(weapon):
-	pass
+	anim_tree.set("parameters/strafe_dir/blend_amount", 1)
+	$ussr_male/Armature/Skeleton/hand_r/helper.show()

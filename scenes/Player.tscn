@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://scenes/Hud.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/Control/Hud.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scenes/Models/ussr male.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/Player.gd" type="Script" id=3]
 [ext_resource path="res://sounds/player/step/pl_step1.wav" type="AudioStream" id=4]

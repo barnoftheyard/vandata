@@ -128,3 +128,8 @@ const hud_desc = "Enables/disables the player HUD"
 const hud_help = "Enables/disables the player HUD"
 func hud_cmd():
 	visible = !visible
+
+const say_desc = "Talk through player chat"
+const say_help = "Talk through player chat"
+func say_cmd(command):
+	rpc("update_chat", command)

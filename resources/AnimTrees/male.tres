@@ -38,7 +38,7 @@ filters = [ "Armature/Skeleton:foot_l", "Armature/Skeleton:foot_r", "Armature/Sk
 [sub_resource type="AnimationNodeBlend2" id=13]
 
 [resource]
-graph_offset = Vector2( -958.403, 215.5 )
+graph_offset = Vector2( 83.9581, 196.5 )
 nodes/Animation/node = SubResource( 7 )
 nodes/Animation/position = Vector2( -660, 80 )
 "nodes/Animation 2/node" = SubResource( 1 )

@@ -136,8 +136,8 @@ func switch_weapon(index):
 	pos += index
 	if pos > weapon_num:			#don't go past our total number of weapons available
 		pos = weapon_num
-	elif pos < 0:
-		pos = 0
+	elif pos < -1:
+		pos = -1
 	weapon_nodes[pos - index].hide()
 	weapon_nodes[pos].show()
 	
@@ -292,6 +292,11 @@ func _physics_process(delta):
 			#server side
 			grab_target.rset_unreliable("global_transform.origin", grab_target.global_transform.origin.linear_interpolate(
 				$UseCast/EndPoint.global_transform.origin, sway * delta))
+			
+			#put away view model when grabbing
+			if can_fire:
+				$AnimationPlayer.play_backwards("draw")
+			can_fire = false
 		else:
 			grab_target.sleeping = false
 			
@@ -302,9 +307,14 @@ func _physics_process(delta):
 			grab_target.rset_unreliable("linear_velocity", ($UseCast/EndPoint.velocity.normalized() + player_node.vel) * (1 / grab_target.mass))
 			
 			grab_target = null
+			#bring out view model when not grabbing
+			if !can_fire:
+				$AnimationPlayer.play("draw")
+			can_fire = true
 			
 	#directional sway
-	hitscan.translation = hitscan.translation.linear_interpolate(mouse_accel + hitscan_initpos, sway * delta)
+	if can_fire:
+		hitscan.translation = hitscan.translation.linear_interpolate(mouse_accel + hitscan_initpos, sway * delta)
 	
 	#rotational sway
 	hitscan.rotation.y = lerp_angle(hitscan.rotation.y, mouse_accel.x, sway * delta)
@@ -329,9 +339,9 @@ func _physics_process(delta):
 		times_fired = null
 	
 	if !Global.is_paused and player_node.is_network_master():
-		if cmd[Command.PRIMARY]:
+		if cmd[Command.PRIMARY] and can_fire:
 			
-			if (weapon_name == "pistol" and current_clip > 0 and can_fire and 
+			if (weapon_name == "pistol" and current_clip > 0 and 
 			!anim.is_playing() and !anim.current_animation == "reload"):
 				fire_weapon(15, 1, $RayCast/PistolFire)
 				
@@ -353,25 +363,25 @@ func _physics_process(delta):
 				
 				fire_weapon(20, 1, $RayCast/BrFire)
 				
-			elif (weapon_name == "auto5" and current_clip > 0 and can_fire):
+			elif (weapon_name == "auto5" and current_clip > 0):
 				
 				throw_bullet(1, 100)
 				
 				can_fire = false
 				
 			elif (weapon_name == "double barrel" and current_clip > 0 and 
-			!anim.is_playing() and can_fire  and !anim.current_animation == "reload"):
+			!anim.is_playing()  and !anim.current_animation == "reload"):
 				fire_weapon(50, 1, $RayCast/DoubleBarrelFire)
 				
 				can_fire = false
 			
-			elif weapon_name == "grenade" and can_fire:
+			elif weapon_name == "grenade":
 				weapon_nodes[pos].get_node("ThrowPower").start()
 				
 				can_fire = false
 			
 			#play empty fire sound if we have zero bullets left in clip
-			elif current_clip == 0 and can_fire:
+			elif current_clip == 0:
 				$RayCast/Empty.play()
 				
 				can_fire = false
@@ -393,15 +403,15 @@ func _physics_process(delta):
 				grenade_scene.apply_central_impulse(-self.global_transform.basis.z * (timer.wait_time - timer.time_left) * 200)
 				throw_grenade(1)
 				
-		if cmd[Command.SECONDARY]:
+		if cmd[Command.SECONDARY] and can_fire:
 				
 			if (weapon_name == "double barrel" and current_clip > 0 and 
-			!anim.is_playing() and can_fire):
+			!anim.is_playing()):
 				fire_weapon(100, 2, $RayCast/DoubleBarrelFireBoth)
 				
 				can_fire = false
 				
-			elif current_clip == 0 and can_fire:
+			elif current_clip == 0:
 				$RayCast/Empty.play()
 				
 				can_fire = false
