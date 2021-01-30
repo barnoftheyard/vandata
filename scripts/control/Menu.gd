@@ -15,7 +15,11 @@ onready var map_text = $ScrollContainer2/VBoxContainer/PanelContainer/HBoxContai
 
 
 func _ready():
-	$Label2.text = Global.version + " - " + Global.author
+	$Copyright.text = Global.version + " - " + Global.author
+	
+func _process(delta):
+	get_node("ViewportContainer/Viewport/ussr male").rotate_y(2 * delta)
+	$FlavorText.rect_rotation += 200 * delta
 
 func _on_TestAreaButton_pressed():
 	selected_map = maps["TestArea"]

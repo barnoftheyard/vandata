@@ -259,7 +259,7 @@ func _physics_process(delta):
 	if dir.dot(hvel) > 0:		#dot product: get speed, check if speed is above zero
 		
 		if !step_sound.is_playing() and is_on_floor():
-			step_sound.play()
+			Global.play_rand(step_sound, steps)
 		
 		accel = ACCEL
 		is_invul = false

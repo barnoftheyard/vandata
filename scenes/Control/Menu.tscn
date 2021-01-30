@@ -1,10 +1,57 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://scripts/control/Menu.gd" type="Script" id=1]
 [ext_resource path="res://textures/TestArea.png" type="Texture" id=2]
 [ext_resource path="res://textures/qodothouse.png" type="Texture" id=3]
 [ext_resource path="res://resources/DynamicFonts/conduit.tres" type="DynamicFont" id=4]
-[ext_resource path="res://resources/DynamicFonts/denmark.tres" type="DynamicFont" id=5]
+[ext_resource path="res://fonts/devine town/DevineTownLinear.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://resources/Buttons/button_pressed.tres" type="StyleBox" id=6]
+[ext_resource path="res://resources/Buttons/button_normal.tres" type="StyleBox" id=7]
+[ext_resource path="res://resources/Buttons/button_hover.tres" type="StyleBox" id=8]
+[ext_resource path="res://sounds/music/Track 46 (Mission Briefing) - X-Scape.ogg" type="AudioStream" id=9]
+[ext_resource path="res://scenes/Models/ussr male.tscn" type="PackedScene" id=10]
+[ext_resource path="res://textures/rcaf5Tj.png" type="Texture" id=11]
+[ext_resource path="res://resources/Panels/panel.tres" type="StyleBox" id=12]
+
+[sub_resource type="Environment" id=2]
+background_mode = 1
+background_color = Color( 0.109804, 0.152941, 0.215686, 1 )
+background_energy = 9.33
+ambient_light_color = Color( 0.470588, 0.627451, 0.870588, 1 )
+ambient_light_energy = 2.04
+
+[sub_resource type="World" id=3]
+environment = SubResource( 2 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "spin"
+length = 6.0
+loop = true
+tracks/0/type = "transform"
+tracks/0/path = NodePath("Viewport/ussr male")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = PoolRealArray(  )
+tracks/1/type = "value"
+tracks/1/path = NodePath("Viewport/ussr male:translation")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 3, 6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0.00210392, -0.638931, -3.00122 ), Vector3( 0.00210392, -0.529351, -3.00122 ), Vector3( 0.00210392, -0.638931, -3.00122 ) ]
+}
+
+[sub_resource type="DynamicFont" id=1]
+size = 84
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 5 )
 
 [node name="Menu" type="Control"]
 anchor_right = 1.0
@@ -14,41 +61,99 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="."]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -249.0
-margin_right = 247.0
-margin_bottom = 67.0
-custom_fonts/font = ExtResource( 5 )
-text = "PROJECT TELECOM"
-align = 1
-valign = 1
+[node name="Copyright" type="Label" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -214.0
+margin_top = -14.0
+align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
-anchor_top = 0.5
-anchor_right = 0.402
+[node name="ViewportContainer" type="ViewportContainer" parent="."]
+show_behind_parent = true
+anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 0.35199
+stretch = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="ViewportContainer"]
+size = Vector2( 1024, 600 )
+own_world = true
+world = SubResource( 3 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="Camera" type="Camera" parent="ViewportContainer/Viewport"]
+cull_mask = 524289
+
+[node name="ussr male" parent="ViewportContainer/Viewport" instance=ExtResource( 10 )]
+transform = Transform( 0.551024, -0.175324, 0.815864, 0.0610656, 0.983531, 0.170112, -0.832252, -0.0439144, 0.552656, 0.00210392, -0.638931, -3.00122 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ViewportContainer"]
+autoplay = "spin"
+anims/spin = SubResource( 4 )
+
+[node name="TextureRect" type="TextureRect" parent="ViewportContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 256.0
+margin_bottom = 360.0
+texture = ExtResource( 11 )
+stretch_mode = 1
+
+[node name="FlavorText" type="Label" parent="."]
+anchor_left = 0.632117
+anchor_top = 0.679877
+anchor_right = 0.809852
+anchor_bottom = 0.70321
+rect_pivot_offset = Vector2( 91, 7 )
+text = "FUCK YOU FAGGOT EDITION"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -256.0
+margin_right = 184.0
 scroll_horizontal_enabled = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
-margin_right = 184.0
-margin_bottom = 76.0
+margin_right = 241.0
+margin_bottom = 161.0
 custom_constants/separation = 6
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Title" type="Label" parent="ScrollContainer/VBoxContainer"]
+margin_right = 241.0
+margin_bottom = 83.0
+custom_fonts/font = SubResource( 1 )
+text = "VANDATA"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Multiplayer" type="Button" parent="ScrollContainer/VBoxContainer"]
-margin_right = 184.0
-margin_bottom = 35.0
+margin_top = 89.0
+margin_right = 241.0
+margin_bottom = 122.0
+custom_styles/hover = ExtResource( 8 )
+custom_styles/pressed = ExtResource( 6 )
+custom_styles/normal = ExtResource( 7 )
 custom_fonts/font = ExtResource( 4 )
 toggle_mode = true
 text = "MULTI PLAYER"
@@ -61,6 +166,9 @@ visible = false
 margin_top = 41.0
 margin_right = 184.0
 margin_bottom = 76.0
+custom_styles/hover = ExtResource( 8 )
+custom_styles/pressed = ExtResource( 6 )
+custom_styles/normal = ExtResource( 7 )
 custom_fonts/font = ExtResource( 4 )
 text = "HOST"
 __meta__ = {
@@ -72,6 +180,9 @@ visible = false
 margin_top = 41.0
 margin_right = 184.0
 margin_bottom = 76.0
+custom_styles/hover = ExtResource( 8 )
+custom_styles/pressed = ExtResource( 6 )
+custom_styles/normal = ExtResource( 7 )
 custom_fonts/font = ExtResource( 4 )
 toggle_mode = true
 text = "JOIN"
@@ -84,6 +195,7 @@ visible = false
 margin_top = 82.0
 margin_right = 184.0
 margin_bottom = 120.0
+custom_styles/panel = ExtResource( 12 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/IP"]
 margin_left = 7.0
@@ -108,6 +220,7 @@ visible = false
 margin_top = 82.0
 margin_right = 184.0
 margin_bottom = 120.0
+custom_styles/panel = ExtResource( 12 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/Port"]
 margin_left = 7.0
@@ -135,25 +248,16 @@ margin_bottom = 61.0
 text = "Join Server"
 
 [node name="Singleplayer" type="Button" parent="ScrollContainer/VBoxContainer"]
-margin_top = 41.0
-margin_right = 184.0
-margin_bottom = 76.0
+margin_top = 128.0
+margin_right = 241.0
+margin_bottom = 161.0
+custom_styles/hover = ExtResource( 8 )
+custom_styles/pressed = ExtResource( 6 )
+custom_styles/normal = ExtResource( 7 )
 custom_fonts/font = ExtResource( 4 )
 disabled = true
 toggle_mode = true
 text = "SINGLE PLAYER"
-
-[node name="Label2" type="Label" parent="."]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -214.0
-margin_top = -14.0
-align = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ScrollContainer2" type="ScrollContainer" parent="."]
 visible = false
@@ -174,6 +278,7 @@ margin_bottom = 436.0
 [node name="PanelContainer" type="PanelContainer" parent="ScrollContainer2/VBoxContainer"]
 margin_right = 513.0
 margin_bottom = 38.0
+custom_styles/panel = ExtResource( 12 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer2/VBoxContainer/PanelContainer"]
 margin_left = 7.0
@@ -217,6 +322,7 @@ margin_top = 42.0
 margin_right = 513.0
 margin_bottom = 256.0
 rect_min_size = Vector2( 400, 207 )
+custom_styles/panel = ExtResource( 12 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -233,6 +339,9 @@ __meta__ = {
 [node name="Button" type="Button" parent="ScrollContainer2/VBoxContainer/Qodot/HBoxContainer"]
 margin_right = 88.0
 margin_bottom = 200.0
+custom_styles/hover = ExtResource( 8 )
+custom_styles/pressed = ExtResource( 6 )
+custom_styles/normal = ExtResource( 7 )
 text = "qodothouse"
 
 [node name="CenterContainer" type="CenterContainer" parent="ScrollContainer2/VBoxContainer/Qodot/HBoxContainer"]
@@ -266,6 +375,7 @@ margin_top = 260.0
 margin_right = 513.0
 margin_bottom = 474.0
 rect_min_size = Vector2( 400, 207 )
+custom_styles/panel = ExtResource( 12 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -282,6 +392,9 @@ __meta__ = {
 [node name="TestAreaButton" type="Button" parent="ScrollContainer2/VBoxContainer/TestArea/HBoxContainer"]
 margin_right = 68.0
 margin_bottom = 200.0
+custom_styles/hover = ExtResource( 8 )
+custom_styles/pressed = ExtResource( 6 )
+custom_styles/normal = ExtResource( 7 )
 text = "TestArea"
 
 [node name="CenterContainer" type="CenterContainer" parent="ScrollContainer2/VBoxContainer/TestArea/HBoxContainer"]
@@ -311,6 +424,12 @@ box for features
 implemented in
 the game.
 "
+
+[node name="BgMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+volume_db = -2.0
+pitch_scale = 0.5
+autoplay = true
 [connection signal="toggled" from="ScrollContainer/VBoxContainer/Multiplayer" to="." method="_on_Multiplayer_toggled"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/Host" to="." method="_on_Host_pressed"]
 [connection signal="toggled" from="ScrollContainer/VBoxContainer/Join" to="." method="_on_Join_toggled"]
