@@ -10,11 +10,13 @@ func pain():
 	
 func death(time_remaining):
 	$DeathOverlay.show()
-	$DeathOverlay/Label.text = "TIME REMAINING: " + time_remaining
+	$DeathOverlay/Label.text = "RESPAWN: " + time_remaining
+	$CenterContainer.hide()
 	
 func respawn():
 	$PlayerName.text = get_parent().player_info["name"]
 	$DeathOverlay.hide()
+	$CenterContainer.show()
 
 	
 func _ready():
@@ -58,6 +60,9 @@ func _process(delta):
 #		mouse_accel + $CenterContainer.rect_pivot_offset, 20 * delta
 #	)
 	
+	if $PainOverlay.self_modulate.a > 0:
+		$PainOverlay.self_modulate.a -= 1 * delta
+	
 	var weapon = get_parent().weapon
 	
 	$HealthMeter.value = get_parent().player_info["health"]
@@ -98,7 +103,7 @@ func _on_LineEdit_text_entered(text):
 	rpc("update_chat", text)
 
 #Update our chat
-sync func update_chat(new_text):
+remotesync func update_chat(new_text):
 	#$ChatBox.text += str(get_tree().get_rpc_sender_id()) + ": " + new_text + '\n'
 	print(get_node("/root/characters/" + str(get_tree().get_rpc_sender_id())).player_info["name"]
 	 + ": " + new_text) 

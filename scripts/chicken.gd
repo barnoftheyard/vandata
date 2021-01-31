@@ -3,26 +3,30 @@ class_name Chicken
 
 const GRAVITY = -24.8
 const ACCEL = 8
+const DEACCEL = 16
 
 const CHICKEN = true
 
 var vel = Vector3()
+var accel = 0
 var targets = []
 var last_body = null
 
 var health = 15
+var speed = 3
 
 func bullet_hit(damage, id, _bullet_hit_pos, _force_multiplier):
 	health -= damage
 	
 	if health <= 0:
-		$chicken/AnimationPlayer.play("death")
+		$chicken/AnimationPlayer2.play("ChickenDeath")
 		print("Chicken killed by " + get_node("/root/characters/" + id).player_info["name"])
+		get_node("/root/characters/" + id).get_node("Hud/ChatBox").text += ("\n" +
+		"Chicken killed by " + get_node("/root/characters/" + id).player_info["name"])
 
 func _ready():
+	$chicken/AnimationPlayer2.connect("animation_finished", self, "_on_AnimationPlayer2_animation_finished")
 	$chicken/AnimationPlayer.play("idle -loop")
-	$chicken/AnimationPlayer.connect("animation_finished", self, 
-	"_on_AnimationPlayer_animation_finished")
 	
 func _physics_process(delta):
 	var dir = Vector3()
@@ -31,8 +35,6 @@ func _physics_process(delta):
 	
 	var hvel = vel
 	hvel.y = 0
-	
-	var accel = ACCEL
 	
 	if targets != null:
 		for target in targets:		#go through all bodies that we collected and apply our shit
@@ -44,13 +46,18 @@ func _physics_process(delta):
 				dir.normalized()
 				
 					
+				self.look_at(target.global_transform.origin, Vector3.UP)
 				self.rotation.x = 0
 				self.rotation.z = 0
 		
 	if dir.dot(hvel) > 0:
 		accel = ACCEL
+		$chicken/AnimationPlayer.play("run -loop")
+	else:
+		accel = DEACCEL
+		$chicken/AnimationPlayer.play("idle -loop")
 		
-	hvel = hvel.linear_interpolate(dir * 1, accel * delta)
+	hvel = hvel.linear_interpolate(dir * speed, accel * delta)
 	vel.x = hvel.x
 	vel.z = hvel.z
 	
@@ -59,8 +66,8 @@ func _physics_process(delta):
 func _on_Timer_timeout():
 	queue_free()
 
-func _on_AnimationPlayer_animation_finished(anim_name):
-	if anim_name == "death":
+func _on_AnimationPlayer2_animation_finished(anim_name):
+	if anim_name == "ChickenDeath":
 		$chicken/Armature.hide()
 		$ChickenDeath.play()
 		$CollisionShape.disabled = true

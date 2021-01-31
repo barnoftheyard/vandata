@@ -35,7 +35,7 @@ var cam = null
 export var invert_x = -1
 export var invert_y = -1
 
-export var push_interia = 0.00001
+var inertia = 0.001
 
 var always_run = true
 var step_time = 0
@@ -82,7 +82,6 @@ var cmd = [false, false, false, false, false, false, false, false, false, false,
 #parts of this might be transfered over to lobby.gd
 func init():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	
 	player_info["name"] = Global.game_config["player_name"]
 	player_info["speed"] = RUN_SPEED
 	
@@ -98,9 +97,10 @@ func death():
 	$RespawnTimer.start()
 	$PlayerCollision.disabled = true
 	
-	playermodel.get_node("Armature/Skeleton").physical_bones_start_simulation()
+	#playermodel.get_node("Armature/Skeleton").physical_bones_start_simulation()
 	
 func respawn():
+	
 	#request the spawn point controller to find us a spawn
 	var spawn = $SpawnPointController.choose_spawn()
 	if spawn != null:
@@ -111,7 +111,7 @@ func respawn():
 	self.show()
 	$PlayerCollision.disabled = false
 	
-	playermodel.get_node("Armature/Skeleton").physical_bones_stop_simulation()
+	#playermodel.get_node("Armature/Skeleton").physical_bones_stop_simulation()
 	
 	#print(player_info["name"] + " respawned at: " + str(transform.origin))
 	$Hud.respawn()
@@ -125,6 +125,7 @@ func respawn():
 	if player_info["deaths"] > 0:
 		$AnimController/ussr_male/Armature/Skeleton/USSR_Male.material_override = load("res://resources/SpatialMaterial/ghost.tres")
 	
+	$InvulTimer.start()
 	
 func damage(amount):
 	if !is_dead and !is_invul:
@@ -144,12 +145,14 @@ remote func bullet_hit(damage, id, bullet_hit_pos, _force_multiplier):			#handle
 		var killer = get_node("/root/characters/" + id)
 		
 		print("You got killed by " + killer.player_info["name"])
+		$Hud/ChatBox.text += "\n" + "You got killed by " + killer.player_info["name"]
 		
 		#Give our killer +1 kill
 		#Clientside
 		killer.player_info["kills"] += 1
 		#Serverside
-		killer.rset("player_info[\"kills\"]", killer.player_info["kills"] + 1)
+		killer.rset_id(int(id), "player_info[\"kills\"]", killer.player_info["kills"] + 1)
+		killer.get_node("Hud/ChatBox").rset_id(int(id), "text", "\n" + "You killed " + killer.player_info["name"])
 
 
 func _ready():
@@ -290,9 +293,8 @@ func _physics_process(delta):
 		var collision = get_slide_collision(index)	
 		#this pushes physics objects
 		if collision.collider is RigidBody:
-			collision.collider.add_central_force((-collision.normal * 
-			vel.length() * push_interia) * (1 / collision.collider.mass))	#apply push force
-			
+			collision.collider.apply_central_impulse(-collision.normal * inertia / 
+			collision.collider.weight)	#apply push force
 			
 			
 	#check if we have less or equal to zero health, if so, die
@@ -313,7 +315,6 @@ func _physics_process(delta):
 		# And only transmit, if the characters node has more than 1 player
 		if get_parent().get_child_count() > 1:
 			# RPC unreliable is faster but doesn't verify whether data has arrived or is intact
-			
 			rpc_unreliable("network_update", translation, rotation)
 			#Transmit our animation data
 			var a = $AnimController
@@ -324,7 +325,7 @@ func _physics_process(delta):
 		camera.make_current()
 
 # To update data both on a server and clients "sync" is used
-sync func network_update(new_translation, new_rotation):
+remotesync func network_update(new_translation, new_rotation, new_name):
 	translation = new_translation
 	rotation = new_rotation
 		

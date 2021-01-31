@@ -429,7 +429,6 @@ the game.
 stream = ExtResource( 9 )
 volume_db = -2.0
 pitch_scale = 0.5
-autoplay = true
 [connection signal="toggled" from="ScrollContainer/VBoxContainer/Multiplayer" to="." method="_on_Multiplayer_toggled"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/Host" to="." method="_on_Host_pressed"]
 [connection signal="toggled" from="ScrollContainer/VBoxContainer/Join" to="." method="_on_Join_toggled"]

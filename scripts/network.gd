@@ -134,4 +134,4 @@ func create_player(id, is_peer):
 func remove_player(id):
 	print("Player ", get_node("/root/characters/" + str(id)).player_info["name"], " disconnected")
 	# Remove unused characters
-	get_node("/root/characters/" + id).call_deferred("free")
+	get_node("/root/characters/" + str(id)).call_deferred("free")
