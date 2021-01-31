@@ -9,6 +9,8 @@ var world_good = false
 var server_map = null
 var client_map = null
 
+var player_list = {}
+
 # To use a background server download the server export template without graphics and audio from:
 # https://godotengine.org/download/server
 # And choose it as a custom template upon export
@@ -62,8 +64,8 @@ func join_server(ip, port):
 
 func _on_peer_connected(id):
 	# When other players connect a character and a child player controller are created
-	rset_id(id, "client_map", server_map)
-	rpc_id(id, "resume")
+	#rset_id(id, "client_map", server_map)
+	#rpc_id(id, "resume")
 	
 	create_player(id, true)
 
@@ -96,7 +98,7 @@ func create_server(map, port):
 	var scene = load(server_map)
 	if get_tree().change_scene_to(scene) == OK:
 		# Create our player, 1 is a reference for a host/server
-		call_deferred("create_player", 1, false)
+		create_player(1, false)
 		
 	print("Server created on port ", port,". Playing on ", server_map)
 
@@ -130,6 +132,9 @@ func create_player(id, is_peer):
 		
 	# Add the player to this (main) scene
 	get_node("/root/characters").call_deferred("add_child", player)
+
+remotesync func send_player_data(id, player_info):
+	player_list[id] = player_info
 
 func remove_player(id):
 	print("Player ", get_node("/root/characters/" + str(id)).player_info["name"], " disconnected")

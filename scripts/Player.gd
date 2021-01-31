@@ -14,21 +14,16 @@ const WALK_SPEED = 3
 #init(), which is called first thing at _ready()
 export var player_info = {
 	"health": 100,
-	"name": "player",
-	"speed": 8,
+	"name": "placeholder",
 	"kills": 0,
 	"deaths": 0,
-	"id": 0,
-	"actor_path": "res://scenes/Player.tscn",
-	"transform": null,
-	"playermodel": null
 }
 
 export var vel = Vector3()
 export var dir = Vector3()
 var hvel = Vector3()
 
-export var is_player = true
+const is_player = true
 
 export var camera_mode = true
 var cam = null
@@ -36,6 +31,7 @@ export var invert_x = -1
 export var invert_y = -1
 
 var inertia = 0.001
+var speed = 16
 
 var always_run = true
 var step_time = 0
@@ -83,9 +79,7 @@ var cmd = [false, false, false, false, false, false, false, false, false, false,
 func init():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	player_info["name"] = Global.game_config["player_name"]
-	player_info["speed"] = RUN_SPEED
-	
-	print("Player ", player_info["name"], " connected")
+	speed = RUN_SPEED
 	
 func death():
 	is_dead = true
@@ -127,7 +121,7 @@ func respawn():
 	
 	$InvulTimer.start()
 	
-func damage(amount):
+puppet func damage(amount):
 	if !is_dead and !is_invul:
 		player_info["health"] -= amount
 		$Hud.pain()
@@ -135,24 +129,23 @@ func damage(amount):
 		Global.play_rand($Pain, pain_sounds)
 		
 		
-remote func bullet_hit(damage, id, bullet_hit_pos, _force_multiplier):			#handles how bullets push the prop
+puppet func bullet_hit(damage, id, bullet_hit_pos, _force_multiplier):			#handles how bullets push the prop
 	var direction_vect = global_transform.origin - bullet_hit_pos
 	direction_vect = direction_vect.normalized()
 	damage(damage)
 	
 	#if we got killed handle the score
 	if player_info["health"] <= 0:
+		
 		var killer = get_node("/root/characters/" + id)
 		
-		print("You got killed by " + killer.player_info["name"])
-		$Hud/ChatBox.text += "\n" + "You got killed by " + killer.player_info["name"]
+		print("You got killed by " + network.player_list[id]["name"])
+		$Hud/ChatBox.text += "\n" + "You got killed by " + network.player_list[id]["name"]
 		
 		#Give our killer +1 kill
-		#Clientside
 		killer.player_info["kills"] += 1
-		#Serverside
-		killer.rset_id(int(id), "player_info[\"kills\"]", killer.player_info["kills"] + 1)
-		killer.get_node("Hud/ChatBox").rset_id(int(id), "text", "\n" + "You killed " + killer.player_info["name"])
+
+		#killer.get_node("Hud/ChatBox").text = "\n" + "You killed " + player_info["name"]
 
 
 func _ready():
@@ -198,8 +191,6 @@ func _physics_process(delta):
 #	if(joy_right.length() < 0.1):
 #		joy_right = Vector2(0, 0)
 	
-	player_info["transform"] = self.transform
-	
 	#Cast a ray to where the mouse is pointing and get the position of it
 	
 	dir = Vector3()			#keep this, it resets and prevents continuous player movement
@@ -226,13 +217,13 @@ func _physics_process(delta):
 				vel.y = JUMP_SPEED * -1
 			elif !is_crouching:
 				$AnimationPlayer.play("crouch")
-				player_info["speed"] *= 0.5
+				speed *= 0.5
 				
 				is_crouching = true
 				
 		if Input.is_action_just_released("move_crouch"):
 			$AnimationPlayer.play_backwards("crouch")
-			player_info["speed"] /= 0.5
+			speed /= 0.5
 			
 			is_crouching = false
 				
@@ -256,7 +247,7 @@ func _physics_process(delta):
 	dir = dir.normalized()			#makes diagonal movement the same speed as cardinal movement
 	
 	var target = dir
-	target *= player_info["speed"]
+	target *= speed
 
 	var accel
 	if dir.dot(hvel) > 0:		#dot product: get speed, check if speed is above zero
@@ -314,6 +305,8 @@ func _physics_process(delta):
 	if $controller.has_method("is_player"):
 		# And only transmit, if the characters node has more than 1 player
 		if get_parent().get_child_count() > 1:
+			#This sends all the player info of every player node
+			network.rpc_unreliable("send_player_data", name, player_info)
 			# RPC unreliable is faster but doesn't verify whether data has arrived or is intact
 			rpc_unreliable("network_update", translation, rotation)
 			#Transmit our animation data
@@ -325,7 +318,7 @@ func _physics_process(delta):
 		camera.make_current()
 
 # To update data both on a server and clients "sync" is used
-remotesync func network_update(new_translation, new_rotation, new_name):
+remotesync func network_update(new_translation, new_rotation):
 	translation = new_translation
 	rotation = new_rotation
 		
