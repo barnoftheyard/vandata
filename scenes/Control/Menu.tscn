@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://scripts/control/Menu.gd" type="Script" id=1]
 [ext_resource path="res://textures/TestArea.png" type="Texture" id=2]
@@ -11,7 +11,9 @@
 [ext_resource path="res://sounds/music/Track 46 (Mission Briefing) - X-Scape.ogg" type="AudioStream" id=9]
 [ext_resource path="res://scenes/Models/ussr male.tscn" type="PackedScene" id=10]
 [ext_resource path="res://textures/rcaf5Tj.png" type="Texture" id=11]
-[ext_resource path="res://resources/Panels/panel.tres" type="StyleBox" id=12]
+[ext_resource path="res://resources/Theme.tres" type="Theme" id=12]
+[ext_resource path="res://resources/Panels/new_styleboxflat.tres" type="StyleBox" id=13]
+[ext_resource path="res://videos/title.webm" type="VideoStream" id=14]
 
 [sub_resource type="Environment" id=1]
 background_mode = 1
@@ -56,6 +58,7 @@ font_data = ExtResource( 5 )
 [node name="Menu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 12 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -73,7 +76,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="VideoPlayer" type="VideoPlayer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+stream = ExtResource( 14 )
+autoplay = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ViewportContainer" type="ViewportContainer" parent="."]
+visible = false
 show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -87,7 +100,7 @@ size = Vector2( 1024, 600 )
 own_world = true
 world = SubResource( 2 )
 handle_input_locally = false
-render_target_update_mode = 3
+render_target_update_mode = 0
 
 [node name="Camera" type="Camera" parent="ViewportContainer/Viewport"]
 cull_mask = 524289
@@ -113,7 +126,7 @@ anchor_top = 0.679877
 anchor_right = 0.809852
 anchor_bottom = 0.70321
 rect_pivot_offset = Vector2( 91, 7 )
-text = "FUCK YOU FAGGOT EDITION"
+text = "lol jk luv u <3"
 __meta__ = {
 "_edit_use_anchors_": true
 }
@@ -129,16 +142,16 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
-margin_right = 241.0
-margin_bottom = 161.0
+margin_right = 249.0
+margin_bottom = 208.0
 custom_constants/separation = 6
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Title" type="Label" parent="ScrollContainer/VBoxContainer"]
-margin_right = 241.0
-margin_bottom = 83.0
+margin_right = 249.0
+margin_bottom = 91.0
 custom_fonts/font = SubResource( 4 )
 text = "VANDATA"
 align = 1
@@ -148,9 +161,9 @@ __meta__ = {
 }
 
 [node name="Multiplayer" type="Button" parent="ScrollContainer/VBoxContainer"]
-margin_top = 89.0
-margin_right = 241.0
-margin_bottom = 122.0
+margin_top = 97.0
+margin_right = 249.0
+margin_bottom = 130.0
 custom_styles/hover = ExtResource( 8 )
 custom_styles/pressed = ExtResource( 6 )
 custom_styles/normal = ExtResource( 7 )
@@ -195,7 +208,8 @@ visible = false
 margin_top = 82.0
 margin_right = 184.0
 margin_bottom = 120.0
-custom_styles/panel = ExtResource( 12 )
+theme = ExtResource( 12 )
+custom_styles/panel = ExtResource( 13 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/IP"]
 margin_left = 7.0
@@ -220,7 +234,8 @@ visible = false
 margin_top = 82.0
 margin_right = 184.0
 margin_bottom = 120.0
-custom_styles/panel = ExtResource( 12 )
+theme = ExtResource( 12 )
+custom_styles/panel = ExtResource( 13 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/Port"]
 margin_left = 7.0
@@ -245,12 +260,15 @@ visible = false
 margin_top = 41.0
 margin_right = 184.0
 margin_bottom = 61.0
+custom_styles/hover = ExtResource( 8 )
+custom_styles/pressed = ExtResource( 6 )
+custom_styles/normal = ExtResource( 7 )
 text = "Join Server"
 
 [node name="Singleplayer" type="Button" parent="ScrollContainer/VBoxContainer"]
-margin_top = 128.0
-margin_right = 241.0
-margin_bottom = 161.0
+margin_top = 136.0
+margin_right = 249.0
+margin_bottom = 169.0
 custom_styles/hover = ExtResource( 8 )
 custom_styles/pressed = ExtResource( 6 )
 custom_styles/normal = ExtResource( 7 )
@@ -258,6 +276,20 @@ custom_fonts/font = ExtResource( 4 )
 disabled = true
 toggle_mode = true
 text = "SINGLE PLAYER"
+
+[node name="Quit" type="Button" parent="ScrollContainer/VBoxContainer"]
+margin_top = 175.0
+margin_right = 249.0
+margin_bottom = 208.0
+custom_styles/hover = ExtResource( 8 )
+custom_styles/pressed = ExtResource( 6 )
+custom_styles/normal = ExtResource( 7 )
+custom_fonts/font = ExtResource( 4 )
+toggle_mode = true
+text = "QUIT"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ScrollContainer2" type="ScrollContainer" parent="."]
 visible = false
@@ -273,12 +305,13 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer2"]
 margin_right = 400.0
-margin_bottom = 430.0
+margin_bottom = 422.0
 
 [node name="PanelContainer" type="PanelContainer" parent="ScrollContainer2/VBoxContainer"]
 margin_right = 513.0
 margin_bottom = 38.0
-custom_styles/panel = ExtResource( 12 )
+theme = ExtResource( 12 )
+custom_styles/panel = ExtResource( 13 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer2/VBoxContainer/PanelContainer"]
 margin_left = 7.0
@@ -322,7 +355,8 @@ margin_top = 42.0
 margin_right = 513.0
 margin_bottom = 256.0
 rect_min_size = Vector2( 400, 207 )
-custom_styles/panel = ExtResource( 12 )
+theme = ExtResource( 12 )
+custom_styles/panel = ExtResource( 13 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -375,7 +409,8 @@ margin_top = 260.0
 margin_right = 513.0
 margin_bottom = 474.0
 rect_min_size = Vector2( 400, 207 )
-custom_styles/panel = ExtResource( 12 )
+theme = ExtResource( 12 )
+custom_styles/panel = ExtResource( 13 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -429,10 +464,19 @@ the game.
 stream = ExtResource( 9 )
 volume_db = -2.0
 pitch_scale = 0.5
+
+[node name="AcceptDialog" type="ConfirmationDialog" parent="."]
+margin_right = 160.0
+margin_bottom = 80.0
+theme = ExtResource( 12 )
+window_title = ""
+dialog_text = "Quit now?"
 [connection signal="toggled" from="ScrollContainer/VBoxContainer/Multiplayer" to="." method="_on_Multiplayer_toggled"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/Host" to="." method="_on_Host_pressed"]
 [connection signal="toggled" from="ScrollContainer/VBoxContainer/Join" to="." method="_on_Join_toggled"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/JoinServer" to="." method="_on_JoinServer_pressed"]
 [connection signal="toggled" from="ScrollContainer/VBoxContainer/Singleplayer" to="." method="_on_Singleplayer_toggled"]
+[connection signal="toggled" from="ScrollContainer/VBoxContainer/Quit" to="." method="_on_Quit_toggled"]
 [connection signal="pressed" from="ScrollContainer2/VBoxContainer/Qodot/HBoxContainer/Button" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="ScrollContainer2/VBoxContainer/TestArea/HBoxContainer/TestAreaButton" to="." method="_on_TestAreaButton_pressed"]
+[connection signal="confirmed" from="AcceptDialog" to="." method="_on_AcceptDialog_confirmed"]

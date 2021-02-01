@@ -25,10 +25,13 @@ func _ready():
 	if weapons.has(to_load):
 		weapon = load("res://models/" + to_load + "/" + to_load + ".glb")
 	
-	spinny = weapon.instance()
-	add_child(spinny)
-	
-	spinny.rotate_x(deg2rad(35))
+		spinny = weapon.instance()
+		add_child(spinny)
+		
+		if to_load == "frag":
+			spinny.scale *= 0.25
+		
+		spinny.rotate_x(deg2rad(35))
 	
 func _physics_process(delta):
 	#spin our model
@@ -92,11 +95,6 @@ func _on_WeaponPickup_body_entered(body):
 				body.get_node("Hud/ChatBox").text += "\n" + "weapon picked up: " + to_load
 				
 				$pickup.play()
-				
-			#if its another player
-			else:
-				#target.hitscan.rpc_id(int(body.name), "add_child", our_weapon)
-				$pickup.rpc_id(int(body.name), "play")
 			
 			#emit a signal to our weapon node to update the weapon list data
 			emit_signal("update_weapon_list")

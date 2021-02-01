@@ -697,23 +697,23 @@ surfaces/0 = {
 [sub_resource type="ConvexPolygonShape" id=116]
 points = PoolVector3Array( -0.25, 0.5, -0.25, -0.25, -0.5, -0.25, 0.25, -0.5, -0.25, 0.25, 0.5, -0.25, -0.25, 0.5, 0.25, -0.25, -0.5, 0.25, 0.25, -0.5, 0.25, 0.25, 0.5, 0.25 )
 
-[sub_resource type="ShaderMaterial" id=118]
+[sub_resource type="ShaderMaterial" id=117]
 
-[sub_resource type="SphereShape" id=119]
+[sub_resource type="SphereShape" id=118]
 
-[sub_resource type="SpatialMaterial" id=120]
+[sub_resource type="SpatialMaterial" id=119]
 flags_transparent = true
 albedo_color = Color( 1, 1, 1, 0.392157 )
 
-[sub_resource type="SphereMesh" id=121]
-material = SubResource( 120 )
+[sub_resource type="SphereMesh" id=120]
+material = SubResource( 119 )
 
-[sub_resource type="ProceduralSky" id=122]
+[sub_resource type="ProceduralSky" id=121]
 ground_horizon_color = Color( 0.839216, 0.917647, 0.980392, 1 )
 
-[sub_resource type="Environment" id=123]
+[sub_resource type="Environment" id=122]
 background_mode = 2
-background_sky = SubResource( 122 )
+background_sky = SubResource( 121 )
 
 [node name="Qodot" type="Spatial"]
 
@@ -1542,13 +1542,13 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
 width = 6.0
 height = 6.0
 depth = 6.0
-material = SubResource( 118 )
+material = SubResource( 117 )
 
 [node name="RigidBody" type="RigidBody" parent="CSGCombiner"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="CSGCombiner/RigidBody"]
-shape = SubResource( 119 )
+shape = SubResource( 118 )
 
 [node name="RemoteTransform" type="RemoteTransform" parent="CSGCombiner/RigidBody"]
 remote_path = NodePath("../../CSGSphere")
@@ -1559,7 +1559,7 @@ operation = 2
 radius = 2.0
 
 [node name="MeshInstance" type="MeshInstance" parent="CSGCombiner/CSGSphere"]
-mesh = SubResource( 121 )
+mesh = SubResource( 120 )
 material/0 = null
 
 [node name="WeaponPickup" parent="." instance=ExtResource( 8 )]
@@ -1573,6 +1573,13 @@ properties = {
 
 }
 
+[node name="WeaponPickup3" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2.70697, 15.5 )
+to_load = "frag"
+properties = {
+
+}
+
 [node name="Fire" parent="." instance=ExtResource( 23 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.19769, 1.5, 0 )
 properties = {
@@ -1580,4 +1587,4 @@ properties = {
 }
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 123 )
+environment = SubResource( 122 )

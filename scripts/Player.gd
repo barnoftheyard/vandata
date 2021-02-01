@@ -1,7 +1,7 @@
 extends KinematicBody
 class_name Player
 
-const GRAVITY = -24.8
+var GRAVITY = -24.8
 const MAX_SPEED = 20
 const JUMP_SPEED = 10
 const MAX_SLOPE_ANGLE = 65
@@ -80,6 +80,8 @@ func init():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	player_info["name"] = Global.game_config["player_name"]
 	speed = RUN_SPEED
+	#add our player info, under the node name (which is our network ID), to the server list
+	network.rpc("send_player_data", name, player_info)
 	
 func death():
 	is_dead = true
@@ -90,6 +92,7 @@ func death():
 	player_info["deaths"] += 1
 	$RespawnTimer.start()
 	$PlayerCollision.disabled = true
+	GRAVITY = 0
 	
 	#playermodel.get_node("Armature/Skeleton").physical_bones_start_simulation()
 	
@@ -104,6 +107,7 @@ func respawn():
 	
 	self.show()
 	$PlayerCollision.disabled = false
+	GRAVITY = -24.8
 	
 	#playermodel.get_node("Armature/Skeleton").physical_bones_stop_simulation()
 	
@@ -121,7 +125,7 @@ func respawn():
 	
 	$InvulTimer.start()
 	
-puppet func damage(amount):
+func damage(amount):
 	if !is_dead and !is_invul:
 		player_info["health"] -= amount
 		$Hud.pain()
@@ -129,7 +133,7 @@ puppet func damage(amount):
 		Global.play_rand($Pain, pain_sounds)
 		
 		
-puppet func bullet_hit(damage, id, bullet_hit_pos, _force_multiplier):			#handles how bullets push the prop
+func bullet_hit(damage, from, bullet_hit_pos, _force_multiplier):			#handles how bullets push the prop
 	var direction_vect = global_transform.origin - bullet_hit_pos
 	direction_vect = direction_vect.normalized()
 	damage(damage)
@@ -137,20 +141,24 @@ puppet func bullet_hit(damage, id, bullet_hit_pos, _force_multiplier):			#handle
 	#if we got killed handle the score
 	if player_info["health"] <= 0:
 		
-		var killer = get_node("/root/characters/" + id)
-		
-		print("You got killed by " + network.player_list[id]["name"])
-		$Hud/ChatBox.text += "\n" + "You got killed by " + network.player_list[id]["name"]
-		
-		#Give our killer +1 kill
-		killer.player_info["kills"] += 1
-
+		#If our killer is a player
+		if from.get("is_player") != null:
+			print("You got killed by " + network.player_list[from.name]["name"])
+			$Hud/ChatBox.text += "\n" + "You got killed by " + network.player_list[from.name]["name"]
+			
+			from.player_info["kills"] += 1
+		#if it isn't (like a map hazard)
+		else:
+			print("You got killed by " + from.name)
+			$Hud/ChatBox.text += "\n" + "You got killed by " + from.name
+			
 		#killer.get_node("Hud/ChatBox").text = "\n" + "You killed " + player_info["name"]
 
 
 func _ready():
 	init()
 	
+	#give our weapon node this node path
 	weapon.player_node = self
 	
 	if Global.game_config["invert_x"]:
@@ -273,7 +281,7 @@ func _physics_process(delta):
 	#apply the velocity to our player
 	vel = move_and_slide(vel, Vector3.UP, false, 4, deg2rad(MAX_SLOPE_ANGLE), false)
 	
-	
+	#kill ourselves if we go too far down (poetic!)
 	if transform.origin.y < -200:
 		damage(9999)
 		

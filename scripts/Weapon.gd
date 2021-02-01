@@ -196,15 +196,15 @@ func fire_hitscan(damage):
 		elif body.has_method("bullet_hit"):
 			
 			#clientside, fire damage, id, collision point, and force
-			body.bullet_hit(damage, player_node.name, ray.get_collision_point(), 0.5)
+			body.bullet_hit(damage, player_node, ray.get_collision_point(), 0.5)
 			#is it a player?
 			if body is Player:
 				#serverside, fire damage, id, collision point, and force
-				body.rpc_id(int(body.name), "bullet_hit", damage, player_node.name, ray.get_collision_point(), 0.5)
+				body.rpc_id(int(body.name), "bullet_hit", damage, player_node, ray.get_collision_point(), 0.5)
 			#if not, its an NPC/physics object
 			else:
 				#serverside, fire damage, id, collision point, and force
-				body.rpc("bullet_hit", damage, player_node.name, ray.get_collision_point(), 0.5)
+				body.rpc("bullet_hit", damage, player_node, ray.get_collision_point(), 0.5)
 				
 		elif body is StaticBody:
 			#bullet decal adding

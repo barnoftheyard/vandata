@@ -131,6 +131,8 @@ func create_player(id, is_peer):
 		get_node("/root/").add_child(char_node)
 		
 	# Add the player to this (main) scene
+	#This is a call deferred to spawn in the player during idle time so that we 
+	#can find spawn points in the map
 	get_node("/root/characters").call_deferred("add_child", player)
 
 remotesync func send_player_data(id, player_info):

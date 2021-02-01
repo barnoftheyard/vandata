@@ -92,5 +92,5 @@ sync func network_update(new_anim_strafe_interp, new_anim_strafe_dir_interp,
 	tilt = new_tilt
 	
 func _on_change_playermodel_weapon(weapon):
-	anim_tree.set("parameters/strafe_dir/blend_amount", 1)
+	anim_tree.set("parameters/aim/blend_amount", 1)
 	$ussr_male/Armature/Skeleton/hand_r/helper.show()

@@ -48,7 +48,7 @@ func _physics_process(delta):
 		targets = []
 		last_body = null
 		
-func bullet_hit(damage, _id, bullet_hit_pos, force_multiplier):			#handles how bullets push the prop
+func bullet_hit(damage, _from, bullet_hit_pos, force_multiplier):			#handles how bullets push the prop
 	var direction_vect = global_transform.origin - bullet_hit_pos
 	direction_vect = direction_vect.normalized()
 	apply_impulse(bullet_hit_pos, direction_vect * (mass / (damage * force_multiplier)))

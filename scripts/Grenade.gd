@@ -24,15 +24,13 @@ func _on_Timer_timeout():
 				explosion_force_dir.normalized()
 				
 				if distance >= 1:
-					target.bullet_hit(100 * (1 / distance), explosion_force_dir, 10)
+					target.bullet_hit(100 * (1 / distance), self, explosion_force_dir, 100)
 				else:			#to prevent divide by zero or divide by some hilariously low-
-					target.bullet_hit(100, explosion_force_dir, 10)	#decimal when players get too close
+					target.bullet_hit(100, self, explosion_force_dir, 100)	#decimal when players get too close
 				
 	#do our clean up after explosion
 	$MeshInstance.hide()
 	#$Area/DebugMesh.show()
-	$Area/Particles.emitting = true
-	$Area/OmniLight.show()
 	$TimerToDeletion.start()
 	$Explosion.play()
 	self.mode = MODE_STATIC

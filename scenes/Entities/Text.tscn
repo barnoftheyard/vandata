@@ -2,7 +2,6 @@
 
 [ext_resource path="res://scripts/entities/Text.gd" type="Script" id=1]
 
-
 [sub_resource type="QuadMesh" id=1]
 resource_local_to_scene = true
 size = Vector2( 2.56, 0.14 )
@@ -12,6 +11,7 @@ viewport_path = NodePath("Viewport")
 
 [sub_resource type="SpatialMaterial" id=3]
 resource_local_to_scene = true
+flags_transparent = true
 flags_unshaded = true
 flags_do_not_receive_shadows = true
 params_billboard_mode = 1
@@ -19,6 +19,9 @@ albedo_texture = SubResource( 2 )
 
 [node name="Text" type="Spatial"]
 script = ExtResource( 1 )
+properties = {
+
+}
 
 [node name="Viewport" type="Viewport" parent="."]
 size = Vector2( 256, 14 )

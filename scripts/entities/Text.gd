@@ -1,6 +1,8 @@
 extends Spatial
 tool
 
+signal change_text(new_text)
+
 var text = ""
 var compare_text = ""
 
@@ -14,7 +16,8 @@ func set_properties(new_properties : Dictionary) -> void:
 func update_properties():
 	if "text" in properties:
 		text = properties["text"]
-		compare_text != properties["text"]
+	if "color" in properties:
+		$Viewport/Label.custom_colors.font_color = properties["color"]
 
 func update():
 	text = text.replace("\\", "")
@@ -23,8 +26,8 @@ func update():
 	$MeshInstance.mesh.size = $Viewport/Label.rect_size * 0.01
 	
 func _ready():
+	connect("change_text", self, "_on_change_text")
 	update()
-	update_properties()
 
 func _process(_delta):
 	if text != compare_text:

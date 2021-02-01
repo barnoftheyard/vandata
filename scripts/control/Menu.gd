@@ -20,6 +20,9 @@ func _ready():
 func _process(delta):
 	get_node("ViewportContainer/Viewport/ussr male").rotate_y(2 * delta)
 	$FlavorText.rect_rotation += 200 * delta
+	
+	if !$VideoPlayer.is_playing():
+		$VideoPlayer.play()
 
 func _on_TestAreaButton_pressed():
 	selected_map = maps["TestArea"]
@@ -105,3 +108,11 @@ func _on_JoinServer_pressed():
 	var port = int($ScrollContainer/VBoxContainer/Port/HBoxContainer/LineEdit.text)
 	var ip = $ScrollContainer/VBoxContainer/IP/HBoxContainer/LineEdit.text
 	network.join_server(ip, port)
+
+
+func _on_Quit_toggled(button_pressed):
+	$AcceptDialog.popup_centered()
+
+
+func _on_AcceptDialog_confirmed():
+	get_tree().quit()
