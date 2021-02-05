@@ -133,7 +133,7 @@ func damage(amount):
 		Global.play_rand($Pain, pain_sounds)
 		
 		
-func bullet_hit(damage, from, bullet_hit_pos, _force_multiplier):			#handles how bullets push the prop
+remote func bullet_hit(damage, from, bullet_hit_pos, _force_multiplier):			#handles how bullets push the prop
 	var direction_vect = global_transform.origin - bullet_hit_pos
 	direction_vect = direction_vect.normalized()
 	damage(damage)

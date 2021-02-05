@@ -35,7 +35,7 @@ func _physics_process(_delta):
 			
 			options_node = options_scene.instance()
 			player.add_child(options_node)
-			options_node.set_focus_mode(Control.FOCUS_ALL)
+			#options_node.set_focus_mode(Control.FOCUS_ALL)
 			connect("paused", options_node, "_on_Player_paused")	#gotta have theses in processing because its a new scene everytime its spawned
 			connect("unpaused", options_node, "_on_Player_unpaused")
 			

@@ -142,6 +142,7 @@ script = ExtResource( 5 )
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 0 )
 
 [node name="Hud" parent="." instance=ExtResource( 1 )]
+show_behind_parent = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/crouch = SubResource( 2 )
