@@ -35,18 +35,18 @@ func _input(event):
 			
 		#Pop up the chat window
 		if Input.is_action_just_pressed("ui_chat"):
-			if $ChatLine.has_focus() and $ChatLine.visible:
+			if $VBoxContainer/ChatLine.visible:
 				Global.is_paused = false
 				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 				
-				$ChatLine.hide()
+				$VBoxContainer/ChatLine.release_focus()
+				$VBoxContainer/ChatLine.hide()
 			else:
 				Global.is_paused = true
 				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 				
-				$ChatLine.show()
-				$ChatLine.text = ""
-				$ChatLine.grab_focus()
+				$VBoxContainer/ChatLine.grab_focus()
+				$VBoxContainer/ChatLine.show()
 		
 		#The player list UI
 		if Input.is_action_just_pressed("ui_tab"):
@@ -92,21 +92,21 @@ func _process(delta):
 
 
 func _on_LineEdit_text_entered(text):
-	$ChatLine.clear()
+	$VBoxContainer/ChatLine.clear()
 	
 	Global.is_paused = false
 	chat_box = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
-	$ChatLine.hide()
+	$VBoxContainer/ChatLine.hide()
 	
 	rpc("update_chat", text)
 
 #Update our chat
 remotesync func update_chat(new_text):
-	#$ChatBox.text += str(get_tree().get_rpc_sender_id()) + ": " + new_text + '\n'
-	print(get_node("/root/characters/" + str(get_tree().get_rpc_sender_id())).player_info["name"]
-	 + ": " + new_text) 
+	var the_text = network.player_list[str(get_tree().get_rpc_sender_id())]["name"] + ": " + new_text
+	$VBoxContainer/ChatBox.text += the_text + '\n'
+	print(the_text)
 	
 #func list_change():
 #	for c in $PlayerList/VBoxContainer2/Grid.get_children():
@@ -123,11 +123,11 @@ remotesync func update_chat(new_text):
 
 
 func _on_ChatBox_draw():
-	$ChatBox/Timer.start()
-	$ChatBox.modulate = Color(1, 1, 1, 1)
+	$VBoxContainer/ChatBox/Timer.start()
+	$VBoxContainer/ChatBox.modulate = Color(1, 1, 1, 1)
 
 func _on_Timer_timeout():
-	$ChatBox/AnimationPlayer.play("fadeout")
+	$VBoxContainer/ChatBox/AnimationPlayer.play("fadeout")
 	
 const hud_desc = "Enables/disables the player HUD"
 const hud_help = "Enables/disables the player HUD"
@@ -144,3 +144,8 @@ const list_help = "See player list"
 func list_cmd(list):
 	print(network.player_list)
 	Console.print(network.player_list)
+
+
+func _on_ChatLine_focus_entered():
+	yield(get_tree().create_timer(0.001), "timeout")
+	$VBoxContainer/ChatLine.text = ""

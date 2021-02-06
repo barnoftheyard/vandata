@@ -70,7 +70,7 @@ func _on_WeaponPickup_body_entered(body):
 			target.weapons[to_load]["ammo"] *= 1.25
 			
 			print("ammo added: ", difference)
-			body.get_node("Hud/ChatBox").text += "\n" + "ammo added: " + difference
+			body.get_node("Hud/VBoxContainer/ChatBox").text += "ammo added: " + difference + "\n"
 		#if we don't have the weapon, add it
 		else:
 				
@@ -92,7 +92,7 @@ func _on_WeaponPickup_body_entered(body):
 			if is_network_master():
 				#print to ourselves
 				print("weapon picked up: ", to_load)
-				body.get_node("Hud/ChatBox").text += "\n" + "weapon picked up: " + to_load
+				body.get_node("Hud/VBoxContainer/ChatBox").text += "weapon picked up: " + to_load + "\n"
 				
 				$pickup.play()
 			

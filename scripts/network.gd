@@ -137,6 +137,9 @@ func create_player(id, is_peer):
 
 remotesync func send_player_data(id, player_info):
 	player_list[id] = player_info
+	
+remotesync func console_msg(text):
+	print(text)
 
 func remove_player(id):
 	print("Player ", get_node("/root/characters/" + str(id)).player_info["name"], " disconnected")

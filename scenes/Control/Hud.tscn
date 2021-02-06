@@ -227,32 +227,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ChatBox" type="Label" parent="."]
-modulate = Color( 1, 1, 1, 0 )
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -128.0
-margin_right = 320.0
-valign = 2
-autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Timer" type="Timer" parent="ChatBox"]
-wait_time = 5.0
-one_shot = true
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="ChatBox"]
-anims/fadeout = SubResource( 3 )
-
-[node name="ChatLine" type="LineEdit" parent="."]
-visible = false
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -24.0
-margin_right = 320.0
-
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -299,6 +273,44 @@ columns = 4
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="draw" from="ChatBox" to="." method="_on_ChatBox_draw"]
-[connection signal="timeout" from="ChatBox/Timer" to="." method="_on_Timer_timeout"]
-[connection signal="text_entered" from="ChatLine" to="." method="_on_LineEdit_text_entered"]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -92.0
+margin_right = 384.0
+grow_horizontal = 0
+grow_vertical = 0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ChatBox" type="Label" parent="VBoxContainer"]
+modulate = Color( 1, 1, 1, 0 )
+margin_right = 384.0
+margin_bottom = 14.0
+valign = 2
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="VBoxContainer/ChatBox"]
+wait_time = 5.0
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="VBoxContainer/ChatBox"]
+anims/fadeout = SubResource( 3 )
+
+[node name="ChatLine" type="LineEdit" parent="VBoxContainer"]
+visible = false
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = 536.0
+margin_right = 320.0
+margin_bottom = 560.0
+[connection signal="draw" from="VBoxContainer/ChatBox" to="." method="_on_ChatBox_draw"]
+[connection signal="timeout" from="VBoxContainer/ChatBox/Timer" to="." method="_on_Timer_timeout"]
+[connection signal="focus_entered" from="VBoxContainer/ChatLine" to="." method="_on_ChatLine_focus_entered"]
+[connection signal="text_entered" from="VBoxContainer/ChatLine" to="." method="_on_LineEdit_text_entered"]

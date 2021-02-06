@@ -139,18 +139,20 @@ remote func bullet_hit(damage, from, bullet_hit_pos, _force_multiplier):			#hand
 	damage(damage)
 	
 	#if we got killed handle the score
-	if player_info["health"] <= 0:
+	if player_info["health"] <= 0 and !is_dead:
 		
 		#If our killer is a player
-		if from.get("is_player") != null:
-			print("You got killed by " + network.player_list[from.name]["name"])
-			$Hud/ChatBox.text += "\n" + "You got killed by " + network.player_list[from.name]["name"]
+		if from in network.player_list:
+			network.console_msg(player_info["name"] + " was killed by " + 
+			network.player_list[from]["name"])
+			$Hud/VBox/Container/ChatBox.text += "\n" + "You got killed by " + network.player_list[from]["name"]
 			
-			from.player_info["kills"] += 1
+			network.player_list[from]["kills"] += 1
 		#if it isn't (like a map hazard)
-		else:
-			print("You got killed by " + from.name)
-			$Hud/ChatBox.text += "\n" + "You got killed by " + from.name
+#		else:
+#			network.console_msg(player_info["name"] + " was killed by " + 
+#			from.name)
+#			$Hud/ChatBox.text += "\n" + "You got killed by " + from.name
 			
 		#killer.get_node("Hud/ChatBox").text = "\n" + "You killed " + player_info["name"]
 
