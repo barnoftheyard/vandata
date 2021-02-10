@@ -974,7 +974,7 @@ shadow_enabled = true
 omni_range = 16.0
 
 [node name="entity_5_weapon_pickup" parent="QodotMap" instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2.5, 15.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.5, 15.5 )
 properties = {
 "classname": "weapon_pickup",
 "origin": "248 8 40",
@@ -1563,19 +1563,12 @@ mesh = SubResource( 120 )
 material/0 = null
 
 [node name="WeaponPickup" parent="." instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.70697, 19.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.70697, 19.5 )
 to_load = "br"
 
 [node name="WeaponPickup2" parent="." instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2.70697, 19.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 1.70697, 19.5 )
 to_load = "pistol"
-properties = {
-
-}
-
-[node name="WeaponPickup3" parent="." instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2.70697, 15.5 )
-to_load = "frag"
 properties = {
 
 }
@@ -1588,3 +1581,12 @@ properties = {
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 122 )
+
+[node name="chicken" parent="." instance=ExtResource( 12 )]
+transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 1.96825, 10.8675 )
+
+[node name="chicken2" parent="." instance=ExtResource( 12 )]
+transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -5.44355, 1.96825, 10.8675 )
+
+[node name="chicken3" parent="." instance=ExtResource( 12 )]
+transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, -3.07162, 1.96825, 8.38658 )

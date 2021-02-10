@@ -4,5 +4,4 @@
 
 [node name="pistol" type="Spatial"]
 
-[node name="pistol model" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
+[node name="pistol" parent="." instance=ExtResource( 1 )]

@@ -94,6 +94,8 @@ func death():
 	$PlayerCollision.disabled = true
 	GRAVITY = 0
 	
+	weapon.remove_all_weapons()
+	
 	#playermodel.get_node("Armature/Skeleton").physical_bones_start_simulation()
 	
 func respawn():

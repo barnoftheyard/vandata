@@ -172,6 +172,13 @@ func switch_to_weapon(weapon):
 			inc += 1
 			
 	switch_weapon(inc - pos)
+	
+func remove_all_weapons():
+	for n in hitscan.get_children():
+		hitscan.remove_child(n)
+		n.queue_free()
+		
+	_on_update_weapon_list()
 
 #func all_subnodes(node):
 #	for nodes in node.get_children():
@@ -452,11 +459,7 @@ func _physics_process(delta):
 			use_hitscan()
 
 func _on_weapon_switch():
-	
 	#we do our one-time logic here after weapon switch
-	
-	#get the name of our weapon
-	weapon_name = weapon_nodes[pos].get_name()
 	
 	#then do the weapon draw visual and audio effects
 	$weaponswap.play()
@@ -473,6 +476,12 @@ func _on_animation_finished(anim_name):
 func _on_update_weapon_list():
 	weapon_num = hitscan.get_child_count() - 1
 	weapon_nodes = hitscan.get_children()
+	
+	if weapon_num > -1:
+		#get the name of our weapon
+		weapon_name = weapon_nodes[pos].get_name()
+	else:
+		weapon_name = ""
 	
 	emit_signal("change_playermodel_weapon", weapon_name)
 	

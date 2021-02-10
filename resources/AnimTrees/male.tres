@@ -66,4 +66,4 @@ nodes/strafe/node = SubResource( 12 )
 nodes/strafe/position = Vector2( 200, 240 )
 nodes/strafe_dir/node = SubResource( 13 )
 nodes/strafe_dir/position = Vector2( 20, 380 )
-node_connections = [ "speed", 0, "aim", "output", 0, "speed", "aim", 0, "strafe", "aim", 1, "Animation 6", "strafe", 0, "Blend3", "strafe", 1, "strafe_dir", "strafe_dir", 0, "Animation 4", "strafe_dir", 1, "Animation 5", "stance", 0, "Animation", "stance", 1, "Animation 7", "Blend3", 0, "stance", "Blend3", 1, "Animation 2", "Blend3", 2, "Animation 3" ]
+node_connections = [ "speed", 0, "aim", "output", 0, "speed", "aim", 0, "strafe", "aim", 1, "Animation 6", "Blend3", 0, "stance", "Blend3", 1, "Animation 2", "Blend3", 2, "Animation 3", "strafe", 0, "Blend3", "strafe", 1, "strafe_dir", "stance", 0, "Animation", "stance", 1, "Animation 7", "strafe_dir", 0, "Animation 4", "strafe_dir", 1, "Animation 5" ]

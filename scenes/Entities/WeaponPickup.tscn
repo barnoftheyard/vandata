@@ -13,5 +13,8 @@ shape = SubResource( 1 )
 
 [node name="pickup" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 2 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
 [connection signal="body_entered" from="." to="." method="_on_WeaponPickup_body_entered"]
-[connection signal="finished" from="pickup" to="." method="_on_pickup_finished"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

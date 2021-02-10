@@ -30,6 +30,8 @@ func _ready():
 		
 		if to_load == "frag":
 			spinny.scale *= 0.25
+		elif to_load == "pistol":
+			spinny.scale *= 0.75
 		
 		spinny.rotate_x(deg2rad(35))
 	
@@ -52,6 +54,8 @@ func add_timer(time):
 func _on_WeaponPickup_body_entered(body):
 	if body is Player and body.has_node("Camera/Weapon") and weapon != null:
 		
+		$pickup.play()
+		
 		var target = body.get_node("Camera/Weapon")
 		connect("update_weapon_list", target, "_on_update_weapon_list")
 		var our_weapon = null
@@ -69,8 +73,8 @@ func _on_WeaponPickup_body_entered(body):
 			
 			target.weapons[to_load]["ammo"] *= 1.25
 			
-			print("ammo added: ", difference)
-			body.get_node("Hud/VBoxContainer/ChatBox").text += "ammo added: " + difference + "\n"
+			print(to_load, " ammo added: ", difference)
+			body.get_node("Hud/VBoxContainer/ChatBox").text += to_load + " ammo added: " + difference + "\n"
 		#if we don't have the weapon, add it
 		else:
 				
@@ -94,7 +98,6 @@ func _on_WeaponPickup_body_entered(body):
 				print("weapon picked up: ", to_load)
 				body.get_node("Hud/VBoxContainer/ChatBox").text += "weapon picked up: " + to_load + "\n"
 				
-				$pickup.play()
 			
 			#emit a signal to our weapon node to update the weapon list data
 			emit_signal("update_weapon_list")
@@ -104,6 +107,8 @@ func _on_WeaponPickup_body_entered(body):
 		
 		$CollisionShape.disabled = true
 		hide()
+		$Timer.start()
 
-func _on_pickup_finished():
-	queue_free()
+func _on_Timer_timeout():
+	$CollisionShape.disabled = false
+	show()

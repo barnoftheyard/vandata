@@ -2,8 +2,8 @@ extends KinematicBody
 class_name Chicken
 
 const GRAVITY = -24.8
-const ACCEL = 8
-const DEACCEL = 16
+const ACCEL = 4
+const DEACCEL = 8
 
 const CHICKEN = true
 
@@ -12,17 +12,20 @@ var accel = 0
 var targets = []
 var last_body = null
 
-var health = 15
-var speed = 3
+var anim_run_interp = 0
+
+export var health = 15
+export var speed = 8
 
 func bullet_hit(damage, id, _bullet_hit_pos, _force_multiplier):
 	health -= damage
 	
 	if health <= 0:
 		$chicken/AnimationPlayer2.play("ChickenDeath")
-		print("Chicken killed by " + get_node("/root/characters/" + id).player_info["name"])
-		get_node("/root/characters/" + id).get_node("Hud/ChatBox").text += ("\n" +
-		"Chicken killed by " + get_node("/root/characters/" + id).player_info["name"])
+		var killer = get_node("/root/characters/" + id)
+		print("Chicken killed by " + killer.player_info["name"])
+		
+		killer.get_node("Hud/VBoxContainer/ChatBox").text += ("Chicken killed by " + killer.player_info["name"] + "\n")
 
 func _ready():
 	$chicken/AnimationPlayer2.connect("animation_finished", self, "_on_AnimationPlayer2_animation_finished")
@@ -40,22 +43,24 @@ func _physics_process(delta):
 		for target in targets:		#go through all bodies that we collected and apply our shit
 			if (is_instance_valid(target) and $Area.overlaps_body(target)
 			and not "CHICKEN" in target):
-				var move = self.translation - target.translation
-				dir = move
+				dir = -translation.direction_to(target.translation)
 				dir.y = 0
-				dir.normalized()
+
+				var new_transform = transform.looking_at(target.global_transform.origin, Vector3.UP)
+				transform  = transform.interpolate_with(new_transform, ACCEL * delta)
 				
-					
-				self.look_at(target.global_transform.origin, Vector3.UP)
-				self.rotation.x = 0
-				self.rotation.z = 0
-		
+				rotation.x = 0
+				rotation.z = 0
+				scale = Vector3(0.25, 0.25, 0.25)
+
+	anim_run_interp = clamp(anim_run_interp, 0, 1)
 	if dir.dot(hvel) > 0:
 		accel = ACCEL
-		$chicken/AnimationPlayer.play("run -loop")
+		anim_run_interp += delta * ACCEL		#1 = run
 	else:
 		accel = DEACCEL
-		$chicken/AnimationPlayer.play("idle -loop")
+		anim_run_interp -= delta * DEACCEL		#0 = idle
+	$chicken/AnimationTree.set("parameters/Blend2/blend_amount", anim_run_interp)
 		
 	hvel = hvel.linear_interpolate(dir * speed, accel * delta)
 	vel.x = hvel.x
