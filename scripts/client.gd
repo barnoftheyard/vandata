@@ -14,7 +14,9 @@ func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _physics_process(_delta):
-	# Send our input to the character
+	# Send our input to the character. If we didn't have this system then all
+	# of our player nodes would play copy-cat with each other. Trust me there's
+	# a good reason for doing this
 	player.cmd[0] = Input.is_action_pressed("move_forward")
 	player.cmd[1] = Input.is_action_pressed("move_backward")
 	player.cmd[2] = Input.is_action_pressed("move_left")

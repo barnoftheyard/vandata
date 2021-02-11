@@ -12,16 +12,36 @@ var history = [];
 var commands = {};
 var cmd_args_amount = {};
 
+onready var console_theme = preload("res://resources/Theme.tres")
+
+signal open_console
+signal close_console
+
 #This is based off of VolodyaKEK's one script command console
 #Most of it doesn't have any sort of comments, but it should be self-explanitory
 
+func toggle():
+	if visible:
+		hide();
+		Global.is_paused = false
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	else:
+		popup();
+		line.clear();
+		line.grab_focus();
+		Global.is_paused = true
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
 func _ready():
+	connect("open_console", self, "_on_open_console")
+	connect("close_console", self, "_on_close_console")
+	
 	connect_node(self);
 	window_title = "Console";
 	popup_exclusive = true;
 	resizable = true;
 	rect_min_size = Vector2(200, 100);
-	rect_size = Vector2(500, 300);
+	rect_size = Vector2(800, 500);
 	
 	var c = VBoxContainer.new();
 	add_child(c);
@@ -42,17 +62,12 @@ func _ready():
 	line.connect("text_entered", self, "command");
 	line.clear_button_enabled = true;
 	c.add_child(line);
+	
+	theme = console_theme
 
 func _process(_delta):
 	if Input.is_action_just_pressed(input_name):
-		if visible:
-			hide();
-			Global.is_paused = false
-		else:
-			popup();
-			line.clear();
-			line.grab_focus();
-			Global.is_paused = true
+		toggle()
 			
 	if history.size() > 0 && get_focus_owner() == line:
 		var add = 0;
@@ -125,3 +140,11 @@ func history_cmd():
 const clear_help = "Clears console output";
 func clear_cmd():
 	label.clear();
+	
+func _on_open_console():
+	visible = false
+	toggle()
+	
+func _on_close_console():
+	visible = true
+	toggle()

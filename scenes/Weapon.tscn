@@ -107,6 +107,7 @@ stream = ExtResource( 19 )
 anims/draw = SubResource( 2 )
 
 [node name="ViewportContainer" type="ViewportContainer" parent="."]
+show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 stretch = true

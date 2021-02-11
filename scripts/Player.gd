@@ -22,8 +22,8 @@ export var player_info = {
 export var vel = Vector3()
 export var dir = Vector3()
 var hvel = Vector3()
-
-const is_player = true
+#if we're either a player or a bot
+var is_player = true
 
 export var camera_mode = true
 var cam = null
@@ -78,9 +78,15 @@ var cmd = [false, false, false, false, false, false, false, false, false, false,
 #parts of this might be transfered over to lobby.gd
 func init():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	player_info["name"] = Global.game_config["player_name"]
+	#if we're a player, make our name to our config
+	if is_player:
+		player_info["name"] = Global.game_config["player_name"]
+	#if not, we're a bot and we'll have our node name, which should be "bot"
+	else:
+		player_info["name"] = name
+		
 	speed = RUN_SPEED
-	#add our player info, under the node name (which is our network ID), to the server list
+	#add our initial player info, under the node name (which is our network ID), to the server list
 	network.rpc("send_player_data", name, player_info)
 	
 func death():
@@ -92,7 +98,6 @@ func death():
 	player_info["deaths"] += 1
 	$RespawnTimer.start()
 	$PlayerCollision.disabled = true
-	GRAVITY = 0
 	
 	weapon.remove_all_weapons()
 	
@@ -144,12 +149,12 @@ remote func bullet_hit(damage, from, bullet_hit_pos, _force_multiplier):			#hand
 	if player_info["health"] <= 0 and !is_dead:
 		
 		#If our killer is a player
-		if from in network.player_list:
+		if from in network.player_list and is_player:
 			network.console_msg(player_info["name"] + " was killed by " + 
 			network.player_list[from]["name"])
 			$Hud/VBox/Container/ChatBox.text += "\n" + "You got killed by " + network.player_list[from]["name"]
 			
-			network.player_list[from]["kills"] += 1
+		network.player_list[from]["kills"] += 1
 		#if it isn't (like a map hazard)
 #		else:
 #			network.console_msg(player_info["name"] + " was killed by " + 
@@ -172,9 +177,10 @@ func _ready():
 	
 	#If we're not master, hide our hud. If we didn't check for this, we would
 	#have multiple overlapping huds for each player connected
-	if !is_network_master():
+	if !is_network_master() or !is_player:
 		$Hud.hide()
 		$Camera.hide()
+		weapon.get_node("ViewportContainer").hide()
 	
 	#we call respawn in first spawn, since it sets up random spawning and death
 	#state values for us
@@ -184,7 +190,7 @@ func _input(event):
 	#FPS mouse-to-camera code
 	if (event is InputEventMouseMotion and 
 	Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED and 
-	!Global.is_paused and is_network_master()):
+	!Global.is_paused and is_network_master() and is_player):
 		camera.rotate_x(deg2rad(event.relative.y * 
 		Global.game_config["mouse_sensitivity"] * invert_y))
 		
@@ -314,17 +320,20 @@ func _physics_process(delta):
 	
 	# Update the position and rotation over network
 	# If this character is controlled by the actual player - send it's position and rotation
-	if $controller.has_method("is_player"):
+	if $controller.has_method("is_player") or $controller.has_method("has_bot"):
 		# And only transmit, if the characters node has more than 1 player
 		if get_parent().get_child_count() > 1:
+			
 			#This sends all the player info of every player node
 			network.rpc_unreliable("send_player_data", name, player_info)
 			# RPC unreliable is faster but doesn't verify whether data has arrived or is intact
 			rpc_unreliable("network_update", translation, rotation)
+			
 			#Transmit our animation data
 			var a = $AnimController
 			a.rpc_unreliable("network_update", a.anim_strafe_interp, 
 			a.anim_strafe_dir_interp, a.jumpscale, a.anim_run_interp, a.tilt)
+			
 		#Our client specific code
 		playermodel.hide()
 		camera.make_current()

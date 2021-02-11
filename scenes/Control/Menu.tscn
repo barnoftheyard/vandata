@@ -135,7 +135,9 @@ __meta__ = {
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -256.0
-margin_right = 184.0
+margin_right = 249.0
+grow_horizontal = 0
+grow_vertical = 0
 scroll_horizontal_enabled = false
 __meta__ = {
 "_edit_use_anchors_": false
@@ -143,7 +145,7 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
 margin_right = 249.0
-margin_bottom = 208.0
+margin_bottom = 247.0
 custom_constants/separation = 6
 __meta__ = {
 "_edit_use_anchors_": false
@@ -277,10 +279,24 @@ disabled = true
 toggle_mode = true
 text = "SINGLE PLAYER"
 
-[node name="Quit" type="Button" parent="ScrollContainer/VBoxContainer"]
+[node name="Settings" type="Button" parent="ScrollContainer/VBoxContainer"]
 margin_top = 175.0
 margin_right = 249.0
 margin_bottom = 208.0
+custom_styles/hover = ExtResource( 8 )
+custom_styles/pressed = ExtResource( 6 )
+custom_styles/normal = ExtResource( 7 )
+custom_fonts/font = ExtResource( 4 )
+toggle_mode = true
+text = "SETTINGS"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Quit" type="Button" parent="ScrollContainer/VBoxContainer"]
+margin_top = 214.0
+margin_right = 249.0
+margin_bottom = 247.0
 custom_styles/hover = ExtResource( 8 )
 custom_styles/pressed = ExtResource( 6 )
 custom_styles/normal = ExtResource( 7 )
@@ -299,6 +315,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -537.0
 margin_top = -265.0
+grow_horizontal = 0
+grow_vertical = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -476,6 +494,7 @@ dialog_text = "Quit now?"
 [connection signal="toggled" from="ScrollContainer/VBoxContainer/Join" to="." method="_on_Join_toggled"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/JoinServer" to="." method="_on_JoinServer_pressed"]
 [connection signal="toggled" from="ScrollContainer/VBoxContainer/Singleplayer" to="." method="_on_Singleplayer_toggled"]
+[connection signal="pressed" from="ScrollContainer/VBoxContainer/Settings" to="." method="_on_Settings_pressed"]
 [connection signal="toggled" from="ScrollContainer/VBoxContainer/Quit" to="." method="_on_Quit_toggled"]
 [connection signal="pressed" from="ScrollContainer2/VBoxContainer/Qodot/HBoxContainer/Button" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="ScrollContainer2/VBoxContainer/TestArea/HBoxContainer/TestAreaButton" to="." method="_on_TestAreaButton_pressed"]

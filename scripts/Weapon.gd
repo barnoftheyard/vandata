@@ -177,6 +177,8 @@ func remove_all_weapons():
 	for n in hitscan.get_children():
 		hitscan.remove_child(n)
 		n.queue_free()
+	#reset pos
+	pos = 0
 		
 	_on_update_weapon_list()
 
@@ -203,16 +205,14 @@ func fire_hitscan(damage):
 		elif body.has_method("bullet_hit"):
 			
 			#is it a player?
-			if body is Player:
+			if body is Player and body.is_player:
 				#serverside, fire damage, id, collision point, and force
 				body.rpc_id(int(body.name), "bullet_hit", damage, player_node.name, ray.get_collision_point(), 0.5)
 			#if not, its an NPC/physics object
 			else:
 				#clientside, fire damage, id, collision point, and force
 				body.bullet_hit(damage, player_node.name, ray.get_collision_point(), 0.5)
-				
-				#serverside, fire damage, id, collision point, and force
-				#body.rpc("bullet_hit", damage, player_node, ray.get_collision_point(), 0.5)
+				print(body.name)
 				
 		elif body is StaticBody:
 			#bullet decal adding
@@ -257,7 +257,6 @@ func _ready():
 		weapon_nodes[pos].show()		#so that it shows up when it first loads
 		switch_weapon(0)
 		
-	#hitscan.get_node("hands/AnimationPlayer").play("idle -loop")
 	
 			
 func _input(event):
@@ -488,9 +487,17 @@ func _on_update_weapon_list():
 const ammo_desc = "Enables/disables the consumption of ammo"
 const ammo_help = "Enables/disables the consumption of ammo"
 func ammo_cmd():
-	consume_ammo = !consume_ammo
+	if network.sv_cheats:
+		consume_ammo = !consume_ammo
+	else:
+		print("sv_cheats is not set to true!")
+		Console.print("sv_cheats is not set to true!")
 	
 const recoil_desc = "Enables/disables weapon recoil"
 const recoil_help = "Enables/disables weapon recoil"
 func recoil_cmd():
-	recoil = !recoil
+	if network.sv_cheats:
+		recoil = !recoil
+	else:
+		print("sv_cheats is not set to true!")
+		Console.print("sv_cheats is not set to true!")

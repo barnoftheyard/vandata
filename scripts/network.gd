@@ -11,6 +11,8 @@ var client_map = null
 
 var player_list = {}
 
+var sv_cheats = false
+
 # To use a background server download the server export template without graphics and audio from:
 # https://godotengine.org/download/server
 # And choose it as a custom template upon export
@@ -21,16 +23,13 @@ export var background_server : bool = false
 # This way we can extend the Controller class to create an AI controller
 # Peer controller represents other players in the network
 onready var player_scene = preload("res://scenes/Player.tscn")
+
 onready var client_scene = preload("res://scenes/client.tscn")
 onready var peer_scene = preload("res://scenes/peer.tscn")
+onready var bot_scene = preload("res://scenes/bot.tscn")
 
 func _ready():
-	# If we are exporting this game as a server for running in the background
-	if background_server:
-		# Just create server
-		create_server("res://scenes/empty.tscn", DEFAULT_PORT)
-		# To keep it simple we are creating an uncontrollable server's character to prevent errors
-		# TO-DO: Create players upon reading configuration from the server
+	Console.connect_node(self)
 
 # When Connect button is pressed
 func join_server(ip, port):
@@ -59,7 +58,6 @@ func join_server(ip, port):
 	# Create a player
 	if get_tree().change_scene_to(scene) == OK:
 		# Create our player, 1 is a reference for a host/server
-		print("We connected")
 		call_deferred("create_player", id, false)
 
 func _on_peer_connected(id):
@@ -74,7 +72,7 @@ func _on_peer_disconnected(id):
 	remove_player(id)
 
 func _on_connected_to_server():
-	print("Connected to server.")
+	console_msg("Connected to server.")
 
 func _on_connection_failed():
 	# Upon failed connection reset the RPC system
@@ -82,10 +80,14 @@ func _on_connection_failed():
 	print("Connection failed")
 
 func _on_server_disconnected():
-	# If server disconnects just reload the game
-	var _reloaded = get_tree().reload_current_scene()
+	get_tree().change_scene("res://scenes/Control/Menu.tscn")
+	get_node("/root/characters").queue_free()
+	get_tree().set_network_peer(null)
+	
+	Console.emit_signal("open_console")
+	console_msg("Connection to the server ended.")
 
-func create_server(map, port):
+func create_server(map, server_name, port):
 	# Connect network events
 	get_tree().connect("network_peer_connected", self, "_on_peer_connected")
 	get_tree().connect("network_peer_disconnected", self, "_on_peer_disconnected")
@@ -100,7 +102,7 @@ func create_server(map, port):
 		# Create our player, 1 is a reference for a host/server
 		create_player(1, false)
 		
-	print("Server created on port ", port,". Playing on ", server_map)
+	print("Server", server_name, " created on port ", port,". Playing on ", server_map)
 
 func create_player(id, is_peer):
 	# Create a player with a client or a peer controller attached
@@ -134,14 +136,62 @@ func create_player(id, is_peer):
 	#This is a call deferred to spawn in the player during idle time so that we 
 	#can find spawn points in the map
 	get_node("/root/characters").call_deferred("add_child", player)
+	
+remotesync func create_bot():
+	var controller = bot_scene.instance()
+	# Instantiate the character
+	var player = player_scene.instance()
+	# Attach the controller to the character
+	player.add_child(controller)
+	# Set the controller's name for easier reference by the player
+	controller.name = "controller"
+	
+	if get_node_or_null("/root/characters") == null:
+		var char_node = Node.new()
+		char_node.name = "characters"
+		get_node("/root/").add_child(char_node)
+		
+	player.name = "bot"
+	get_node("/root/characters").call_deferred("add_child", player)
 
 remotesync func send_player_data(id, player_info):
+	#for first time data initialization, say the player connected to the server
+	if !player_list.has(id):
+		player_list[id] = player_info
+		console_msg("Player " + player_list[str(id)]["name"] + " connected to server.")
+		
 	player_list[id] = player_info
 	
 remotesync func console_msg(text):
 	print(text)
+	Console.print(text)
+	
+remotesync func change_sv_cheats(status):
+	if get_tree().get_rpc_sender_id() == 1:
+		sv_cheats = status
+		console_msg("sv_cheats set to " + str(sv_cheats))
+	else:
+		print("You are not the server master.")
+		Console.print("You are not the server master.")
 
 func remove_player(id):
 	print("Player ", get_node("/root/characters/" + str(id)).player_info["name"], " disconnected")
 	# Remove unused characters
 	get_node("/root/characters/" + str(id)).call_deferred("free")
+	#erase player from player list
+	player_list.erase(str(id))
+	
+const bot_add_desc = "Add a multiplayer bot"
+const bot_add_help = "Add a multiplayer bot"
+func bot_add_cmd():
+	if sv_cheats:
+		create_bot()
+	else:
+		print("sv_cheats is not set to true!")
+		Console.print("sv_cheats is not set to true!")
+	
+const sv_cheats_desc = "Allow/disalow cheats"
+const sv_cheats_help = "0 is false, 1 is true"
+func sv_cheats_cmd(command):
+	if command != null:
+		rpc("change_sv_cheats", bool(int(command)))

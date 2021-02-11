@@ -76,18 +76,15 @@ func _on_Host_pressed():
 	if selected_map != null:
 		#network.server_info.name = $ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer/ServerEdit.text
 		#network.server_info.max_players = 32
-		var used_port = int($ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer/PortEdit.text)
+		var port = int($ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer/PortEdit.text)
+		var server_name = $ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer/ServerName.text
 	
 		# And create the server, using the function previously added into the code
-		network.create_server(selected_map, used_port)
+		network.create_server(selected_map, server_name, port)
 		
 func _on_ready_to_play():
 	#selected_map = maps["Qodot"]	#temp
 	get_tree().change_scene(selected_map)
-	
-func _on_join_fail():
-	print("Failed to join server")
-
 
 func _on_Join_toggled(button_pressed):
 
@@ -109,10 +106,12 @@ func _on_JoinServer_pressed():
 	var ip = $ScrollContainer/VBoxContainer/IP/HBoxContainer/LineEdit.text
 	network.join_server(ip, port)
 
-
 func _on_Quit_toggled(button_pressed):
 	$AcceptDialog.popup_centered()
 
-
 func _on_AcceptDialog_confirmed():
 	get_tree().quit()
+
+func _on_Settings_pressed():
+	var settings_node = load("res://scenes/Settings.tscn").instance()
+	add_child(settings_node)
