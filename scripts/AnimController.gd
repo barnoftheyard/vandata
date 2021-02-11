@@ -93,4 +93,15 @@ remotesync func network_update(new_anim_strafe_interp, new_anim_strafe_dir_inter
 	
 func _on_change_playermodel_weapon(weapon):
 	anim_tree.set("parameters/aim/blend_amount", 1)
-	$ussr_male/Armature/Skeleton/hand_r/helper.show()
+	var helper = $ussr_male/Armature/Skeleton/hand_r/helper
+	
+	for i in helper.get_children():
+		i.hide()
+	
+	match weapon:
+		"smg2":
+			helper.get_node("smg2").show()
+		"br":
+			helper.get_node("br").show()
+		_:
+			anim_tree.set("parameters/aim/blend_amount", 0)

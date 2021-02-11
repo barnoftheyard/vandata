@@ -20,6 +20,76 @@ signal close_console
 #This is based off of VolodyaKEK's one script command console
 #Most of it doesn't have any sort of comments, but it should be self-explanitory
 
+func tokenize(input):
+	var tokens = []
+	
+	var append_to_buffer = false
+	var buffer = ""
+	
+	for c in input:
+		match c:
+			"\"":
+				#toggle our buffer latch
+				append_to_buffer = !append_to_buffer
+				
+				#append the first quotation
+				if append_to_buffer:
+					tokens.append(c)
+				#append what we have in the buffer, append the last quotation,
+				#and clear the buffer
+				else:
+					tokens.append(buffer)
+					tokens.append(c)
+					buffer = ""
+				
+			" ":
+				tokens.append(buffer)
+				tokens.append(c)
+				buffer = ""
+			_:
+				buffer += c
+	
+	#append if we have any remaining data in the buffer
+	if buffer != "":
+		tokens.append(buffer)
+		buffer = ""
+	
+	return tokens
+	
+func lexer(tokens):
+	var finished = []
+	
+	var append_to_buffer = false
+	var buffer = ""
+	
+	for token in tokens:
+		match token:
+			"\"":
+				append_to_buffer = !append_to_buffer
+				
+				#once we get to the last quotation token, append to the finished
+				#array and clear buffer
+				if !append_to_buffer:
+					finished.append(buffer)
+					buffer = ""
+			" ":
+				#if the space token is in a string append into one single token
+				if append_to_buffer:
+					buffer += token
+			_:
+				#if its in a string append all into one single token
+				if append_to_buffer:
+					buffer += token
+				#else, let it be
+				else:
+					finished.append(token)
+					
+	if buffer != "":
+		finished.append(buffer)
+		buffer = ""
+		
+	return finished
+		
 func toggle():
 	if visible:
 		hide();
@@ -41,7 +111,7 @@ func _ready():
 	popup_exclusive = true;
 	resizable = true;
 	rect_min_size = Vector2(200, 100);
-	rect_size = Vector2(800, 500);
+	rect_size = Vector2(300, 200);
 	
 	var c = VBoxContainer.new();
 	add_child(c);
@@ -64,6 +134,13 @@ func _ready():
 	c.add_child(line);
 	
 	theme = console_theme
+	
+	self.print("You are now playing Vandata. Version " + Global.version + ". Enjoy your stay.")
+	
+	var input = "add 2 2"
+	
+	self.print(tokenize(input))
+	self.print(lexer(tokenize(input)))
 
 func _process(_delta):
 	if Input.is_action_just_pressed(input_name):
@@ -98,8 +175,12 @@ func command(cmd):
 		return;
 	line.clear();
 	self.print(str("> ", cmd));
-	var args = Array(cmd.split(" "));
+		
+	#wrote custom tokenize function!
+	var args = lexer(tokenize(cmd))
+	
 	var command = args.pop_front();
+	
 	var node = commands.get(command);
 	if node:
 		args.resize(cmd_args_amount[command]);

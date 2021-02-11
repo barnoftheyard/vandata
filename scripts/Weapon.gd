@@ -212,7 +212,6 @@ func fire_hitscan(damage):
 			else:
 				#clientside, fire damage, id, collision point, and force
 				body.bullet_hit(damage, player_node.name, ray.get_collision_point(), 0.5)
-				print(body.name)
 				
 		elif body is StaticBody:
 			#bullet decal adding
@@ -486,18 +485,22 @@ func _on_update_weapon_list():
 	
 const ammo_desc = "Enables/disables the consumption of ammo"
 const ammo_help = "Enables/disables the consumption of ammo"
-func ammo_cmd():
-	if network.sv_cheats:
-		consume_ammo = !consume_ammo
+func ammo_cmd(command):
+	if network.cheats:
+		consume_ammo = bool(int(command))
+		print("Ammo consumption is set to " + str(consume_ammo))
+		Console.print("Ammo consumption is set to " + str(consume_ammo))
 	else:
-		print("sv_cheats is not set to true!")
-		Console.print("sv_cheats is not set to true!")
+		print("cheats is not set to true!")
+		Console.print("cheats is not set to true!")
 	
 const recoil_desc = "Enables/disables weapon recoil"
 const recoil_help = "Enables/disables weapon recoil"
-func recoil_cmd():
-	if network.sv_cheats:
-		recoil = !recoil
+func recoil_cmd(command):
+	if network.cheats:
+		recoil = bool(int(command))
+		print("Recoil is set to " + str(recoil))
+		Console.print("Recoil is set to " + str(recoil))
 	else:
-		print("sv_cheats is not set to true!")
-		Console.print("sv_cheats is not set to true!")
+		print("cheats is not set to true!")
+		Console.print("cheats is not set to true!")

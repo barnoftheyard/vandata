@@ -25,7 +25,7 @@ func bullet_hit(damage, id, _bullet_hit_pos, _force_multiplier):
 		var killer = get_node("/root/characters/" + id)
 		print("Chicken killed by " + killer.player_info["name"])
 		
-		killer.get_node("Hud/VBoxContainer/ChatBox").text += ("Chicken killed by " + killer.player_info["name"] + "\n")
+		killer.get_node("Hud").chat_box.text += ("Chicken killed by " + killer.player_info["name"] + "\n")
 
 func _ready():
 	$chicken/AnimationPlayer2.connect("animation_finished", self, "_on_AnimationPlayer2_animation_finished")

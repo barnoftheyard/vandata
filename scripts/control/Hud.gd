@@ -1,9 +1,10 @@
 extends Control
 
-var chat_box = false
 var moving = false
 
 var mouse_accel = Vector2()
+
+onready var chat_box = $VBoxContainer/ChatBox
 
 func pain():
 	$PainOverlay.self_modulate.a = 1

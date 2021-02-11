@@ -73,8 +73,8 @@ func _on_WeaponPickup_body_entered(body):
 			
 			target.weapons[to_load]["ammo"] *= 1.25
 			
-			print(to_load, " ammo added: ", difference)
-			body.get_node("Hud/VBoxContainer/ChatBox").text += to_load + " ammo added: " + difference + "\n"
+			print(to_load, " Ammo added: ", difference)
+			body.get_node("Hud").chat_box.text += to_load + " Ammo added: " + difference + "\n"
 		#if we don't have the weapon, add it
 		else:
 				
@@ -95,8 +95,8 @@ func _on_WeaponPickup_body_entered(body):
 			
 			if is_network_master():
 				#print to ourselves
-				print("weapon picked up: ", to_load)
-				body.get_node("Hud/VBoxContainer/ChatBox").text += "weapon picked up: " + to_load + "\n"
+				print("Weapon picked up: ", to_load)
+				body.get_node("Hud").chat_box.text += "Weapon picked up: " + to_load + "\n"
 				
 			
 			#emit a signal to our weapon node to update the weapon list data

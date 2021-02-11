@@ -77,7 +77,7 @@ func _on_Host_pressed():
 		#network.server_info.name = $ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer/ServerEdit.text
 		#network.server_info.max_players = 32
 		var port = int($ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer/PortEdit.text)
-		var server_name = $ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer/ServerName.text
+		var server_name = $ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer/ServerEdit.text
 	
 		# And create the server, using the function previously added into the code
 		network.create_server(selected_map, server_name, port)

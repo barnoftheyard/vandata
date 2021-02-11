@@ -215,7 +215,7 @@ func _physics_process(delta):
 	
 	if !Global.is_paused and is_network_master():
 		
-		if camera_mode:					#FPS
+		if camera_mode and self.is_inside_tree():					#FPS
 			cam = camera.get_global_transform()
 			
 		if cmd[Command.FORWARD]:

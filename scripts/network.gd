@@ -11,7 +11,7 @@ var client_map = null
 
 var player_list = {}
 
-var sv_cheats = false
+var cheats = false
 
 # To use a background server download the server export template without graphics and audio from:
 # https://godotengine.org/download/server
@@ -102,7 +102,7 @@ func create_server(map, server_name, port):
 		# Create our player, 1 is a reference for a host/server
 		create_player(1, false)
 		
-	print("Server", server_name, " created on port ", port,". Playing on ", server_map)
+	print("Server ", server_name, " created on port ", port,". Playing on ", server_map)
 
 func create_player(id, is_peer):
 	# Create a player with a client or a peer controller attached
@@ -166,10 +166,10 @@ remotesync func console_msg(text):
 	print(text)
 	Console.print(text)
 	
-remotesync func change_sv_cheats(status):
+remotesync func change_cheats(status):
 	if get_tree().get_rpc_sender_id() == 1:
-		sv_cheats = status
-		console_msg("sv_cheats set to " + str(sv_cheats))
+		cheats = status
+		console_msg("cheats set to " + str(cheats))
 	else:
 		print("You are not the server master.")
 		Console.print("You are not the server master.")
@@ -184,14 +184,14 @@ func remove_player(id):
 const bot_add_desc = "Add a multiplayer bot"
 const bot_add_help = "Add a multiplayer bot"
 func bot_add_cmd():
-	if sv_cheats:
+	if cheats:
 		create_bot()
 	else:
-		print("sv_cheats is not set to true!")
-		Console.print("sv_cheats is not set to true!")
+		print("cheats is not set to true!")
+		Console.print("cheats is not set to true!")
 	
-const sv_cheats_desc = "Allow/disalow cheats"
-const sv_cheats_help = "0 is false, 1 is true"
-func sv_cheats_cmd(command):
+const cheats_desc = "Allow/disalow cheats"
+const cheats_help = "0 is false, 1 is true"
+func cheats_cmd(command):
 	if command != null:
-		rpc("change_sv_cheats", bool(int(command)))
+		rpc("change_cheats", bool(int(command)))
