@@ -153,6 +153,16 @@ remotesync func create_bot():
 		
 	player.name = "bot"
 	get_node("/root/characters").call_deferred("add_child", player)
+	
+func remove_player(id):
+	var player = str(id)
+	
+	print("Player ", player_list[player]["name"], " disconnected")
+	# Remove unused characters
+	get_node("/root/characters/" + player).call_deferred("free")
+	#erase player from player list
+	player_list.erase(player)
+	
 
 remotesync func send_player_data(id, player_info):
 	#for first time data initialization, say the player connected to the server
@@ -174,12 +184,18 @@ remotesync func change_cheats(status):
 		print("You are not the server master.")
 		Console.print("You are not the server master.")
 
-func remove_player(id):
-	print("Player ", get_node("/root/characters/" + str(id)).player_info["name"], " disconnected")
-	# Remove unused characters
-	get_node("/root/characters/" + str(id)).call_deferred("free")
-	#erase player from player list
-	player_list.erase(str(id))
+remotesync func kick_player(player_name):
+	for i in player_list:
+		if player_list[i]["name"] == player_name:
+			remove_player(i)
+			return
+		elif player_list[i]["name"] == player_list["1"]["name"]:
+			print("Cannot kick server owner!")
+			Console.print("Cannot kick server owner!")
+		else:
+			print("Player ", player_name, " not found.")
+			Console.print("Player " + player_name + " not found.")
+			return
 	
 const bot_add_desc = "Add a multiplayer bot"
 const bot_add_help = "Add a multiplayer bot"
@@ -191,7 +207,13 @@ func bot_add_cmd():
 		Console.print("cheats is not set to true!")
 	
 const cheats_desc = "Allow/disalow cheats"
-const cheats_help = "0 is false, 1 is true"
+const cheats_help = "Allow/disalow cheats"
 func cheats_cmd(command):
 	if command != null:
 		rpc("change_cheats", bool(int(command)))
+		
+const kick_desc = "Kicks a player from the server"
+const kick_help = "Kicks a player from the server"
+func kick_cmd(command):
+	if command != null:
+		rpc("kick_player", command)

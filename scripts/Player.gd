@@ -7,7 +7,7 @@ const JUMP_SPEED = 10
 const MAX_SLOPE_ANGLE = 65
 const ACCEL = 8
 const DEACCEL = 16
-const RUN_SPEED = 16
+const RUN_SPEED = 12
 const WALK_SPEED = 3
 
 #our main player data dictionary, this gets set to a template player dictionary at
@@ -335,7 +335,6 @@ func _physics_process(delta):
 			a.anim_strafe_dir_interp, a.jumpscale, a.anim_run_interp, a.tilt)
 			
 		#Our client specific code
-		playermodel.hide()
 		camera.make_current()
 
 # To update data both on a server and clients "sync" is used

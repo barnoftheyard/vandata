@@ -8,11 +8,11 @@
 
 [node name="ussr male" instance=ExtResource( 2 )]
 
-[node name="Skeleton" parent="Armature" index="0"]
-bones/15/bound_children = [ NodePath("hand_r") ]
+[node name="USSR_Male" parent="Armature/Skeleton" index="0"]
+layers = 8
 
 [node name="hand_r" type="BoneAttachment" parent="Armature/Skeleton" index="1"]
-transform = Transform( -0.99928, 0.0343796, -0.0160331, -0.0183891, -0.0693457, 0.997423, 0.0331791, 0.997, 0.0699279, -0.124334, 1.25255, 0.385399 )
+transform = Transform( -0.99928, 0.0343796, -0.0160331, -0.0183891, -0.0693457, 0.997423, 0.0331791, 0.997, 0.0699279, -0.124334, 1.22831, 0.381359 )
 bone_name = "hand_r"
 
 [node name="helper" type="Spatial" parent="Armature/Skeleton/hand_r" index="0"]

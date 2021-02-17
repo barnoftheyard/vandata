@@ -137,8 +137,8 @@ __meta__ = {
 self_modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 20, 20 )
 texture = ExtResource( 2 )
-vframes = 8
 hframes = 8
+vframes = 8
 
 [node name="Line2D" type="Line2D" parent="CenterContainer/Crosshair"]
 position = Vector2( -20, -24 )
@@ -287,7 +287,6 @@ __meta__ = {
 }
 
 [node name="ChatBox" type="Label" parent="VBoxContainer"]
-modulate = Color( 1, 1, 1, 0 )
 margin_right = 384.0
 margin_bottom = 14.0
 valign = 2
@@ -310,6 +309,7 @@ anchor_bottom = 1.0
 margin_top = 536.0
 margin_right = 320.0
 margin_bottom = 560.0
+
 [connection signal="draw" from="VBoxContainer/ChatBox" to="." method="_on_ChatBox_draw"]
 [connection signal="timeout" from="VBoxContainer/ChatBox/Timer" to="." method="_on_Timer_timeout"]
 [connection signal="focus_entered" from="VBoxContainer/ChatLine" to="." method="_on_ChatLine_focus_entered"]

@@ -16,6 +16,7 @@ onready var console_theme = preload("res://resources/Theme.tres")
 
 signal open_console
 signal close_console
+signal run_command(cmd)
 
 #This is based off of VolodyaKEK's one script command console
 #Most of it doesn't have any sort of comments, but it should be self-explanitory
@@ -92,19 +93,20 @@ func lexer(tokens):
 		
 func toggle():
 	if visible:
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		hide();
 		Global.is_paused = false
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	else:
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		popup();
 		line.clear();
 		line.grab_focus();
 		Global.is_paused = true
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func _ready():
 	connect("open_console", self, "_on_open_console")
 	connect("close_console", self, "_on_close_console")
+	connect("run_command", self, "_on_run_command")
 	
 	connect_node(self);
 	window_title = "Console";
@@ -136,11 +138,6 @@ func _ready():
 	theme = console_theme
 	
 	self.print("You are now playing Vandata. Version " + Global.version + ". Enjoy your stay.")
-	
-	var input = "add 2 2"
-	
-	self.print(tokenize(input))
-	self.print(lexer(tokenize(input)))
 
 func _process(_delta):
 	if Input.is_action_just_pressed(input_name):
@@ -222,6 +219,32 @@ const clear_help = "Clears console output";
 func clear_cmd():
 	label.clear();
 	
+const exit_help = "Exits the game";
+func exit_cmd():
+	print("Exiting...")
+	get_tree().get_network_peer().close_connection()
+	get_tree().quit()
+	
+const eval_desc = "Evaluate an expression"
+const eval_help = "Evaluate an expression"
+func eval_cmd(command):
+	if network.cheats:
+		var expression = Expression.new()
+		
+		var error = expression.parse(command, [])
+		if error != OK:
+			print(expression.get_error_text())
+			Console.print(expression.get_error_text())
+			return
+		var result = expression.execute([], null, true)
+		if not expression.has_execute_failed():
+			print(str(result))
+			Console.print(str(result))
+		
+	else:
+		print("cheats is not set to true!")
+		Console.print("cheats is not set to true!")
+	
 func _on_open_console():
 	visible = false
 	toggle()
@@ -229,3 +252,6 @@ func _on_open_console():
 func _on_close_console():
 	visible = true
 	toggle()
+
+func _on_run_command(cmd):
+	command(cmd)

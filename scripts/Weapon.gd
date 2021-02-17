@@ -15,8 +15,8 @@ export var consume_ammo = true
 export var instant_reload = false
 export var recoil = true
 
-onready var hitscan = $ViewportContainer/Viewport/Hitscan
-onready var hitscan_initpos = Vector3(0.5, -0.6, -1.25)
+onready var hitscan = $ViewportContainer/Viewport/TransformHelper/Hitscan
+onready var hitscan_initpos = hitscan.translation
 onready var vmod_initpos = self.translation
 
 onready var weapon_nodes = hitscan.get_children()
@@ -332,6 +332,9 @@ func _physics_process(delta):
 	
 	#breathing-esque effect on the weapon
 	hitscan.translation.y += cos(Global.delta_time * 2) * 0.0005
+	
+	#set the SunRotate's transform the the transform of our weapon node's transform
+	hitscan.get_parent().transform = get_parent().global_transform
 	
 	#Used by the player's hud
 	#these are read-only

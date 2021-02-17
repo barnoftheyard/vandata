@@ -1,0 +1,24 @@
+[remap]
+
+importer="texture_array"
+type="TextureArray"
+path="res://.import/Qodot.exr-aae10494ea3ae23f99a233d81fb2d625.texarr"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://scenes/Qodot.exr"
+dest_files=[ "res://.import/Qodot.exr-aae10494ea3ae23f99a233d81fb2d625.texarr" ]
+
+[params]
+
+compress/mode=0
+compress/no_bptc_if_rgb=false
+flags/repeat=false
+flags/filter=true
+flags/mipmaps=false
+flags/srgb=false
+slices/horizontal=1
+slices/vertical=1

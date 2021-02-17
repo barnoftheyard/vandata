@@ -5,6 +5,7 @@ var moving = false
 var mouse_accel = Vector2()
 
 onready var chat_box = $VBoxContainer/ChatBox
+var chat_text = ""
 
 func pain():
 	$PainOverlay.self_modulate.a = 1
@@ -69,6 +70,7 @@ func _process(delta):
 	$HealthMeter.value = get_parent().player_info["health"]
 	$CenterContainer/Crosshair.frame = Global.game_config["crosshair"]
 	
+	#The FPS label
 	if Global.game_config["show_fps"]:
 		$Fps.show()
 		$Fps.text = "FPS: " + str(Engine.get_frames_per_second())
@@ -90,18 +92,22 @@ func _process(delta):
 		$AmmoCounter.text = str(weapon.current_ammo)
 	else:
 		$AmmoCounter.text = ""
+		
+#	if chat_box.text != chat_text:
+#		_on_ChatBox_draw()
+#		chat_text = chat_box.text
 
 
 func _on_LineEdit_text_entered(text):
 	$VBoxContainer/ChatLine.clear()
 	
 	Global.is_paused = false
-	chat_box = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 	$VBoxContainer/ChatLine.hide()
 	
-	rpc("update_chat", text)
+	if text != "":
+		rpc("update_chat", text)
 
 #Update our chat
 remotesync func update_chat(new_text):
@@ -124,8 +130,9 @@ remotesync func update_chat(new_text):
 
 
 func _on_ChatBox_draw():
-	$VBoxContainer/ChatBox/Timer.start()
-	$VBoxContainer/ChatBox.modulate = Color(1, 1, 1, 1)
+	chat_box.get_node("AnimationPlayer").stop()
+	chat_box.get_node("Timer").start()
+	chat_box.modulate = Color(1, 1, 1, 1)
 
 func _on_Timer_timeout():
 	$VBoxContainer/ChatBox/AnimationPlayer.play("fadeout")

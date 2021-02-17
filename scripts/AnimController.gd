@@ -11,8 +11,9 @@ var anim_run_interp = 0			#KEEP THIS, IT DOES THE INERTIA OF THE ANIMATIONS
 
 var tilt = 0
 
-onready var anim_tree = $ussr_male.get_node("AnimationTree")
-onready var model_transform = Quat($ussr_male.transform.basis)
+onready var player_model = $ussr_male
+onready var anim_tree = player_model.get_node("AnimationTree")
+onready var model_transform = Quat(player_model.transform.basis)
 
 enum states {PASSIVE, ARMED}
 
@@ -23,8 +24,21 @@ enum states {PASSIVE, ARMED}
 #	head_transform = head_transform.rotated(Vector3(1, 0, 0), x_rot)
 #	skeleton.set_bone_pose(head, head_transform)
 
+func set_all_meshes_layer_mask(node, value):
+	for n in node.get_children():
+		if n.get_child_count() > 0:
+			set_all_meshes_layer_mask(n, value)
+		if n is MeshInstance:
+			n.set_layer_mask(value)
+	
 func _ready():
-	$ussr_male/Armature/Skeleton/SkeletonIK.start()
+	anim_tree.set("parameters/aim/blend_amount", 0)
+	
+	#if we are master and not a bot
+	if is_network_master() and get_parent().is_player:
+		player_model.get_node("Armature/Skeleton/USSR_Male").set_layer_mask(8)
+	else:
+		player_model.get_node("Armature/Skeleton/USSR_Male").set_layer_mask(9)
 
 func _physics_process(delta):
 	
@@ -97,8 +111,12 @@ func _on_change_playermodel_weapon(weapon):
 	
 	for i in helper.get_children():
 		i.hide()
+		
+	set_all_meshes_layer_mask(helper, 8)
 	
 	match weapon:
+		"pistol":
+			helper.get_node("pistol").show()
 		"smg2":
 			helper.get_node("smg2").show()
 		"br":

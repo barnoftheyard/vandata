@@ -10,6 +10,14 @@ var spinny = null
 
 signal update_weapon_list
 
+func set_all_meshes_layer_mask(node, value):
+	for n in node.get_children():
+		if n.get_child_count() > 0:
+			set_all_meshes_layer_mask(n, value)
+		if n is MeshInstance:
+			n.set_layer_mask(value)
+			n.cast_shadow = GeometryInstance.SHADOW_CASTING_SETTING_OFF
+
 export(Dictionary) var properties setget set_properties
 
 func set_properties(new_properties : Dictionary) -> void:
@@ -68,13 +76,13 @@ func _on_WeaponPickup_body_entered(body):
 		#if we already have the weapon in our inventory, add more ammo instead
 		#of another weapon
 		if target.hitscan.has_node(to_load):
-			var difference =  str(target.weapons[to_load]["ammo"] * 1.25 - 
-			target.weapons[to_load]["ammo"])
+			var difference = (target.weapons[to_load]["clip"] + 
+			target.weapons[to_load]["times_fired"]) * 2
 			
-			target.weapons[to_load]["ammo"] *= 1.25
+			target.weapons[to_load]["ammo"] += difference
 			
 			print(to_load, " Ammo added: ", difference)
-			body.get_node("Hud").chat_box.text += to_load + " Ammo added: " + difference + "\n"
+			body.get_node("Hud").chat_box.text += to_load + " ammo added: " + str(difference) + "\n"
 		#if we don't have the weapon, add it
 		else:
 				
@@ -88,6 +96,8 @@ func _on_WeaponPickup_body_entered(body):
 			elif to_load == "pistol":
 				our_weapon.translation.y -= 0.5
 				
+				
+			set_all_meshes_layer_mask(our_weapon, 2)
 			#add our weapon to our specific player
 			#if its ourself
 			

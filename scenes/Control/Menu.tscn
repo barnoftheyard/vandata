@@ -489,6 +489,7 @@ margin_bottom = 80.0
 theme = ExtResource( 12 )
 window_title = ""
 dialog_text = "Quit now?"
+
 [connection signal="toggled" from="ScrollContainer/VBoxContainer/Multiplayer" to="." method="_on_Multiplayer_toggled"]
 [connection signal="pressed" from="ScrollContainer/VBoxContainer/Host" to="." method="_on_Host_pressed"]
 [connection signal="toggled" from="ScrollContainer/VBoxContainer/Join" to="." method="_on_Join_toggled"]

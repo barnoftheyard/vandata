@@ -19,7 +19,7 @@ func _on_Health_body_entered(body):
 			var difference = (body.player_info["health"] - health) * -1
 			body.player_info["health"] += health
 			
-			print("Health added: ", health)
+			print("Health added: ", str(difference))
 			body.get_node("Hud").chat_box.text += "Health added: " + str(difference) + "\n"
 			
 			$heal.play()

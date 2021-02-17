@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/2fort.11.map-260f88157b5d17bb641d0d0fd78d10d1.tres"
+
+[deps]
+
+source_file="res://maps/autosave/2fort.11.map"
+dest_files=[ "res://.import/2fort.11.map-260f88157b5d17bb641d0d0fd78d10d1.tres" ]
+
+[params]
+

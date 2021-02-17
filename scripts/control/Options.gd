@@ -27,8 +27,7 @@ func _on_Settings_pressed():
 	add_child(settings_node)
 	
 func _on_Quit_pressed():
-	get_tree().quit()
-	
+	Console.emit_signal("run_command", "exit")
 	
 	
 	

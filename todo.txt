@@ -13,3 +13,8 @@ TODO:
 	
 	Remember you only need to add the network prefixes (remote, sync, puppet, master)
 	to functions IF you're going to call them through rpc
+
+layer 1 = everything else
+layer 2 = weapon viewmodel
+layer 3 = lights
+layer 4 = player viewmodel
