@@ -1,6 +1,7 @@
 extends Area
 
-var health = 100
+export var health = 100
+export var remove_on_pickup = false
 
 export(Dictionary) var properties setget set_properties
 
@@ -24,6 +25,7 @@ func _on_Health_body_entered(body):
 			
 			$heal.play()
 			$CollisionShape.disabled = true
+			$Respawn.start()
 			hide()
 		
 func _physics_process(delta):
@@ -32,9 +34,9 @@ func _physics_process(delta):
 	var pulse = cos(Global.delta_time * 2) * 0.005
 	translation.y += pulse
 
-func _on_heal_finished():
-	$Respawn.start()
-
 func _on_Respawn_timeout():
-	$CollisionShape.disabled = false
-	show()
+	if remove_on_pickup:
+		queue_free()
+	else:
+		$CollisionShape.disabled = false
+		show()

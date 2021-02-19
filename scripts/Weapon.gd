@@ -8,6 +8,8 @@ var player_node = null
 #Our current animation player
 var anim = null
 
+var muzzle_flash = null
+
 var grab = false
 var grab_target = null
 
@@ -83,7 +85,6 @@ signal weapon_switch
 
 signal change_playermodel_weapon(weapon)
 
-
 #the weapon name that we started reloading
 var da_wep = null
 
@@ -92,6 +93,11 @@ func fire_weapon(damage, bullets, sound):
 	anim.play("fire")
 	fire_hitscan(damage)
 	sound.play()
+	
+	if muzzle_flash != null:
+		muzzle_flash.show()
+		muzzle_flash.get_node("AnimationPlayer").play("fire")
+		muzzle_flash.get_node("Timer").start()
 	
 	if consume_ammo:
 		weapons[weapon_name]["clip"] -= bullets
@@ -147,7 +153,6 @@ func switch_weapon(index):
 		#is our weapon connected?
 		if previous.is_connected("animation_finished", self, "_on_animation_finished"):
 			previous.disconnect("animation_finished", self, "_on_animation_finished")
-			#print(weapon_nodes[pos + index].get_name() + " disconnect")
 		
 	#if the current weapon has an animationplayer
 	if weapon_nodes[pos].has_node("AnimationPlayer"):
@@ -155,7 +160,8 @@ func switch_weapon(index):
 		anim = weapon_nodes[pos].get_node("AnimationPlayer")
 		if !anim.is_connected("animation_finished", self, "_on_animation_finished"):
 			anim.connect("animation_finished", self, "_on_animation_finished")
-		#print(weapon_nodes[pos].get_name() + " connect")
+			
+		muzzle_flash = weapon_nodes[pos].get_node_or_null("muzzle_flash")
 	else:
 		anim = null
 		
@@ -181,15 +187,6 @@ func remove_all_weapons():
 	pos = 0
 		
 	_on_update_weapon_list()
-
-#func all_subnodes(node):
-#	for nodes in node.get_children():
-#		if nodes.get_child_count() > 0:
-#			print("[" + nodes.get_name() + "]")
-#			all_subnodes(nodes)
-#		else:
-#			# Do something
-#			print("- " + nodes.get_name())
 			
 func fire_hitscan(damage):
 	var ray = $RayCast
@@ -318,10 +315,10 @@ func _physics_process(delta):
 				$AnimationPlayer.play("draw")
 			can_fire = true
 			
-	#directional sway
 	if can_fire:
+		#directional sway
 		hitscan.translation = hitscan.translation.linear_interpolate(mouse_accel + hitscan_initpos, sway * delta)
-	
+		
 	#rotational sway
 	hitscan.rotation.y = lerp_angle(hitscan.rotation.y, mouse_accel.x, sway * delta)
 	hitscan.rotation.x = lerp_angle(hitscan.rotation.x, mouse_accel.y, sway * delta)
@@ -335,6 +332,11 @@ func _physics_process(delta):
 	
 	#set the SunRotate's transform the the transform of our weapon node's transform
 	hitscan.get_parent().transform = get_parent().global_transform
+	
+	#if we have a muzzle flash, and the time it has finished, hide it
+	if muzzle_flash != null:
+		if muzzle_flash.get_node("Timer").time_left == 0.0:
+			muzzle_flash.hide()
 	
 	#Used by the player's hud
 	#these are read-only
@@ -486,6 +488,7 @@ func _on_update_weapon_list():
 	
 	emit_signal("change_playermodel_weapon", weapon_name)
 	
+#our weapon related console commands
 const ammo_desc = "Enables/disables the consumption of ammo"
 const ammo_help = "Enables/disables the consumption of ammo"
 func ammo_cmd(command):
@@ -504,6 +507,20 @@ func recoil_cmd(command):
 		recoil = bool(int(command))
 		print("Recoil is set to " + str(recoil))
 		Console.print("Recoil is set to " + str(recoil))
+	else:
+		print("cheats is not set to true!")
+		Console.print("cheats is not set to true!")
+		
+func give_weapon_cmd(command):
+	if network.cheats:
+		var weapon_spawn = load("res://scenes/Entities/WeaponPickup.tscn").instance()
+		weapon_spawn.to_load = command
+		weapon_spawn.remove_on_pickup = true
+		player_node.add_child(weapon_spawn)
+		weapon_spawn.global_transform.origin = player_node.global_transform.origin
+		
+		print("Giving " + command)
+		Console.print("Giving " + command)
 	else:
 		print("cheats is not set to true!")
 		Console.print("cheats is not set to true!")

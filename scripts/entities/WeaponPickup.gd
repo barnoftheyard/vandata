@@ -4,9 +4,12 @@ extends Area
 var weapons = ["pistol", "smg2", "br", "double barrel", "frag"]
 
 export var to_load = ""
+export var remove_on_pickup = false
 
 var weapon = null
 var spinny = null
+
+var muzzle_flash = preload("res://scenes/Weapons/muzzle_flash.tscn")
 
 signal update_weapon_list
 
@@ -45,11 +48,12 @@ func _ready():
 	
 func _physics_process(delta):
 	#spin our model
-	spinny.rotate_y(delta)
+	if spinny != null:
+		spinny.rotate_y(delta)
 	
-	#bounce the model up and down
-	var pulse = cos(Global.delta_time * 2) * 0.005
-	spinny.translation.y += pulse
+		#bounce the model up and down
+		var pulse = cos(Global.delta_time * 2) * 0.005
+		spinny.translation.y += pulse
 
 func add_timer(time):
 	var timer = Timer.new()
@@ -88,13 +92,24 @@ func _on_WeaponPickup_body_entered(body):
 				
 			our_weapon.hide()
 			
-			#add a timer if we need to
+			var m = muzzle_flash.instance()
+			
+			#This is where we construct the full weapon for our weapon node to use
+			#A lot of tweaks are done here, such as timers, muzzle flashes, model moving
 			if to_load == "smg2":
 				our_weapon.add_child(add_timer(0.1))
 			elif to_load == "br":
 				our_weapon.add_child(add_timer(0.1))
+				
+				our_weapon.add_child(m)
+				m.translation = Vector3(0, 0.12, -1.3)
+				m.scale /= 1.5
 			elif to_load == "pistol":
 				our_weapon.translation.y -= 0.5
+				
+				our_weapon.add_child(m)
+				m.translation = Vector3(0, 0.5, -0.8)
+				m.scale /= 2
 				
 				
 			set_all_meshes_layer_mask(our_weapon, 2)
@@ -120,5 +135,8 @@ func _on_WeaponPickup_body_entered(body):
 		$Timer.start()
 
 func _on_Timer_timeout():
-	$CollisionShape.disabled = false
-	show()
+	if remove_on_pickup:
+		queue_free()
+	else:
+		$CollisionShape.disabled = false
+		show()

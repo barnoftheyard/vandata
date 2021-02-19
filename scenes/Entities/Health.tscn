@@ -1,26 +1,32 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://models/health/health.glb" type="PackedScene" id=1]
 [ext_resource path="res://scripts/entities/Health.gd" type="Script" id=2]
 [ext_resource path="res://sounds/Audio/confirmation_001.ogg" type="AudioStream" id=3]
+[ext_resource path="res://models/health/small.glb" type="PackedScene" id=4]
 
 [sub_resource type="BoxShape" id=1]
-extents = Vector3( 0.471315, 0.560311, 0.826019 )
+extents = Vector3( 0.5, 0.5, 0.5 )
 
 [node name="Health" type="Area"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00351214, -0.00590181, -0.00619894 )
 script = ExtResource( 2 )
 
 [node name="health" parent="." instance=ExtResource( 1 )]
+visible = false
 
-[node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.143699, 0 )
-shape = SubResource( 1 )
+[node name="small" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 0.906308, -0.422618, 0, 0.422618, 0.906308, 0, 0, 0 )
 
 [node name="heal" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
 
 [node name="Respawn" type="Timer" parent="."]
 wait_time = 5.0
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.143699, 0 )
+shape = SubResource( 1 )
+
 [connection signal="body_entered" from="." to="." method="_on_Health_body_entered"]
-[connection signal="finished" from="heal" to="." method="_on_heal_finished"]
 [connection signal="timeout" from="Respawn" to="." method="_on_Respawn_timeout"]

@@ -18,7 +18,6 @@ func _ready():
 	$Copyright.text = Global.version + " - " + Global.author
 	
 func _process(delta):
-	get_node("ViewportContainer/Viewport/ussr male").rotate_y(2 * delta)
 	$FlavorText.rect_rotation += 200 * delta
 	
 	if !$VideoPlayer.is_playing():

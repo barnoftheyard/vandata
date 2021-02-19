@@ -103,6 +103,7 @@ volume_db = -4.0
 
 [node name="StepTimer" type="Timer" parent="."]
 wait_time = 0.3
+one_shot = true
 
 [node name="RespawnTimer" type="Timer" parent="."]
 wait_time = 3.0

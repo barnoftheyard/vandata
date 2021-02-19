@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scripts/control/Menu.gd" type="Script" id=1]
 [ext_resource path="res://textures/TestArea.png" type="Texture" id=2]
@@ -9,47 +9,11 @@
 [ext_resource path="res://resources/Buttons/button_normal.tres" type="StyleBox" id=7]
 [ext_resource path="res://resources/Buttons/button_hover.tres" type="StyleBox" id=8]
 [ext_resource path="res://sounds/music/Track 46 (Mission Briefing) - X-Scape.ogg" type="AudioStream" id=9]
-[ext_resource path="res://scenes/Models/ussr male.tscn" type="PackedScene" id=10]
-[ext_resource path="res://textures/rcaf5Tj.png" type="Texture" id=11]
 [ext_resource path="res://resources/Theme.tres" type="Theme" id=12]
 [ext_resource path="res://resources/Panels/new_styleboxflat.tres" type="StyleBox" id=13]
 [ext_resource path="res://videos/title.webm" type="VideoStream" id=14]
 
-[sub_resource type="Environment" id=1]
-background_mode = 1
-background_color = Color( 0.109804, 0.152941, 0.215686, 1 )
-background_energy = 9.33
-ambient_light_color = Color( 0.470588, 0.627451, 0.870588, 1 )
-ambient_light_energy = 2.04
-
-[sub_resource type="World" id=2]
-environment = SubResource( 1 )
-
-[sub_resource type="Animation" id=3]
-resource_name = "spin"
-length = 6.0
-loop = true
-tracks/0/type = "transform"
-tracks/0/path = NodePath("Viewport/ussr male")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = PoolRealArray(  )
-tracks/1/type = "value"
-tracks/1/path = NodePath("Viewport/ussr male:translation")
-tracks/1/interp = 2
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 3, 6 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector3( 0.00210392, -0.638931, -3.00122 ), Vector3( 0.00210392, -0.529351, -3.00122 ), Vector3( 0.00210392, -0.638931, -3.00122 ) ]
-}
-
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=1]
 size = 84
 use_mipmaps = true
 use_filter = true
@@ -85,41 +49,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ViewportContainer" type="ViewportContainer" parent="."]
-visible = false
-show_behind_parent = true
-anchor_right = 1.0
-anchor_bottom = 1.0
-stretch = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Viewport" type="Viewport" parent="ViewportContainer"]
-size = Vector2( 1024, 600 )
-own_world = true
-world = SubResource( 2 )
-handle_input_locally = false
-render_target_update_mode = 0
-
-[node name="Camera" type="Camera" parent="ViewportContainer/Viewport"]
-cull_mask = 524289
-
-[node name="ussr male" parent="ViewportContainer/Viewport" instance=ExtResource( 10 )]
-transform = Transform( 0.551024, -0.175324, 0.815864, 0.0610656, 0.983531, 0.170112, -0.832252, -0.0439144, 0.552656, 0.00210392, -0.638931, -3.00122 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="ViewportContainer"]
-autoplay = "spin"
-anims/spin = SubResource( 3 )
-
-[node name="TextureRect" type="TextureRect" parent="ViewportContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_right = 256.0
-margin_bottom = 360.0
-texture = ExtResource( 11 )
-stretch_mode = 1
-
 [node name="FlavorText" type="Label" parent="."]
 anchor_left = 0.632117
 anchor_top = 0.679877
@@ -154,7 +83,7 @@ __meta__ = {
 [node name="Title" type="Label" parent="ScrollContainer/VBoxContainer"]
 margin_right = 249.0
 margin_bottom = 91.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 1 )
 text = "VANDATA"
 align = 1
 valign = 1

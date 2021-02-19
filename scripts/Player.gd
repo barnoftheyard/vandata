@@ -31,7 +31,7 @@ export var invert_x = -1
 export var invert_y = -1
 
 var inertia = 0.001
-var speed = 16
+var speed = 8
 
 var always_run = true
 var step_time = 0
@@ -165,6 +165,7 @@ remote func bullet_hit(damage, from, bullet_hit_pos, _force_multiplier):			#hand
 
 
 func _ready():
+	Console.connect_node(self)
 	init()
 	
 	#give our weapon node this node path
@@ -181,6 +182,8 @@ func _ready():
 		$Hud.hide()
 		$Camera.hide()
 		weapon.get_node("ViewportContainer").hide()
+		
+	$StepTimer.wait_time = 0.3
 	
 	#we call respawn in first spawn, since it sets up random spawning and death
 	#state values for us
@@ -270,13 +273,14 @@ func _physics_process(delta):
 	var accel
 	if dir.dot(hvel) > 0:		#dot product: get speed, check if speed is above zero
 		
-		if !step_sound.is_playing() and is_on_floor():
-			Global.play_rand(step_sound, steps)
+		if $StepTimer.is_stopped() and is_on_floor():
+			$StepTimer.start()
 		
 		accel = ACCEL
 		is_invul = false
 	else:
-		if step_sound.is_playing() and step_sound.get_playback_position() == 0.0:
+		if !$StepTimer.is_stopped() and $StepTimer.time_left == 0.0:
+			$StepTimer.stop()
 			step_sound.stop()
 			
 		accel = DEACCEL
@@ -351,3 +355,4 @@ func _on_RespawnTimer_timeout():
 	
 func _on_InvulTimer_timeout():
 	is_invul = false
+
