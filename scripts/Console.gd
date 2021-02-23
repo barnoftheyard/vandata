@@ -138,6 +138,7 @@ func _ready():
 	theme = console_theme
 	
 	self.print("You are now playing Vandata. Version " + Global.version + ". Enjoy your stay.")
+	load_autoexec("res://autoexec.cfg")
 
 func _process(_delta):
 	if Input.is_action_just_pressed(input_name):
@@ -210,6 +211,19 @@ func help_cmd(command):
 		var desc = commands[command].get(command + "_desc");
 		if desc != null:
 			self.print(desc);
+			
+func load_autoexec(path):
+	var file = File.new()
+	if file.open(path, File.READ) != OK:
+		print("\"" + path + "\"" + " not found.")
+		self.print("\"" + path + "\"" + " not found.")
+		return
+		
+	var content = file.get_as_text()
+	file.close()
+	
+	for cmd in content.split('\n'):
+		emit_signal("run_command", cmd)
 
 const history_help = "Prints all previously entered commands";
 func history_cmd():

@@ -91,6 +91,18 @@ func create_server(map, server_name, port):
 	# Connect network events
 	get_tree().connect("network_peer_connected", self, "_on_peer_connected")
 	get_tree().connect("network_peer_disconnected", self, "_on_peer_disconnected")
+	
+	var output = []
+	var command = ["-n", "1", "-w", "3", "127.0.0.1:" + str(port)]
+	var command1 = []
+	if OS.has_feature("Windows"):
+		command1.append("%errorlevel%")
+	else:
+		command1.append("$?")
+	OS.execute("ping", command, true, output)
+	OS.execute("echo", command1, true, output)
+	print(output)
+	
 	# Set up an ENet instance
 	var net = NetworkedMultiplayerENet.new()
 	net.create_server(port, MAX_PLAYERS - 1)

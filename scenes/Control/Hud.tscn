@@ -134,47 +134,10 @@ __meta__ = {
 }
 
 [node name="Crosshair" type="Sprite" parent="CenterContainer"]
-self_modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 20, 20 )
 texture = ExtResource( 2 )
 hframes = 8
 vframes = 8
-
-[node name="Line2D" type="Line2D" parent="CenterContainer/Crosshair"]
-position = Vector2( -20, -24 )
-points = PoolVector2Array( 19.9265, 15.8898, 19.9265, -0.110199 )
-width = 2.0
-default_color = Color( 0.415686, 1, 0.25098, 1 )
-
-[node name="Line2D2" type="Line2D" parent="CenterContainer/Crosshair"]
-position = Vector2( -20, -24 )
-points = PoolVector2Array( 11.9265, 23.8898, -4.07349, 23.8898 )
-width = 2.0
-default_color = Color( 0.415686, 1, 0.25098, 1 )
-
-[node name="Line2D3" type="Line2D" parent="CenterContainer/Crosshair"]
-position = Vector2( -20, -24 )
-points = PoolVector2Array( 27.9265, 23.8898, 43.9265, 23.8898 )
-width = 2.0
-default_color = Color( 0.415686, 1, 0.25098, 1 )
-
-[node name="Line2D4" type="Line2D" parent="CenterContainer/Crosshair"]
-position = Vector2( -20, -24 )
-points = PoolVector2Array( 19.9265, 31.8898, 19.9265, 47.8898 )
-width = 2.0
-default_color = Color( 0.415686, 1, 0.25098, 1 )
-
-[node name="Line2D5" type="Line2D" parent="CenterContainer/Crosshair"]
-position = Vector2( -20, -24 )
-points = PoolVector2Array( 19.9265, 22.1398, 19.9265, 26.1398 )
-width = 2.0
-default_color = Color( 0.415686, 1, 0.25098, 1 )
-
-[node name="Line2D6" type="Line2D" parent="CenterContainer/Crosshair"]
-position = Vector2( -20, -24 )
-points = PoolVector2Array( 17.9265, 24.1398, 21.9265, 24.1398 )
-width = 2.0
-default_color = Color( 0.415686, 1, 0.25098, 1 )
 
 [node name="Fps" type="Label" parent="."]
 anchor_left = 0.937

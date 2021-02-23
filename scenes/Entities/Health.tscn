@@ -18,8 +18,9 @@ visible = false
 [node name="small" parent="." instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 0.906308, -0.422618, 0, 0.422618, 0.906308, 0, 0, 0 )
 
-[node name="heal" type="AudioStreamPlayer" parent="."]
+[node name="heal" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource( 3 )
+unit_size = 5.0
 
 [node name="Respawn" type="Timer" parent="."]
 wait_time = 5.0

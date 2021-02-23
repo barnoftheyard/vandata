@@ -65,4 +65,5 @@ draw_pass_1 = SubResource( 4 )
 shape = SubResource( 5 )
 
 [node name="chicken" parent="." instance=ExtResource( 1 )]
+
 [connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]

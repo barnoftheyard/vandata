@@ -334,7 +334,7 @@ func _physics_process(delta):
 	hitscan.get_parent().transform = get_parent().global_transform
 	
 	#if we have a muzzle flash, and the time it has finished, hide it
-	if muzzle_flash != null:
+	if muzzle_flash != null and is_network_master():
 		if muzzle_flash.get_node("Timer").time_left == 0.0:
 			muzzle_flash.hide()
 	
@@ -511,6 +511,7 @@ func recoil_cmd(command):
 		print("cheats is not set to true!")
 		Console.print("cheats is not set to true!")
 		
+const give_weapon_help = "Gives player certain weapon"
 func give_weapon_cmd(command):
 	if network.cheats:
 		var weapon_spawn = load("res://scenes/Entities/WeaponPickup.tscn").instance()

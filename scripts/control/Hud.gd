@@ -7,6 +7,8 @@ var mouse_accel = Vector2()
 onready var chat_box = $VBoxContainer/ChatBox
 var chat_text = ""
 
+var player_list = null
+
 func pain():
 	$PainOverlay.self_modulate.a = 1
 	
@@ -62,9 +64,6 @@ func _process(delta):
 #		mouse_accel + $CenterContainer.rect_pivot_offset, 20 * delta
 #	)
 	
-	if $PainOverlay.self_modulate.a > 0:
-		$PainOverlay.self_modulate.a -= 1 * delta
-	
 	var weapon = get_parent().weapon
 	
 	$HealthMeter.value = get_parent().player_info["health"]
@@ -77,13 +76,15 @@ func _process(delta):
 	else:
 		$Fps.hide()
 	
-	if $PainOverlay.self_modulate.a != 0:
+	#if the pain overlay is visible gradually fade it away until it isn't
+	if $PainOverlay.self_modulate.a > 0:
 		$PainOverlay.self_modulate.a -= delta
 		
 	#Hud update code
 	$AmmoCounter.text = str(weapon.current_ammo)
 	$WeaponName.text = weapon.weapon_name
 	
+	#to make sure the counters don't display "null" as a string
 	if weapon.current_clip != null:
 		$ClipCounter.text = str(weapon.current_clip)
 	else:
@@ -92,10 +93,22 @@ func _process(delta):
 		$AmmoCounter.text = str(weapon.current_ammo)
 	else:
 		$AmmoCounter.text = ""
+	
+	# if our player list doesn't match the network's (something has changed)
+	if player_list != network.player_list:
+		# remove every name from player list UI (not the best method but it works)
+		for child in $PlayerList/VBoxContainer2/Grid.get_children():
+			child.queue_free()
 		
-#	if chat_box.text != chat_text:
-#		_on_ChatBox_draw()
-#		chat_text = chat_box.text
+		# for each player in the network player list, make a new label and set it
+		# as a name in the net work player list
+		for player in network.player_list:
+			var label = Label.new()
+			label.text = network.player_list[player]["name"]
+			$PlayerList/VBoxContainer2/Grid.add_child(label)
+	
+	# set out player list to the network's
+	player_list = network.player_list
 
 
 func _on_LineEdit_text_entered(text):
@@ -139,9 +152,8 @@ func _on_Timer_timeout():
 	
 const hud_desc = "Enables/disables the player HUD"
 const hud_help = "Enables/disables the player HUD"
-func hud_cmd():
-	visible = !visible
-
+func hud_cmd(command):
+	visible = bool(int(command))
 const say_desc = "Talk through player chat"
 const say_help = "Talk through player chat"
 func say_cmd(command):

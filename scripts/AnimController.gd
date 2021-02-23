@@ -14,6 +14,7 @@ var tilt = 0
 onready var player_model = $ussr_male
 onready var anim_tree = player_model.get_node("AnimationTree")
 onready var model_transform = Quat(player_model.transform.basis)
+onready var hitscan = get_parent().get_node("Camera/Weapon").hitscan
 
 enum states {PASSIVE, ARMED}
 
@@ -89,6 +90,7 @@ func _physics_process(delta):
 	anim_run_interp = clamp(anim_run_interp, -1, 1)
 	if dir.dot(hvel) > 0:		#dot product: get speed, check if speed is above zero
 		anim_run_interp += delta * ACCEL		#1 = run
+		hitscan.translation.z += cos(Global.delta_time * get_parent().speed) * 0.015 * anim_run_interp * lerp(1, 0.1, jumpscale)
 	else:
 		anim_run_interp -= delta * ACCEL		#-1 = idle
 			

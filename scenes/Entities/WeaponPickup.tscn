@@ -11,8 +11,9 @@ script = ExtResource( 1 )
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 1 )
 
-[node name="pickup" type="AudioStreamPlayer" parent="."]
+[node name="pickup" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource( 2 )
+unit_size = 5.0
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 5.0

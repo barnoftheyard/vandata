@@ -1,18 +1,31 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
-[sub_resource type="SphereMesh" id=1]
+[ext_resource path="res://textures/balldimpled.png" type="Texture" id=1]
+
+[sub_resource type="PhysicsMaterial" id=4]
+friction = 0.5
+bounce = 1.0
+absorbent = true
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_texture = ExtResource( 1 )
+
+[sub_resource type="SphereMesh" id=2]
+material = SubResource( 1 )
 radius = 0.5
 height = 1.0
 
-[sub_resource type="SphereShape" id=2]
+[sub_resource type="SphereShape" id=3]
 radius = 0.5
 
 [node name="PhysicsBall" type="RigidBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 24.542, 15.076, -20.5481 )
+mass = 5.0
+physics_material_override = SubResource( 4 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
-mesh = SubResource( 1 )
+mesh = SubResource( 2 )
 material/0 = null
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-shape = SubResource( 2 )
+shape = SubResource( 3 )
