@@ -1,8 +1,7 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scripts/control/Menu.gd" type="Script" id=1]
-[ext_resource path="res://textures/TestArea.png" type="Texture" id=2]
-[ext_resource path="res://textures/qodothouse.png" type="Texture" id=3]
+[ext_resource path="res://screenshots/2021_02_21_224144_0.png" type="Texture" id=2]
 [ext_resource path="res://resources/DynamicFonts/conduit.tres" type="DynamicFont" id=4]
 [ext_resource path="res://fonts/devine town/DevineTownLinear.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://resources/Buttons/button_pressed.tres" type="StyleBox" id=6]
@@ -60,19 +59,38 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="BgMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
+volume_db = -2.0
+pitch_scale = 0.5
+
+[node name="AcceptDialog" type="ConfirmationDialog" parent="."]
+margin_right = 160.0
+margin_bottom = 80.0
+theme = ExtResource( 12 )
+window_title = ""
+dialog_text = "Quit now?"
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -256.0
+margin_top = -367.0
 margin_right = 249.0
-grow_horizontal = 0
-grow_vertical = 0
-scroll_horizontal_enabled = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
+margin_right = 249.0
+margin_bottom = 367.0
+grow_horizontal = 0
+grow_vertical = 0
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer"]
 margin_right = 249.0
 margin_bottom = 247.0
 custom_constants/separation = 6
@@ -80,7 +98,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Title" type="Label" parent="ScrollContainer/VBoxContainer"]
+[node name="Title" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 margin_right = 249.0
 margin_bottom = 91.0
 custom_fonts/font = SubResource( 1 )
@@ -91,7 +109,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Multiplayer" type="Button" parent="ScrollContainer/VBoxContainer"]
+[node name="Multiplayer" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 margin_top = 97.0
 margin_right = 249.0
 margin_bottom = 130.0
@@ -105,7 +123,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Host" type="Button" parent="ScrollContainer/VBoxContainer"]
+[node name="Host" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 visible = false
 margin_top = 41.0
 margin_right = 184.0
@@ -119,11 +137,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Join" type="Button" parent="ScrollContainer/VBoxContainer"]
+[node name="Join" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 visible = false
-margin_top = 41.0
-margin_right = 184.0
-margin_bottom = 76.0
+margin_top = 136.0
+margin_right = 249.0
+margin_bottom = 169.0
 custom_styles/hover = ExtResource( 8 )
 custom_styles/pressed = ExtResource( 6 )
 custom_styles/normal = ExtResource( 7 )
@@ -134,7 +152,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="IP" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+[node name="IP" type="PanelContainer" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 visible = false
 margin_top = 82.0
 margin_right = 184.0
@@ -142,25 +160,25 @@ margin_bottom = 120.0
 theme = ExtResource( 12 )
 custom_styles/panel = ExtResource( 13 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/IP"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/IP"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 177.0
 margin_bottom = 31.0
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/IP/HBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/IP/HBoxContainer"]
 margin_top = 5.0
 margin_right = 21.0
 margin_bottom = 19.0
 text = "IP: "
 
-[node name="LineEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/IP/HBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/ScrollContainer/VBoxContainer/IP/HBoxContainer"]
 margin_left = 25.0
 margin_right = 83.0
 margin_bottom = 24.0
 text = "127.0.0.1"
 
-[node name="Port" type="PanelContainer" parent="ScrollContainer/VBoxContainer"]
+[node name="Port" type="PanelContainer" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 visible = false
 margin_top = 82.0
 margin_right = 184.0
@@ -168,35 +186,36 @@ margin_bottom = 120.0
 theme = ExtResource( 12 )
 custom_styles/panel = ExtResource( 13 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer/VBoxContainer/Port"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ScrollContainer/VBoxContainer/Port"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 177.0
 margin_bottom = 31.0
 
-[node name="Label" type="Label" parent="ScrollContainer/VBoxContainer/Port/HBoxContainer"]
+[node name="Label" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer/Port/HBoxContainer"]
 margin_top = 5.0
 margin_right = 34.0
 margin_bottom = 19.0
 text = "Port: "
 
-[node name="LineEdit" type="LineEdit" parent="ScrollContainer/VBoxContainer/Port/HBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="MarginContainer/ScrollContainer/VBoxContainer/Port/HBoxContainer"]
 margin_left = 38.0
 margin_right = 96.0
 margin_bottom = 24.0
 text = "9999"
 
-[node name="JoinServer" type="Button" parent="ScrollContainer/VBoxContainer"]
+[node name="JoinServer" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 visible = false
-margin_top = 41.0
-margin_right = 184.0
-margin_bottom = 61.0
+margin_top = 136.0
+margin_right = 249.0
+margin_bottom = 169.0
 custom_styles/hover = ExtResource( 8 )
 custom_styles/pressed = ExtResource( 6 )
 custom_styles/normal = ExtResource( 7 )
-text = "Join Server"
+custom_fonts/font = ExtResource( 4 )
+text = "JOIN SERVER"
 
-[node name="Singleplayer" type="Button" parent="ScrollContainer/VBoxContainer"]
+[node name="Singleplayer" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 margin_top = 136.0
 margin_right = 249.0
 margin_bottom = 169.0
@@ -208,7 +227,7 @@ disabled = true
 toggle_mode = true
 text = "SINGLE PLAYER"
 
-[node name="Settings" type="Button" parent="ScrollContainer/VBoxContainer"]
+[node name="Settings" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 margin_top = 175.0
 margin_right = 249.0
 margin_bottom = 208.0
@@ -222,7 +241,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Quit" type="Button" parent="ScrollContainer/VBoxContainer"]
+[node name="Quit" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 margin_top = 214.0
 margin_right = 249.0
 margin_bottom = 247.0
@@ -236,71 +255,74 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScrollContainer2" type="ScrollContainer" parent="."]
+[node name="MarginContainer2" type="MarginContainer" parent="."]
 visible = false
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -537.0
-margin_top = -265.0
+margin_left = -474.0
+margin_top = -244.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer2" type="ScrollContainer" parent="MarginContainer2"]
+margin_right = 474.0
+margin_bottom = 244.0
 grow_horizontal = 0
 grow_vertical = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2/ScrollContainer2"]
 margin_right = 400.0
-margin_bottom = 422.0
+margin_bottom = 211.0
 
-[node name="PanelContainer" type="PanelContainer" parent="ScrollContainer2/VBoxContainer"]
-margin_right = 513.0
-margin_bottom = 38.0
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer2/ScrollContainer2/VBoxContainer"]
+margin_right = 458.0
+margin_bottom = 22.0
 theme = ExtResource( 12 )
 custom_styles/panel = ExtResource( 13 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer2/VBoxContainer/PanelContainer"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 506.0
-margin_bottom = 31.0
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2/ScrollContainer2/VBoxContainer/PanelContainer"]
+margin_right = 458.0
+margin_bottom = 22.0
 
-[node name="ServerName" type="Label" parent="ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer"]
-margin_top = 5.0
-margin_right = 86.0
-margin_bottom = 19.0
+[node name="ServerName" type="Label" parent="MarginContainer2/ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer"]
+visible = false
+margin_right = 94.0
+margin_bottom = 22.0
 text = "Server Name:"
 
-[node name="ServerEdit" type="LineEdit" parent="ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer"]
-margin_left = 90.0
-margin_right = 148.0
-margin_bottom = 24.0
+[node name="ServerEdit" type="LineEdit" parent="MarginContainer2/ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer"]
+visible = false
+margin_left = 98.0
+margin_right = 158.0
+margin_bottom = 22.0
 text = "Default"
 
-[node name="Port" type="Label" parent="ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer"]
-margin_left = 152.0
-margin_top = 5.0
-margin_right = 182.0
-margin_bottom = 19.0
+[node name="Port" type="Label" parent="MarginContainer2/ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer"]
+margin_right = 38.0
+margin_bottom = 22.0
 text = "Port:"
 
-[node name="PortEdit" type="LineEdit" parent="ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer"]
-margin_left = 186.0
-margin_right = 244.0
-margin_bottom = 24.0
+[node name="PortEdit" type="LineEdit" parent="MarginContainer2/ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer"]
+margin_left = 42.0
+margin_right = 102.0
+margin_bottom = 22.0
 text = "9999"
 
-[node name="Map" type="Label" parent="ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer"]
-margin_left = 248.0
-margin_top = 5.0
-margin_right = 248.0
-margin_bottom = 19.0
+[node name="Map" type="Label" parent="MarginContainer2/ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer"]
+margin_left = 106.0
+margin_right = 114.0
+margin_bottom = 22.0
 
-[node name="Qodot" type="PanelContainer" parent="ScrollContainer2/VBoxContainer"]
-margin_top = 42.0
-margin_right = 513.0
-margin_bottom = 256.0
+[node name="Qodot" type="PanelContainer" parent="MarginContainer2/ScrollContainer2/VBoxContainer"]
+margin_top = 26.0
+margin_right = 458.0
+margin_bottom = 233.0
 rect_min_size = Vector2( 400, 207 )
 theme = ExtResource( 12 )
 custom_styles/panel = ExtResource( 13 )
@@ -308,124 +330,54 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer2/VBoxContainer/Qodot"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 506.0
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2/ScrollContainer2/VBoxContainer/Qodot"]
+margin_right = 458.0
 margin_bottom = 207.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" type="Button" parent="ScrollContainer2/VBoxContainer/Qodot/HBoxContainer"]
-margin_right = 88.0
-margin_bottom = 200.0
-custom_styles/hover = ExtResource( 8 )
-custom_styles/pressed = ExtResource( 6 )
-custom_styles/normal = ExtResource( 7 )
-text = "qodothouse"
-
-[node name="CenterContainer" type="CenterContainer" parent="ScrollContainer2/VBoxContainer/Qodot/HBoxContainer"]
-margin_left = 92.0
-margin_right = 412.0
-margin_bottom = 200.0
-
-[node name="TextureRect" type="TextureRect" parent="ScrollContainer2/VBoxContainer/Qodot/HBoxContainer/CenterContainer"]
-margin_right = 320.0
-margin_bottom = 200.0
-rect_min_size = Vector2( 320, 200 )
-texture = ExtResource( 3 )
-expand = true
-stretch_mode = 5
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="ScrollContainer2/VBoxContainer/Qodot/HBoxContainer"]
-margin_left = 416.0
-margin_right = 488.0
-margin_bottom = 200.0
-
-[node name="Label" type="Label" parent="ScrollContainer2/VBoxContainer/Qodot/HBoxContainer/VBoxContainer2"]
-margin_right = 72.0
-margin_bottom = 65.0
-text = "Showcases
-Qodot map
-loading,
-"
-
-[node name="TestArea" type="PanelContainer" parent="ScrollContainer2/VBoxContainer"]
-margin_top = 260.0
-margin_right = 513.0
-margin_bottom = 474.0
-rect_min_size = Vector2( 400, 207 )
-theme = ExtResource( 12 )
-custom_styles/panel = ExtResource( 13 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer2/VBoxContainer/TestArea"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 506.0
+[node name="Button" type="Button" parent="MarginContainer2/ScrollContainer2/VBoxContainer/Qodot/HBoxContainer"]
+margin_right = 50.0
 margin_bottom = 207.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="TestAreaButton" type="Button" parent="ScrollContainer2/VBoxContainer/TestArea/HBoxContainer"]
-margin_right = 68.0
-margin_bottom = 200.0
 custom_styles/hover = ExtResource( 8 )
 custom_styles/pressed = ExtResource( 6 )
 custom_styles/normal = ExtResource( 7 )
-text = "TestArea"
+text = "Qodot"
 
-[node name="CenterContainer" type="CenterContainer" parent="ScrollContainer2/VBoxContainer/TestArea/HBoxContainer"]
-margin_left = 72.0
-margin_right = 392.0
-margin_bottom = 200.0
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer2/ScrollContainer2/VBoxContainer/Qodot/HBoxContainer"]
+margin_left = 54.0
+margin_right = 374.0
+margin_bottom = 207.0
 
-[node name="TextureRect" type="TextureRect" parent="ScrollContainer2/VBoxContainer/TestArea/HBoxContainer/CenterContainer"]
+[node name="TextureRect" type="TextureRect" parent="MarginContainer2/ScrollContainer2/VBoxContainer/Qodot/HBoxContainer/CenterContainer"]
+margin_top = 3.0
 margin_right = 320.0
-margin_bottom = 200.0
+margin_bottom = 203.0
 rect_min_size = Vector2( 320, 200 )
 texture = ExtResource( 2 )
 expand = true
 stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer2/VBoxContainer/TestArea/HBoxContainer"]
-margin_left = 396.0
-margin_right = 499.0
-margin_bottom = 200.0
+[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer2/ScrollContainer2/VBoxContainer/Qodot/HBoxContainer"]
+margin_left = 378.0
+margin_right = 458.0
+margin_bottom = 207.0
 
-[node name="Label" type="Label" parent="ScrollContainer2/VBoxContainer/TestArea/HBoxContainer/VBoxContainer"]
-margin_right = 103.0
-margin_bottom = 99.0
-text = "A test area that 
-serves as a toy
-box for features
-implemented in
-the game.
+[node name="Label" type="Label" parent="MarginContainer2/ScrollContainer2/VBoxContainer/Qodot/HBoxContainer/VBoxContainer2"]
+margin_right = 80.0
+margin_bottom = 73.0
+text = "Showcases
+Qodot map
+loading,
 "
 
-[node name="BgMusic" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 9 )
-volume_db = -2.0
-pitch_scale = 0.5
-
-[node name="AcceptDialog" type="ConfirmationDialog" parent="."]
-margin_right = 160.0
-margin_bottom = 80.0
-theme = ExtResource( 12 )
-window_title = ""
-dialog_text = "Quit now?"
-
-[connection signal="toggled" from="ScrollContainer/VBoxContainer/Multiplayer" to="." method="_on_Multiplayer_toggled"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/Host" to="." method="_on_Host_pressed"]
-[connection signal="toggled" from="ScrollContainer/VBoxContainer/Join" to="." method="_on_Join_toggled"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/JoinServer" to="." method="_on_JoinServer_pressed"]
-[connection signal="toggled" from="ScrollContainer/VBoxContainer/Singleplayer" to="." method="_on_Singleplayer_toggled"]
-[connection signal="pressed" from="ScrollContainer/VBoxContainer/Settings" to="." method="_on_Settings_pressed"]
-[connection signal="toggled" from="ScrollContainer/VBoxContainer/Quit" to="." method="_on_Quit_toggled"]
-[connection signal="pressed" from="ScrollContainer2/VBoxContainer/Qodot/HBoxContainer/Button" to="." method="_on_Button_pressed"]
-[connection signal="pressed" from="ScrollContainer2/VBoxContainer/TestArea/HBoxContainer/TestAreaButton" to="." method="_on_TestAreaButton_pressed"]
 [connection signal="confirmed" from="AcceptDialog" to="." method="_on_AcceptDialog_confirmed"]
+[connection signal="toggled" from="MarginContainer/ScrollContainer/VBoxContainer/Multiplayer" to="." method="_on_Multiplayer_toggled"]
+[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/Host" to="." method="_on_Host_pressed"]
+[connection signal="toggled" from="MarginContainer/ScrollContainer/VBoxContainer/Join" to="." method="_on_Join_toggled"]
+[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/JoinServer" to="." method="_on_JoinServer_pressed"]
+[connection signal="toggled" from="MarginContainer/ScrollContainer/VBoxContainer/Singleplayer" to="." method="_on_Singleplayer_toggled"]
+[connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/Settings" to="." method="_on_Settings_pressed"]
+[connection signal="toggled" from="MarginContainer/ScrollContainer/VBoxContainer/Quit" to="." method="_on_Quit_toggled"]
+[connection signal="pressed" from="MarginContainer2/ScrollContainer2/VBoxContainer/Qodot/HBoxContainer/Button" to="." method="_on_Button_pressed"]

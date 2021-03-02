@@ -16,6 +16,10 @@ func _on_Player_unpaused():
 	$Close.play()
 	$AnimationPlayer.play_backwards("fade")
 	
+func _process(_delta):
+	if !Global.is_paused and !$AnimationPlayer.is_playing():
+		queue_free()
+	
 func _on_Resume_pressed():
 	Global.is_paused = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -28,9 +32,11 @@ func _on_Settings_pressed():
 	
 func _on_Quit_pressed():
 	Console.emit_signal("run_command", "exit")
+
+func _on_Disconnect_pressed():
+	get_tree().change_scene("res://scenes/Control/Menu.tscn")
+	get_node("/root/characters").queue_free()
+	get_tree().set_network_peer(null)
 	
-	
-	
-func _process(_delta):
-	if !Global.is_paused and !$AnimationPlayer.is_playing():
-		queue_free()
+	Console.emit_signal("open_console")
+	network.console_msg("Connection to the server ended.")

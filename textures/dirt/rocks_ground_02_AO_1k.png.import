@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/qodothouse.png-25e68a533e896a6444d5d16238356bb2.s3tc.stex"
-path.etc2="res://.import/qodothouse.png-25e68a533e896a6444d5d16238356bb2.etc2.stex"
+path.s3tc="res://.import/rocks_ground_02_AO_1k.png-b787de3568f9f425b4fdf5c896378fa7.s3tc.stex"
+path.etc2="res://.import/rocks_ground_02_AO_1k.png-b787de3568f9f425b4fdf5c896378fa7.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://textures/qodothouse.png"
-dest_files=[ "res://.import/qodothouse.png-25e68a533e896a6444d5d16238356bb2.s3tc.stex", "res://.import/qodothouse.png-25e68a533e896a6444d5d16238356bb2.etc2.stex" ]
+source_file="res://textures/dirt/rocks_ground_02_AO_1k.png"
+dest_files=[ "res://.import/rocks_ground_02_AO_1k.png-b787de3568f9f425b4fdf5c896378fa7.s3tc.stex", "res://.import/rocks_ground_02_AO_1k.png-b787de3568f9f425b4fdf5c896378fa7.etc2.stex" ]
 
 [params]
 
@@ -25,7 +25,7 @@ flags/repeat=true
 flags/filter=true
 flags/mipmaps=true
 flags/anisotropic=false
-flags/srgb=1
+flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false

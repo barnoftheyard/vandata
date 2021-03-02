@@ -12,7 +12,7 @@
 layers = 8
 
 [node name="hand_r" type="BoneAttachment" parent="Armature/Skeleton" index="1"]
-transform = Transform( -0.99928, 0.0343796, -0.0160331, -0.0183891, -0.0693457, 0.997423, 0.0331791, 0.997, 0.0699279, -0.124334, 1.23763, 0.382912 )
+transform = Transform( -0.99928, 0.0343796, -0.0160331, -0.0183891, -0.0693457, 0.997423, 0.0331791, 0.997, 0.0699279, -0.124334, 1.24647, 0.384386 )
 bone_name = "hand_r"
 
 [node name="helper" type="Spatial" parent="Armature/Skeleton/hand_r" index="0"]
@@ -43,9 +43,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 tree_root = ExtResource( 1 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/Blend3/blend_amount = 1.0
-parameters/aim/blend_amount = 1.0
+parameters/Blend3/blend_amount = -1.0
+parameters/aim/blend_amount = 0.0
+parameters/hurt/blend_amount = 0.0
 parameters/speed/scale = 1.0
-parameters/stance/blend_amount = 0.0
 parameters/strafe/add_amount = 0.0
 parameters/strafe_dir/blend_amount = 0.0

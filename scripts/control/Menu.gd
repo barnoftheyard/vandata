@@ -11,7 +11,7 @@ var server = null
 var selected_map = null
 var selected_map_name = null
 
-onready var map_text = $ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer/Map
+onready var map_text = $MarginContainer2/ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer/Map
 
 
 func _ready():
@@ -46,28 +46,28 @@ func _on_Singleplayer_toggled(button_pressed):
 	if button_pressed:
 		Global.game_mode = Global.game_modes.SINGLEPLAYER
 		
-		$ScrollContainer/VBoxContainer/Multiplayer.pressed = false
-		$ScrollContainer2.show()
+		$MarginContainer/ScrollContainer/VBoxContainer/Multiplayer.pressed = false
+		$MarginContainer2.show()
 	else:
 		Global.game_mode = null
 		
-		$ScrollContainer2.hide()
+		$MarginContainer2.hide()
 
 
 func _on_Multiplayer_toggled(button_pressed):
 	if button_pressed:
 		Global.game_mode = Global.game_modes.MULTIPLAYER
 		
-		$ScrollContainer/VBoxContainer/Singleplayer.pressed = false
-		$ScrollContainer2.show()
-		$ScrollContainer/VBoxContainer/Host.show()
-		$ScrollContainer/VBoxContainer/Join.show()
+		$MarginContainer/ScrollContainer/VBoxContainer/Singleplayer.pressed = false
+		$MarginContainer2.show()
+		$MarginContainer/ScrollContainer/VBoxContainer/Host.show()
+		$MarginContainer/ScrollContainer/VBoxContainer/Join.show()
 	else:
 		Global.game_mode = null
 		
-		$ScrollContainer2.hide()
-		$ScrollContainer/VBoxContainer/Host.hide()
-		$ScrollContainer/VBoxContainer/Join.hide()
+		$MarginContainer2.hide()
+		$MarginContainer/ScrollContainer/VBoxContainer/Host.hide()
+		$MarginContainer/ScrollContainer/VBoxContainer/Join.hide()
 
 
 func _on_Host_pressed():
@@ -75,8 +75,8 @@ func _on_Host_pressed():
 	if selected_map != null:
 		#network.server_info.name = $ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer/ServerEdit.text
 		#network.server_info.max_players = 32
-		var port = int($ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer/PortEdit.text)
-		var server_name = $ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer/ServerEdit.text
+		var port = int($MarginContainer2/ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer/PortEdit.text)
+		var server_name = $MarginContainer2/ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer/ServerEdit.text
 	
 		# And create the server, using the function previously added into the code
 		network.create_server(selected_map, server_name, port)
@@ -88,21 +88,21 @@ func _on_ready_to_play():
 func _on_Join_toggled(button_pressed):
 
 	if button_pressed:
-		$ScrollContainer2.hide()
-		$ScrollContainer/VBoxContainer/IP.show()
-		$ScrollContainer/VBoxContainer/Port.show()
-		$ScrollContainer/VBoxContainer/JoinServer.show()
+		$MarginContainer2.hide()
+		$MarginContainer/ScrollContainer/VBoxContainer/IP.show()
+		$MarginContainer/ScrollContainer/VBoxContainer/Port.show()
+		$MarginContainer/ScrollContainer/VBoxContainer/JoinServer.show()
 	else:
-		$ScrollContainer2.show()
-		$ScrollContainer/VBoxContainer/IP.hide()
-		$ScrollContainer/VBoxContainer/Port.hide()
-		$ScrollContainer/VBoxContainer/JoinServer.hide()
+		$MarginContainer2.show()
+		$MarginContainer/ScrollContainer/VBoxContainer/IP.hide()
+		$MarginContainer/ScrollContainer/VBoxContainer/Port.hide()
+		$MarginContainer/ScrollContainer/VBoxContainer/JoinServer.hide()
 
 
 func _on_JoinServer_pressed():
 	selected_map = null
-	var port = int($ScrollContainer/VBoxContainer/Port/HBoxContainer/LineEdit.text)
-	var ip = $ScrollContainer/VBoxContainer/IP/HBoxContainer/LineEdit.text
+	var port = int($MarginContainer/ScrollContainer/VBoxContainer/Port/HBoxContainer/LineEdit.text)
+	var ip = $MarginContainer/ScrollContainer/VBoxContainer/IP/HBoxContainer/LineEdit.text
 	network.join_server(ip, port)
 
 func _on_Quit_toggled(button_pressed):

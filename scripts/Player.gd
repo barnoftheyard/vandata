@@ -91,8 +91,9 @@ func init():
 	speed = RUN_SPEED
 	#add our initial player info, under the node name (which is our network ID), to the server list
 	network.rpc("send_player_data", name, player_info)
+	network.rpc("console_msg", "Player " + player_info["name"] + " connected to server.")
 	
-master func death():
+func death():
 	is_dead = true
 	
 	Global.is_paused = true
@@ -139,28 +140,31 @@ func damage(amount):
 		player_info["health"] -= amount
 		$Hud.pain()
 			
+		$AnimController.hurt = 1
 		Global.play_rand($Pain, pain_sounds)
 		
 		
-remote func bullet_hit(damage, from, bullet_hit_pos, _force_multiplier):			#handles how bullets push the prop
+remotesync func bullet_hit(damage, from, bullet_hit_pos, _force_multiplier):			#handles how bullets push the prop
 	var direction_vect = global_transform.origin - bullet_hit_pos
 	direction_vect = direction_vect.normalized()
 	damage(damage)
+	
+	from = get_tree().get_rpc_sender_id()
+	var from_str = str(from)
 	
 	#if we got killed handle the score
 	if player_info["health"] <= 0 and !is_dead:
 		
 		#If our killer is a player
-		if from in network.player_list:
-			network.console_msg(player_info["name"] + " was killed by " + 
-			network.player_list[from]["name"])
-			$Hud/VBoxContainer/ChatBox.text += "\n" + "You got killed by " + network.player_list[from]["name"]
+		if from_str in network.player_list:
+			network.rpc("console_msg", player_info["name"] + " was killed by " + 
+			network.player_list[from_str]["name"])
+#			$Hud/VBoxContainer/ChatBox.text += "\n" + "You got killed by " + network.player_list[from]["name"]
+
+			rpc_id(from, "give_kill")
 			
-			#network.rpc("send_player_data", from, network.player_list[from]["kills"] + 1)
-			var killer = get_node("root/characters/" + from) 
-			var killer_info = killer.player_info
-			killer_info["kills"] += 1
-			killer.rset_id(int(from), "player_info", killer_info)
+			#network.send_player_data(from, killer.player_info)
+			
 		#$Hud/VBoxContainer/ChatBox.rset_id(from, "text", "You killed " + player_info["name"] + "!")
 		#if it isn't (like a map hazard)
 #		else:
@@ -169,6 +173,9 @@ remote func bullet_hit(damage, from, bullet_hit_pos, _force_multiplier):			#hand
 #			$Hud/ChatBox.text += "\n" + "You got killed by " + from.name
 			
 		#killer.get_node("Hud/ChatBox").text = "\n" + "You killed " + player_info["name"]
+		
+remote func give_kill():
+	player_info["kills"] += 1
 
 
 func _ready():
@@ -222,7 +229,7 @@ func _physics_process(delta):
 	
 	dir = Vector3()			#keep this, it resets and prevents continuous player movement
 	
-	if !Global.is_paused and is_network_master():
+	if !Global.is_paused and !is_dead and is_network_master():
 		
 		if camera_mode and self.is_inside_tree():					#FPS
 			cam = camera.get_global_transform()
@@ -335,7 +342,7 @@ func _physics_process(delta):
 	
 	# Update the position and rotation over network
 	# If this character is controlled by the actual player - send it's position and rotation
-	if $controller.has_method("is_player") or $controller.has_method("has_bot"):
+	if $controller.has_method("is_player"):
 		# And only transmit, if the characters node has more than 1 player
 		if get_parent().get_child_count() > 1:
 			

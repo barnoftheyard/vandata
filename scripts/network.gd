@@ -92,16 +92,10 @@ func create_server(map, server_name, port):
 	get_tree().connect("network_peer_connected", self, "_on_peer_connected")
 	get_tree().connect("network_peer_disconnected", self, "_on_peer_disconnected")
 	
-	var output = []
-	var command = ["-n", "1", "-w", "3", "127.0.0.1:" + str(port)]
-	var command1 = []
-	if OS.has_feature("Windows"):
-		command1.append("%errorlevel%")
-	else:
-		command1.append("$?")
-	OS.execute("ping", command, true, output)
-	OS.execute("echo", command1, true, output)
-	print(output)
+#	var command = ["-n", "1", "-w", "3", "127.0.0.1"]
+#	if OS.execute("ping", command, true) != 1:
+#		console_msg("Server already running!")
+#		return
 	
 	# Set up an ENet instance
 	var net = NetworkedMultiplayerENet.new()
@@ -177,11 +171,6 @@ func remove_player(id):
 	
 
 remotesync func send_player_data(id, player_info):
-	#for first time data initialization, say the player connected to the server
-	if !player_list.has(id):
-		player_list[id] = player_info
-		console_msg("Player " + player_list[str(id)]["name"] + " connected to server.")
-		
 	player_list[id] = player_info
 	
 remotesync func console_msg(text):
@@ -229,3 +218,6 @@ const kick_help = "Kicks a player from the server"
 func kick_cmd(command):
 	if command != null:
 		rpc("kick_player", command)
+		
+func host_cmd(command):
+	call_deferred("create_server", "res://scenes/Qodot.tscn", "", int(command))

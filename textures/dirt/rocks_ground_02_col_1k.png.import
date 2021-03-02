@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/qodothouse.png-25e68a533e896a6444d5d16238356bb2.s3tc.stex"
-path.etc2="res://.import/qodothouse.png-25e68a533e896a6444d5d16238356bb2.etc2.stex"
+path.s3tc="res://.import/rocks_ground_02_col_1k.png-8cf5d0da404a0f803b353fd65553bec6.s3tc.stex"
+path.etc2="res://.import/rocks_ground_02_col_1k.png-8cf5d0da404a0f803b353fd65553bec6.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://textures/qodothouse.png"
-dest_files=[ "res://.import/qodothouse.png-25e68a533e896a6444d5d16238356bb2.s3tc.stex", "res://.import/qodothouse.png-25e68a533e896a6444d5d16238356bb2.etc2.stex" ]
+source_file="res://textures/dirt/rocks_ground_02_col_1k.png"
+dest_files=[ "res://.import/rocks_ground_02_col_1k.png-8cf5d0da404a0f803b353fd65553bec6.s3tc.stex", "res://.import/rocks_ground_02_col_1k.png-8cf5d0da404a0f803b353fd65553bec6.etc2.stex" ]
 
 [params]
 

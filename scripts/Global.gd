@@ -5,7 +5,7 @@ extends Node
 #as you can to avoid iteration times stopping you from shipping your game
 #properties are higher level
 
-var version = "0.1.0 Alpha"
+var version = "0.2.0 Alpha"
 var author = "barnoftheyard"
 
 enum game_modes {SINGLEPLAYER, MULTIPLAYER}

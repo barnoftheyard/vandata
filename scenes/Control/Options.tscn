@@ -75,16 +75,23 @@ __meta__ = {
 }
 
 [node name="Resume" parent="VBoxContainer" instance=ExtResource( 1 )]
-margin_bottom = 87.0
+margin_bottom = 64.0
 
 [node name="Settings" parent="VBoxContainer" instance=ExtResource( 1 )]
-margin_top = 91.0
-margin_bottom = 178.0
+margin_top = 68.0
+margin_bottom = 132.0
 text = "SETTINGS"
 
+[node name="Disconnect" parent="VBoxContainer" instance=ExtResource( 1 )]
+margin_top = 136.0
+margin_bottom = 200.0
+text = "DISCONNECT"
+
 [node name="Quit" parent="VBoxContainer" instance=ExtResource( 1 )]
-margin_top = 182.0
+margin_top = 204.0
 text = "QUIT"
+
 [connection signal="pressed" from="VBoxContainer/Resume" to="." method="_on_Resume_pressed"]
 [connection signal="pressed" from="VBoxContainer/Settings" to="." method="_on_Settings_pressed"]
+[connection signal="pressed" from="VBoxContainer/Disconnect" to="." method="_on_Disconnect_pressed"]
 [connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_Quit_pressed"]

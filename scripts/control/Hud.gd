@@ -126,7 +126,8 @@ func _on_LineEdit_text_entered(text):
 remotesync func update_chat(new_text):
 	var the_text = network.player_list[str(get_tree().get_rpc_sender_id())]["name"] + ": " + new_text
 	$VBoxContainer/ChatBox.text += the_text + '\n'
-	print(the_text)
+	$VBoxContainer/ChatBox.rset("text", the_text + '\n')
+	network.console_msg(the_text)
 	
 #func list_change():
 #	for c in $PlayerList/VBoxContainer2/Grid.get_children():

@@ -16,7 +16,7 @@ animation = "strafe R -loop"
 animation = "aim"
 
 [sub_resource type="AnimationNodeAnimation" id=6]
-animation = "idle -loop"
+animation = "hurt -loop"
 
 [sub_resource type="AnimationNodeAnimation" id=7]
 animation = "idle -loop"
@@ -27,20 +27,20 @@ animation = "idle -loop"
 filter_enabled = true
 filters = [ "Armature/Skeleton:chest", "Armature/Skeleton:coller_l", "Armature/Skeleton:coller_r", "Armature/Skeleton:fingers_l", "Armature/Skeleton:fingers_r", "Armature/Skeleton:hand_l", "Armature/Skeleton:hand_r", "Armature/Skeleton:head", "Armature/Skeleton:lower_arm_l", "Armature/Skeleton:lower_arm_r", "Armature/Skeleton:lower_thumb_l", "Armature/Skeleton:lower_thumb_r", "Armature/Skeleton:neck", "Armature/Skeleton:spine", "Armature/Skeleton:upper_arm_l", "Armature/Skeleton:upper_arm_r", "Armature/Skeleton:upper_thumb_l", "Armature/Skeleton:upper_thumb_r" ]
 
-[sub_resource type="AnimationNodeTimeScale" id=10]
-
-[sub_resource type="AnimationNodeBlend2" id=11]
+[sub_resource type="AnimationNodeBlend2" id=10]
 filter_enabled = true
-filters = [ "Armature/Skeleton:foot_l", "Armature/Skeleton:foot_r", "Armature/Skeleton:leg_ik_l", "Armature/Skeleton:leg_ik_r", "Armature/Skeleton:pull_target_l", "Armature/Skeleton:pull_target_r", "Armature/Skeleton:shin_l", "Armature/Skeleton:shin_r", "Armature/Skeleton:thigh_l", "Armature/Skeleton:thigh_r", "Armature/Skeleton:toes_l", "Armature/Skeleton:toes_r" ]
+filters = [ "Armature/Skeleton:chest", "Armature/Skeleton:head", "Armature/Skeleton:neck", "Armature/Skeleton:spine" ]
+
+[sub_resource type="AnimationNodeTimeScale" id=11]
 
 [sub_resource type="AnimationNodeAdd2" id=12]
 
 [sub_resource type="AnimationNodeBlend2" id=13]
 
 [resource]
-graph_offset = Vector2( -361.193, 189.5 )
+graph_offset = Vector2( 102.27, 217 )
 nodes/Animation/node = SubResource( 7 )
-nodes/Animation/position = Vector2( -660, 80 )
+nodes/Animation/position = Vector2( -500, 160 )
 "nodes/Animation 2/node" = SubResource( 1 )
 "nodes/Animation 2/position" = Vector2( -580, 320 )
 "nodes/Animation 3/node" = SubResource( 2 )
@@ -52,18 +52,18 @@ nodes/Animation/position = Vector2( -660, 80 )
 "nodes/Animation 6/node" = SubResource( 5 )
 "nodes/Animation 6/position" = Vector2( 220, 440 )
 "nodes/Animation 7/node" = SubResource( 6 )
-"nodes/Animation 7/position" = Vector2( -660, 200 )
+"nodes/Animation 7/position" = Vector2( 480, 380 )
 nodes/Blend3/node = SubResource( 8 )
 nodes/Blend3/position = Vector2( -200, 240 )
 nodes/aim/node = SubResource( 9 )
 nodes/aim/position = Vector2( 480, 200 )
-nodes/output/position = Vector2( 900, 280 )
-nodes/speed/node = SubResource( 10 )
-nodes/speed/position = Vector2( 720, 280 )
-nodes/stance/node = SubResource( 11 )
-nodes/stance/position = Vector2( -460, 80 )
+nodes/hurt/node = SubResource( 10 )
+nodes/hurt/position = Vector2( 700, 260 )
+nodes/output/position = Vector2( 1080, 280 )
+nodes/speed/node = SubResource( 11 )
+nodes/speed/position = Vector2( 920, 280 )
 nodes/strafe/node = SubResource( 12 )
 nodes/strafe/position = Vector2( 200, 240 )
 nodes/strafe_dir/node = SubResource( 13 )
 nodes/strafe_dir/position = Vector2( 20, 380 )
-node_connections = [ "speed", 0, "aim", "output", 0, "speed", "aim", 0, "strafe", "aim", 1, "Animation 6", "strafe", 0, "Blend3", "strafe", 1, "strafe_dir", "Blend3", 0, "stance", "Blend3", 1, "Animation 2", "Blend3", 2, "Animation 3", "stance", 0, "Animation", "stance", 1, "Animation 7", "strafe_dir", 0, "Animation 4", "strafe_dir", 1, "Animation 5" ]
+node_connections = [ "speed", 0, "hurt", "output", 0, "speed", "aim", 0, "strafe", "aim", 1, "Animation 6", "hurt", 0, "aim", "hurt", 1, "Animation 7", "strafe", 0, "Blend3", "strafe", 1, "strafe_dir", "Blend3", 0, "Animation", "Blend3", 1, "Animation 2", "Blend3", 2, "Animation 3", "strafe_dir", 0, "Animation 4", "strafe_dir", 1, "Animation 5" ]

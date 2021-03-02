@@ -220,6 +220,11 @@ func fire_hitscan(damage):
 			
 			if c != Vector3.UP:
 				b.look_at(c, Vector3.UP)
+				
+		elif body is CSGShape:
+			var hole = load("res://scenes/BulletHole.tscn").instance()
+			body.add_child(hole)
+			hole.global_transform.origin = ray.get_collision_point()
 			
 func use_hitscan():
 	var ray = $UseCast
@@ -334,7 +339,7 @@ func _physics_process(delta):
 	hitscan.get_parent().transform = get_parent().global_transform
 	
 	#if we have a muzzle flash, and the time it has finished, hide it
-	if muzzle_flash != null and is_network_master():
+	if muzzle_flash != null and weapon_num > -1 and is_network_master():
 		if muzzle_flash.get_node("Timer").time_left == 0.0:
 			muzzle_flash.hide()
 	
@@ -486,6 +491,7 @@ func _on_update_weapon_list():
 	else:
 		weapon_name = ""
 	
+	#goes to animation controller
 	emit_signal("change_playermodel_weapon", weapon_name)
 	
 #our weapon related console commands

@@ -10,6 +10,7 @@ var jumpscale = 0
 var anim_run_interp = 0			#KEEP THIS, IT DOES THE INERTIA OF THE ANIMATIONS
 
 var tilt = 0
+var hurt = 0
 
 onready var player_model = $ussr_male
 onready var anim_tree = player_model.get_node("AnimationTree")
@@ -36,7 +37,7 @@ func _ready():
 	anim_tree.set("parameters/aim/blend_amount", 0)
 	
 	#if we are master and not a bot
-	if is_network_master() and get_parent().is_player:
+	if is_network_master() and get_parent().get_node("controller").has_method("is_player"):
 		player_model.get_node("Armature/Skeleton/USSR_Male").set_layer_mask(8)
 	else:
 		player_model.get_node("Armature/Skeleton/USSR_Male").set_layer_mask(9)
@@ -98,6 +99,12 @@ func _physics_process(delta):
 	
 	tilt = -clamp(get_parent().get_node("Camera").rotation_degrees.x, -65, 65)
 	$ussr_male/Armature/Skeleton/tilt.rotation_degrees.x = tilt
+	
+	if hurt > 0:
+		anim_tree.set("parameters/hurt/blend_amount", hurt)
+		hurt -= 10 * delta
+	else:
+		anim_tree.set("parameters/hurt/blend_amount", 0)
 	
 remotesync func network_update(new_anim_strafe_interp, new_anim_strafe_dir_interp,
 	new_jumpscale, new_anim_run_interp, new_tilt):
