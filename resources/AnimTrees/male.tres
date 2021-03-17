@@ -25,7 +25,7 @@ animation = "idle -loop"
 
 [sub_resource type="AnimationNodeBlend2" id=9]
 filter_enabled = true
-filters = [ "Armature/Skeleton:chest", "Armature/Skeleton:coller_l", "Armature/Skeleton:coller_r", "Armature/Skeleton:fingers_l", "Armature/Skeleton:fingers_r", "Armature/Skeleton:hand_l", "Armature/Skeleton:hand_r", "Armature/Skeleton:head", "Armature/Skeleton:lower_arm_l", "Armature/Skeleton:lower_arm_r", "Armature/Skeleton:lower_thumb_l", "Armature/Skeleton:lower_thumb_r", "Armature/Skeleton:neck", "Armature/Skeleton:spine", "Armature/Skeleton:upper_arm_l", "Armature/Skeleton:upper_arm_r", "Armature/Skeleton:upper_thumb_l", "Armature/Skeleton:upper_thumb_r" ]
+filters = [ "Armature/Skeleton:chest", "Armature/Skeleton:coller._l", "Armature/Skeleton:coller._r", "Armature/Skeleton:coller_l", "Armature/Skeleton:coller_r", "Armature/Skeleton:fingers._l", "Armature/Skeleton:fingers._r", "Armature/Skeleton:fingers_l", "Armature/Skeleton:fingers_r", "Armature/Skeleton:hand._l", "Armature/Skeleton:hand._r", "Armature/Skeleton:hand_l", "Armature/Skeleton:hand_r", "Armature/Skeleton:head", "Armature/Skeleton:lower_arm._l", "Armature/Skeleton:lower_arm._r", "Armature/Skeleton:lower_arm_l", "Armature/Skeleton:lower_arm_r", "Armature/Skeleton:lower_thumb._l", "Armature/Skeleton:lower_thumb._r", "Armature/Skeleton:lower_thumb_l", "Armature/Skeleton:lower_thumb_r", "Armature/Skeleton:neck", "Armature/Skeleton:spine", "Armature/Skeleton:upper_arm._l", "Armature/Skeleton:upper_arm._r", "Armature/Skeleton:upper_arm_l", "Armature/Skeleton:upper_arm_r", "Armature/Skeleton:upper_thumb._l", "Armature/Skeleton:upper_thumb._r", "Armature/Skeleton:upper_thumb_l", "Armature/Skeleton:upper_thumb_r" ]
 
 [sub_resource type="AnimationNodeBlend2" id=10]
 filter_enabled = true
@@ -38,7 +38,7 @@ filters = [ "Armature/Skeleton:chest", "Armature/Skeleton:head", "Armature/Skele
 [sub_resource type="AnimationNodeBlend2" id=13]
 
 [resource]
-graph_offset = Vector2( 102.27, 217 )
+graph_offset = Vector2( -647.174, 197.5 )
 nodes/Animation/node = SubResource( 7 )
 nodes/Animation/position = Vector2( -500, 160 )
 "nodes/Animation 2/node" = SubResource( 1 )
@@ -66,4 +66,4 @@ nodes/strafe/node = SubResource( 12 )
 nodes/strafe/position = Vector2( 200, 240 )
 nodes/strafe_dir/node = SubResource( 13 )
 nodes/strafe_dir/position = Vector2( 20, 380 )
-node_connections = [ "speed", 0, "hurt", "output", 0, "speed", "aim", 0, "strafe", "aim", 1, "Animation 6", "hurt", 0, "aim", "hurt", 1, "Animation 7", "strafe", 0, "Blend3", "strafe", 1, "strafe_dir", "Blend3", 0, "Animation", "Blend3", 1, "Animation 2", "Blend3", 2, "Animation 3", "strafe_dir", 0, "Animation 4", "strafe_dir", 1, "Animation 5" ]
+node_connections = [ "speed", 0, "hurt", "output", 0, "speed", "aim", 0, "strafe", "aim", 1, "Animation 6", "hurt", 0, "aim", "hurt", 1, "Animation 7", "Blend3", 0, "Animation", "Blend3", 1, "Animation 2", "Blend3", 2, "Animation 3", "strafe_dir", 0, "Animation 4", "strafe_dir", 1, "Animation 5", "strafe", 0, "Blend3", "strafe", 1, "strafe_dir" ]

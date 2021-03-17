@@ -1,15 +1,13 @@
 extends Area
 
 #the available weapons to pick up
-var weapons = ["pistol", "smg2", "br", "double barrel", "frag"]
+var weapons = ["pistol", "smg", "br", "double barrel", "frag", "bow"]
 
 export var to_load = ""
 export var remove_on_pickup = false
 
 var weapon = null
 var spinny = null
-
-var muzzle_flash = preload("res://scenes/Weapons/muzzle_flash.tscn")
 
 signal update_weapon_list
 
@@ -43,6 +41,8 @@ func _ready():
 			spinny.scale *= 0.25
 		elif to_load == "pistol":
 			spinny.scale *= 0.75
+		elif to_load == "bow":
+			spinny.scale *= 0.25
 		
 		spinny.rotate_x(deg2rad(35))
 	
@@ -69,11 +69,14 @@ func _on_WeaponPickup_body_entered(body):
 		$pickup.play()
 		
 		var target = body.get_node("Camera/Weapon")
-		connect("update_weapon_list", target, "_on_update_weapon_list")
+		if !is_connected("update_weapon_list", target, "_on_update_weapon_list"):
+			connect("update_weapon_list", target, "_on_update_weapon_list")
 		var our_weapon = null
 		
 		if to_load == "frag":
 			our_weapon = load("res://scenes/weapons/grenade.tscn").instance()
+		elif to_load in weapons:
+			our_weapon = load("res://scenes/weapons/" + to_load + ".tscn").instance()
 		else:
 			our_weapon = weapon.instance()
 		
@@ -81,7 +84,7 @@ func _on_WeaponPickup_body_entered(body):
 		#of another weapon
 		if target.hitscan.has_node(to_load):
 			var difference = (target.weapons[to_load]["clip"] + 
-			target.weapons[to_load]["times_fired"]) * 2
+				target.weapons[to_load]["times_fired"]) * 2
 			
 			target.weapons[to_load]["ammo"] += difference
 			
@@ -90,29 +93,8 @@ func _on_WeaponPickup_body_entered(body):
 		#if we don't have the weapon, add it
 		else:
 				
-			our_weapon.hide()
-			
-			var m = muzzle_flash.instance()
-			
-			#This is where we construct the full weapon for our weapon node to use
-			#A lot of tweaks are done here, such as timers, muzzle flashes, model moving
-			if to_load == "smg2":
-				our_weapon.add_child(add_timer(0.1))
-			elif to_load == "br":
-				our_weapon.add_child(add_timer(0.1))
-				
-				our_weapon.add_child(m)
-				m.translation = Vector3(0, 0.12, -1.3)
-				m.scale /= 1.5
-			elif to_load == "pistol":
-				our_weapon.translation.y -= 0.5
-				
-				our_weapon.add_child(m)
-				m.translation = Vector3(0, 0.5, -0.8)
-				m.scale /= 2
-				
-				
 			set_all_meshes_layer_mask(our_weapon, 2)
+				
 			#add our weapon to our specific player
 			#if its ourself
 			

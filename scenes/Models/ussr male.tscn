@@ -2,7 +2,7 @@
 
 [ext_resource path="res://resources/AnimTrees/male.tres" type="AnimationNodeBlendTree" id=1]
 [ext_resource path="res://models/ussr male/ussr male.glb" type="PackedScene" id=2]
-[ext_resource path="res://models/smg2/smg2.glb" type="PackedScene" id=3]
+[ext_resource path="res://models/smg/smg.glb" type="PackedScene" id=3]
 [ext_resource path="res://models/br/br.glb" type="PackedScene" id=4]
 [ext_resource path="res://scenes/Weapons/pistol.tscn" type="PackedScene" id=5]
 
@@ -43,8 +43,8 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 tree_root = ExtResource( 1 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
-parameters/Blend3/blend_amount = -1.0
-parameters/aim/blend_amount = 0.0
+parameters/Blend3/blend_amount = 1.0
+parameters/aim/blend_amount = 1.0
 parameters/hurt/blend_amount = 0.0
 parameters/speed/scale = 1.0
 parameters/strafe/add_amount = 0.0

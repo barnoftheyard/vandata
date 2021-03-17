@@ -107,12 +107,13 @@ func _physics_process(delta):
 		anim_tree.set("parameters/hurt/blend_amount", 0)
 	
 remotesync func network_update(new_anim_strafe_interp, new_anim_strafe_dir_interp,
-	new_jumpscale, new_anim_run_interp, new_tilt):
+	new_jumpscale, new_anim_run_interp, new_tilt, new_hurt):
 	anim_strafe_interp = new_anim_strafe_interp
 	anim_strafe_dir_interp = new_anim_strafe_dir_interp
 	jumpscale = new_jumpscale
 	anim_run_interp = new_anim_run_interp
 	tilt = new_tilt
+	hurt = new_hurt
 	
 func _on_change_playermodel_weapon(weapon):
 	anim_tree.set("parameters/aim/blend_amount", 1)

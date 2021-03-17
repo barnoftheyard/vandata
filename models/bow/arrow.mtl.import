@@ -1,0 +1,16 @@
+[remap]
+
+importer="mtl.loader"
+type="SpatialMaterial"
+path="res://.import/arrow.mtl-fab1340be0ce65339cd1edebde134f43.material"
+
+[deps]
+
+files=[ "res://models/bow/None.material" ]
+
+source_file="res://models/bow/arrow.mtl"
+dest_files=[ "res://.import/arrow.mtl-fab1340be0ce65339cd1edebde134f43.material", "res://models/bow/None.material" ]
+
+[params]
+
+generate_multiple_files=true

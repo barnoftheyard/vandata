@@ -1479,7 +1479,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 2.5, 15.5 )
 properties = {
 "classname": "weapon_pickup",
 "origin": "248 -24 40",
-"weapon": "smg2"
+"weapon": "smg"
 }
 
 [node name="entity_46_weapon_pickup" parent="QodotMap" instance=ExtResource( 4 )]
@@ -1488,6 +1488,14 @@ properties = {
 "classname": "weapon_pickup",
 "origin": "248 -56 40",
 "weapon": "br"
+}
+
+[node name="entity_46_weapon_pickup2" parent="QodotMap" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 2.5, 15.5 )
+properties = {
+"classname": "weapon_pickup",
+"origin": "248 -56 40",
+"weapon": "bow"
 }
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]

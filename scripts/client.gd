@@ -27,7 +27,7 @@ func _physics_process(_delta):
 	player.cmd[7] = Input.is_action_pressed("ui_flashlight")
 	player.cmd[8] = Input.is_action_pressed("mouse_left")
 	player.cmd[9] = Input.is_action_pressed("mouse_right")
-	player.cmd[10] = Input.is_action_pressed("ui_use")
+	player.cmd[10] = Input.is_action_just_pressed("ui_use")
 	player.cmd[11] = Input.is_action_pressed("ui_reload")
 	
 	# Escape toggles the mouse mode

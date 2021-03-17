@@ -11,6 +11,7 @@ var player_list = null
 
 func pain():
 	$PainOverlay.self_modulate.a = 1
+	$VisualNoise.material.set_shader_param("grain_alpha", 0.5)
 	
 func death(time_remaining):
 	$DeathOverlay.show()
@@ -79,6 +80,10 @@ func _process(delta):
 	#if the pain overlay is visible gradually fade it away until it isn't
 	if $PainOverlay.self_modulate.a > 0:
 		$PainOverlay.self_modulate.a -= delta
+		
+	var noise = $VisualNoise.material.get_shader_param("grain_alpha")
+	if noise > 0:
+		$VisualNoise.material.set_shader_param("grain_alpha", noise - delta)
 		
 	#Hud update code
 	$AmmoCounter.text = str(weapon.current_ammo)

@@ -19,7 +19,6 @@ export var recoil = true
 
 onready var hitscan = $ViewportContainer/Viewport/TransformHelper/Hitscan
 onready var hitscan_initpos = hitscan.translation
-onready var vmod_initpos = self.translation
 
 onready var weapon_nodes = hitscan.get_children()
 #get the number of children and offset the index by 1 to account for arrays
@@ -38,7 +37,7 @@ var weapons = {
 		"ammo": 144, 
 		"times_fired": 0
 	},
-	"smg2": {
+	"smg": {
 		"clip": 30, 
 		"ammo": 256, 
 		"times_fired": 0
@@ -62,6 +61,11 @@ var weapons = {
 		"clip": null,
 		"ammo": 6,
 		"times_fired": 0
+	},
+	"bow": {
+		"clip": 1,
+		"ammo": 12,
+		"times_fired": 0
 	}
 }
 
@@ -81,6 +85,7 @@ var player_y_vel = 0
 var can_fire = true
 
 signal finished_reloading
+signal update_weapon_list
 signal weapon_switch
 
 signal change_playermodel_weapon(weapon)
@@ -241,6 +246,7 @@ func use_hitscan():
 			
 		elif body.has_method("use"):
 			body.use()
+			
 	else:
 		grab = false
 
@@ -295,29 +301,38 @@ func _physics_process(delta):
 	if grab_target != null:
 		if grab:
 			#client side
+			grab_target.mode = RigidBody.MODE_KINEMATIC
+			grab_target.gravity_scale = 0
 			grab_target.global_transform.origin = grab_target.global_transform.origin.linear_interpolate(
 				$UseCast/EndPoint.global_transform.origin, sway * delta)
+			
 			#server side
-			grab_target.rset_unreliable("global_transform.origin", grab_target.global_transform.origin.linear_interpolate(
-				$UseCast/EndPoint.global_transform.origin, sway * delta))
+			#grab_target.rset_unreliable("global_transform.origin", grab_target.global_transform.origin.linear_interpolate(
+			#	$UseCast/EndPoint.global_transform.origin, sway * delta))
 			
 			#put away view model when grabbing
 			if can_fire:
-				$AnimationPlayer.play_backwards("draw")
+				$Tween.interpolate_property(hitscan, "translation", hitscan_initpos, 
+				Vector3(0, -2, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+				$Tween.start()
 			can_fire = false
 		else:
+			grab_target.mode = RigidBody.MODE_RIGID
 			grab_target.sleeping = false
+			grab_target.gravity_scale = 1
 			
 			#set the velocity of the object when we let go of it (allows throwing)
 			#client side
-			grab_target.linear_velocity = ($UseCast/EndPoint.velocity.normalized() + player_node.vel) * (1 / grab_target.mass)
+			#grab_target.linear_velocity = ($UseCast/EndPoint.velocity.normalized() + player_node.vel) * (1 / grab_target.mass)
 			#server side
-			grab_target.rset_unreliable("linear_velocity", ($UseCast/EndPoint.velocity.normalized() + player_node.vel) * (1 / grab_target.mass))
+			#grab_target.rset_unreliable("linear_velocity", ($UseCast/EndPoint.velocity.normalized() + player_node.vel) * (1 / grab_target.mass))
 			
 			grab_target = null
 			#bring out view model when not grabbing
 			if !can_fire:
-				$AnimationPlayer.play("draw")
+				$Tween.interpolate_property(hitscan, "translation", Vector3(0, -2, 0), 
+				hitscan_initpos, 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+				$Tween.start()
 			can_fire = true
 			
 	if can_fire:
@@ -339,7 +354,7 @@ func _physics_process(delta):
 	hitscan.get_parent().transform = get_parent().global_transform
 	
 	#if we have a muzzle flash, and the time it has finished, hide it
-	if muzzle_flash != null and weapon_num > -1 and is_network_master():
+	if muzzle_flash != null and weapon_num > -1:
 		if muzzle_flash.get_node("Timer").time_left == 0.0:
 			muzzle_flash.hide()
 	
@@ -363,7 +378,7 @@ func _physics_process(delta):
 				
 				can_fire = false
 				
-			elif (weapon_name == "smg2" and current_clip > 0 and 
+			elif (weapon_name == "smg" and current_clip > 0 and 
 			weapon_nodes[pos].get_node("Timer").is_stopped() and !anim.current_animation == "reload"):
 				weapon_nodes[pos].get_node("Timer").start()
 				if anim.is_playing():
@@ -386,7 +401,7 @@ func _physics_process(delta):
 				can_fire = false
 				
 			elif (weapon_name == "double barrel" and current_clip > 0 and 
-			!anim.is_playing()  and !anim.current_animation == "reload"):
+			!anim.is_playing() and !anim.current_animation == "reload"):
 				fire_weapon(50, 1, $RayCast/DoubleBarrelFire)
 				
 				can_fire = false
@@ -395,9 +410,18 @@ func _physics_process(delta):
 				weapon_nodes[pos].get_node("ThrowPower").start()
 				
 				can_fire = false
-			
+				
+			elif weapon_name == "bow" and current_clip > 0 and !anim.is_playing():
+				weapon_nodes[pos].extend()
+				
+				can_fire = false
+				
+			elif (weapon_name != "bow" and current_clip == 0 and current_ammo > 0 and 
+			times_fired != 0 and !anim.is_playing()):
+				reload_weapon()
+				
 			#play empty fire sound if we have zero bullets left in clip
-			elif current_clip == 0:
+			elif current_clip == 0 and current_ammo == 0:
 				$RayCast/Empty.play()
 				
 				can_fire = false
@@ -418,6 +442,19 @@ func _physics_process(delta):
 				#the less time there was, the more power we have, we then multiply it just so its a bit stronger for our chad muscleman arms
 				grenade_scene.apply_central_impulse(-self.global_transform.basis.z * (timer.wait_time - timer.time_left) * 200)
 				throw_grenade(1)
+			
+			#bow shooting code
+			elif weapon_name == "bow" and current_clip > 0 and current_ammo > 0:
+				weapon_nodes[pos].shoot(anim.current_animation_position, player_node.name)
+				
+				if consume_ammo:
+					weapons[weapon_name]["clip"] -= 1
+					weapons[weapon_name]["times_fired"] += 1
+					
+			elif (weapon_name == "bow" and current_ammo > 0 and 
+			times_fired != 0):
+				weapon_nodes[pos].reload()
+				reload_weapon()
 				
 		if cmd[Command.SECONDARY] and can_fire:
 				
@@ -428,6 +465,9 @@ func _physics_process(delta):
 				can_fire = false
 				
 			elif current_clip == 0:
+				reload_weapon()
+				
+			elif current_clip == 0 and current_ammo == 0:
 				$RayCast/Empty.play()
 				
 				can_fire = false
@@ -443,7 +483,7 @@ func _physics_process(delta):
 				reload_weapon()
 				$RayCast/PistolReload.play()
 				
-			elif (weapon_name == "smg2" and current_ammo > 0 and 
+			elif (weapon_name == "smg" and current_ammo > 0 and 
 			times_fired != 0 and !anim.is_playing()):
 				reload_weapon()
 				$RayCast/SmgReload.play()
@@ -463,7 +503,12 @@ func _physics_process(delta):
 				reload_weapon()
 				$RayCast/DoubleBarrelReload.play()
 				
-		elif Input.is_action_just_pressed("ui_use"):
+			elif (weapon_name == "bow" and current_ammo > 0 and 
+			times_fired != 0 and !anim.is_playing()):
+				weapon_nodes[pos].reload()
+				reload_weapon()
+				
+		elif cmd[Command.USE]:
 			use_hitscan()
 
 func _on_weapon_switch():
@@ -471,7 +516,9 @@ func _on_weapon_switch():
 	
 	#then do the weapon draw visual and audio effects
 	$weaponswap.play()
-	$AnimationPlayer.play("draw")
+	$Tween.interpolate_property(hitscan, "translation", Vector3(0, -2, -1), 
+	hitscan_initpos, 1, Tween.TRANS_QUART, Tween.EASE_IN_OUT)
+	$Tween.start()
 	
 	_on_update_weapon_list()
 	

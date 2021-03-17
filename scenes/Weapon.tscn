@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scripts/Weapon.gd" type="Script" id=1]
 [ext_resource path="res://sounds/double barrel/sbarrel1.wav" type="AudioStream" id=2]
@@ -17,35 +17,6 @@
 
 [sub_resource type="CylinderShape" id=1]
 height = 0.01
-
-[sub_resource type="Animation" id=2]
-resource_name = "draw"
-length = 0.3
-step = 0.01
-tracks/0/type = "value"
-tracks/0/path = NodePath("ViewportContainer/Viewport/TransformHelper/Hitscan:translation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.15, 0.23, 0.3 ),
-"transitions": PoolRealArray( 1, 0.757858, 0.594604, 0.353553 ),
-"update": 0,
-"values": [ Vector3( 0.5, -1, 0 ), Vector3( 0.5, -1.06547, -0.625 ), Vector3( 0.5, -0.542672, -1.29059 ), Vector3( 0.5, -0.6, -1.25 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("ViewportContainer/Viewport/TransformHelper/Hitscan:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.15, 0.23, 0.3 ),
-"transitions": PoolRealArray( 1, 0.757858, 0.594604, 0.353553 ),
-"update": 0,
-"values": [ Vector3( -35, 0, 0 ), Vector3( -10, 0, 0 ), Vector3( 6.54032, 0, 0 ), Vector3( 0, 0, 0 ) ]
-}
 
 [node name="Weapon" type="Spatial"]
 script = ExtResource( 1 )
@@ -104,9 +75,6 @@ shape = SubResource( 1 )
 [node name="weaponswap" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 19 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/draw = SubResource( 2 )
-
 [node name="ViewportContainer" type="ViewportContainer" parent="."]
 show_behind_parent = true
 anchor_right = 1.0
@@ -126,8 +94,12 @@ render_target_update_mode = 3
 [node name="TransformHelper" type="Spatial" parent="ViewportContainer/Viewport"]
 
 [node name="Hitscan" type="Spatial" parent="ViewportContainer/Viewport/TransformHelper"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, -0.6, -1.25 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6, -1.25 )
 
 [node name="Camera" type="Camera" parent="ViewportContainer/Viewport/TransformHelper"]
 cull_mask = 6
 environment = ExtResource( 6 )
+
+[node name="Tween" type="Tween" parent="."]
+playback_speed = 3.0
+playback/speed = 3.0

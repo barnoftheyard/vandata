@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/smg2.glb-09eaa8f8927d6a896aa9197792fa5e9d.scn"
+path="res://.import/bow.glb-a122e99aff016f2095291c6497a89c1e.scn"
 
 [deps]
 
-source_file="res://models/smg2/smg2.glb"
-dest_files=[ "res://.import/smg2.glb-09eaa8f8927d6a896aa9197792fa5e9d.scn" ]
+source_file="res://models/bow/bow.glb"
+dest_files=[ "res://.import/bow.glb-a122e99aff016f2095291c6497a89c1e.scn" ]
 
 [params]
 

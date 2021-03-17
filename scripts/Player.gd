@@ -33,7 +33,7 @@ export var noclip = false
 export var interp = true
 export var interp_scale = 50
 
-var inertia = 0.001
+var inertia = 0.1
 var speed = 8
 
 var always_run = true
@@ -57,7 +57,6 @@ onready var step_sound = $Steps
 onready var camera = $Camera
 onready var weapon = $Camera/Weapon
 onready var playermodel = $AnimController/ussr_male
-onready var start_point = self.transform
 
 #arrays of paths to appropriate sounds that we can play
 onready var steps = Global.files_in_dir("res://sounds/player/step/", ".wav")
@@ -159,21 +158,10 @@ remotesync func bullet_hit(damage, from, bullet_hit_pos, _force_multiplier):			#
 		if from_str in network.player_list:
 			network.rpc("console_msg", player_info["name"] + " was killed by " + 
 			network.player_list[from_str]["name"])
-#			$Hud/VBoxContainer/ChatBox.text += "\n" + "You got killed by " + network.player_list[from]["name"]
-
+			$Hud/VBoxContainer/ChatBox.text += "\n" + "You got killed by " + network.player_list[from]["name"]
+			
 			rpc_id(from, "give_kill")
 			
-			#network.send_player_data(from, killer.player_info)
-			
-		#$Hud/VBoxContainer/ChatBox.rset_id(from, "text", "You killed " + player_info["name"] + "!")
-		#if it isn't (like a map hazard)
-#		else:
-#			network.console_msg(player_info["name"] + " was killed by " + 
-#			from.name)
-#			$Hud/ChatBox.text += "\n" + "You got killed by " + from.name
-			
-		#killer.get_node("Hud/ChatBox").text = "\n" + "You killed " + player_info["name"]
-		
 remote func give_kill():
 	player_info["kills"] += 1
 
@@ -231,7 +219,7 @@ func _physics_process(delta):
 	
 	if !Global.is_paused and !is_dead and is_network_master():
 		
-		if camera_mode and self.is_inside_tree():					#FPS
+		if camera_mode and is_inside_tree():					#FPS
 			cam = camera.get_global_transform()
 			
 		if cmd[Command.FORWARD]:
@@ -272,6 +260,12 @@ func _physics_process(delta):
 			
 		if Input.is_action_just_released("ui_flashlight"):
 			flashlight = false
+			
+			
+		if Input.is_action_pressed("ui_left"):
+			rotate_y(4 * delta)
+		if Input.is_action_pressed("ui_right"):
+			rotate_y(-4 * delta)
 			
 	#input code ends here
 	
@@ -325,7 +319,7 @@ func _physics_process(delta):
 		#this pushes physics objects
 		if collision.collider is RigidBody:
 			collision.collider.apply_central_impulse(-collision.normal * inertia / 
-			collision.collider.weight)	#apply push force
+			-collision.collider.weight)	#apply push force
 			
 			
 	#check if we have less or equal to zero health, if so, die
@@ -354,7 +348,7 @@ func _physics_process(delta):
 			#Transmit our animation data
 			var a = $AnimController
 			a.rpc_unreliable("network_update", a.anim_strafe_interp, 
-			a.anim_strafe_dir_interp, a.jumpscale, a.anim_run_interp, a.tilt)
+			a.anim_strafe_dir_interp, a.jumpscale, a.anim_run_interp, a.tilt, a.hurt)
 			
 		#Our client specific code
 		camera.make_current()

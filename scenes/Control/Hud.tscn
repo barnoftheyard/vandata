@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://resources/DynamicFonts/buttons.tres" type="DynamicFont" id=1]
 [ext_resource path="res://textures/crosshairs64.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://textures/player/vignette.png" type="Texture" id=6]
 [ext_resource path="res://resources/DynamicFonts/denmark.tres" type="DynamicFont" id=7]
 [ext_resource path="res://resources/StyleBoxFlat/Hud.tres" type="StyleBox" id=8]
+[ext_resource path="res://scripts/FilmGrain.gd" type="Script" id=9]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.352941, 0.784314, 1, 1 )
@@ -41,6 +42,46 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
+
+[sub_resource type="Shader" id=4]
+code = "shader_type canvas_item;
+render_mode unshaded;
+
+uniform float randx;
+uniform float randy;
+uniform float grain_alpha;
+uniform float grain_scale : hint_range(0.0, 10.0);
+uniform sampler2D noise_tex;
+uniform sampler2D vignette_tex;
+
+
+void fragment()
+{
+	vec4 col = texture(SCREEN_TEXTURE, SCREEN_UV);
+	
+	vec2 offset = vec2(randx,randy);
+	vec4 noise = texture(noise_tex, mod(SCREEN_UV * grain_scale + offset, 1.0));
+	vec4 v_fade = texture(vignette_tex, SCREEN_UV);
+	
+	noise /= grain_alpha;
+	
+	COLOR.rgba = vec4(col.r, col.g, col.b, col.a) / noise.rgba;
+}"
+
+[sub_resource type="OpenSimplexNoise" id=5]
+
+[sub_resource type="NoiseTexture" id=6]
+width = 2048
+height = 2048
+noise = SubResource( 5 )
+
+[sub_resource type="ShaderMaterial" id=7]
+shader = SubResource( 4 )
+shader_param/randx = 0.0782449
+shader_param/randy = 0.298712
+shader_param/grain_alpha = 0.1
+shader_param/grain_scale = 10.0
+shader_param/noise_tex = SubResource( 6 )
 
 [node name="Hud" type="Control"]
 anchor_right = 1.0
@@ -272,6 +313,16 @@ anchor_bottom = 1.0
 margin_top = 536.0
 margin_right = 320.0
 margin_bottom = 560.0
+
+[node name="VisualNoise" type="ColorRect" parent="."]
+material = SubResource( 7 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+frame_switch_time = 0.01
 
 [connection signal="draw" from="VBoxContainer/ChatBox" to="." method="_on_ChatBox_draw"]
 [connection signal="timeout" from="VBoxContainer/ChatBox/Timer" to="." method="_on_Timer_timeout"]

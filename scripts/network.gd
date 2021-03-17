@@ -106,7 +106,7 @@ func create_server(map, server_name, port):
 	var scene = load(server_map)
 	if get_tree().change_scene_to(scene) == OK:
 		# Create our player, 1 is a reference for a host/server
-		create_player(1, false)
+		call_deferred("create_player", 1, false)
 		
 	print("Server ", server_name, " created on port ", port,". Playing on ", server_map)
 
@@ -141,7 +141,7 @@ func create_player(id, is_peer):
 	# Add the player to this (main) scene
 	#This is a call deferred to spawn in the player during idle time so that we 
 	#can find spawn points in the map
-	get_node("/root/characters").call_deferred("add_child", player)
+	get_node("/root/characters").add_child(player)
 	
 remotesync func create_bot():
 	var controller = bot_scene.instance()
@@ -158,7 +158,7 @@ remotesync func create_bot():
 		get_node("/root/").add_child(char_node)
 		
 	player.name = "bot"
-	get_node("/root/characters").call_deferred("add_child", player)
+	get_node("/root/characters").add_child(player)
 	
 func remove_player(id):
 	var player = str(id)
