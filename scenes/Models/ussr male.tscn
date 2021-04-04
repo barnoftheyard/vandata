@@ -8,14 +8,11 @@
 
 [node name="ussr male" instance=ExtResource( 2 )]
 
-[node name="Skeleton" parent="Armature" index="0"]
-bones/15/bound_children = [ NodePath("hand_r") ]
-
 [node name="USSR_Male" parent="Armature/Skeleton" index="0"]
 layers = 8
 
 [node name="hand_r" type="BoneAttachment" parent="Armature/Skeleton" index="1"]
-transform = Transform( -0.995119, 0.0956768, -0.0241778, -0.00270965, 0.218419, 0.975851, 0.0986472, 0.971153, -0.217093, -0.105417, 1.36304, 0.356924 )
+transform = Transform( -0.997343, 0.0704433, -0.0185361, -0.00270966, 0.218419, 0.975851, 0.0727908, 0.973309, -0.217648, -0.113122, 1.34205, 0.350588 )
 bone_name = "Hand.R"
 
 [node name="helper" type="Spatial" parent="Armature/Skeleton/hand_r" index="0"]
@@ -47,7 +44,7 @@ tree_root = ExtResource( 1 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/Blend3/blend_amount = 1.0
-parameters/aim/blend_amount = 0.0
+parameters/aim/blend_amount = 1.0
 parameters/hurt/blend_amount = 0.0
 parameters/pistol_aim/blend_amount = 1.0
 parameters/speed/scale = 1.0

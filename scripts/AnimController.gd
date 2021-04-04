@@ -41,7 +41,7 @@ func _ready():
 	
 	#if we are master and not a bot
 	if is_network_master() and get_parent().get_node("controller").has_method("is_player"):
-		player_model.get_node("Armature/Skeleton/USSR_Male").set_layer_mask(9)
+		player_model.get_node("Armature/Skeleton/USSR_Male").set_layer_mask(8)
 	else:
 		player_model.get_node("Armature/Skeleton/USSR_Male").set_layer_mask(9)
 		
@@ -135,15 +135,28 @@ func _on_change_playermodel_weapon(weapon):
 		
 	set_all_meshes_layer_mask(helper, 8)
 	
+	
 	player_model.get_node("Tween").interpolate_property(anim_tree,
-	"parameters/aim/blend_amount", 0, 1, 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	"parameters/pistol_aim/blend_amount", 0, 1, 0.25, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	player_model.get_node("Tween").start()
 	
 	#the stance flag is for a one handed stance animation for idle pistol holding
-	match weapon:
-		"pistol":
-			helper.get_node("pistol").show()
-		"smg":
-			helper.get_node("smg").show()
-		"br":
-			helper.get_node("br").show()
+	if weapon == "pistol":
+		player_model.get_node("Tween").interpolate_property(anim_tree,
+		"parameters/aim/blend_amount", 1, 0, 0.25, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		player_model.get_node("Tween").start()
+		
+		helper.get_node("pistol").show()
+	elif weapon == "smg":
+		player_model.get_node("Tween").interpolate_property(anim_tree,
+		"parameters/aim/blend_amount", 0, 1, 0.25, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		player_model.get_node("Tween").start()
+		
+		helper.get_node("smg").show()
+	elif weapon == "br":
+		player_model.get_node("Tween").interpolate_property(anim_tree,
+		"parameters/aim/blend_amount", 0, 1, 0.25, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		player_model.get_node("Tween").start()
+		
+		helper.get_node("br").show()
+		
