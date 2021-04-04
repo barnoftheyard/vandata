@@ -1,6 +1,8 @@
 extends Controller
 class_name Client
 
+#This is the client class where it handles all the client related stuff where we do
+#not want to process server information
 #All the client code goes here
 
 var options_scene = preload("res://scenes/Control/Options.tscn")
@@ -29,6 +31,7 @@ func _physics_process(_delta):
 	player.cmd[9] = Input.is_action_pressed("mouse_right")
 	player.cmd[10] = Input.is_action_just_pressed("ui_use")
 	player.cmd[11] = Input.is_action_pressed("ui_reload")
+	player.cmd[12] = Input.is_action_just_pressed("ui_spray")
 	
 	# Escape toggles the mouse mode
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -44,6 +47,9 @@ func _physics_process(_delta):
 			emit_signal("paused")
 		else:
 			emit_signal("unpaused")
+			
+	if Input.is_action_just_pressed("ui_fullscreen"):
+		OS.window_fullscreen = !OS.window_fullscreen
 			
 # For type checking
 func is_player():

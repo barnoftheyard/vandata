@@ -22,7 +22,7 @@ func reload():
 	arrow_init, 1, Tween.TRANS_QUART, Tween.EASE_IN_OUT)
 	$Tween.start()
 
-func _on_AnimationPlayer_animation_finished(anim_name):
+func _on_AnimationPlayer_animation_finished(_anim_name):
 	if $AnimationPlayer.current_animation_position == 0.0:
 		$Armature/Skeleton/string/arrow.hide()
 		var a = arrow.instance()

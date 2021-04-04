@@ -21,6 +21,7 @@ font_data = ExtResource( 5 )
 [node name="Menu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+focus_mode = 2
 theme = ExtResource( 12 )
 script = ExtResource( 1 )
 __meta__ = {
@@ -49,6 +50,7 @@ __meta__ = {
 }
 
 [node name="FlavorText" type="Label" parent="."]
+visible = false
 anchor_left = 0.632117
 anchor_top = 0.679877
 anchor_right = 0.809852
@@ -75,13 +77,13 @@ dialog_text = "Quit now?"
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -367.0
-margin_right = 249.0
+margin_right = 526.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
-margin_right = 249.0
+margin_right = 526.0
 margin_bottom = 367.0
 grow_horizontal = 0
 grow_vertical = 0
@@ -91,18 +93,19 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer"]
-margin_right = 249.0
+margin_right = 291.0
 margin_bottom = 247.0
 custom_constants/separation = 6
+alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Title" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]
-margin_right = 249.0
+margin_right = 291.0
 margin_bottom = 91.0
 custom_fonts/font = SubResource( 1 )
-text = "VANDATA"
+text = "VARZA  "
 align = 1
 valign = 1
 __meta__ = {
@@ -111,7 +114,7 @@ __meta__ = {
 
 [node name="Multiplayer" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 margin_top = 97.0
-margin_right = 249.0
+margin_right = 291.0
 margin_bottom = 130.0
 custom_styles/hover = ExtResource( 8 )
 custom_styles/pressed = ExtResource( 6 )
@@ -217,7 +220,7 @@ text = "JOIN SERVER"
 
 [node name="Singleplayer" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 margin_top = 136.0
-margin_right = 249.0
+margin_right = 291.0
 margin_bottom = 169.0
 custom_styles/hover = ExtResource( 8 )
 custom_styles/pressed = ExtResource( 6 )
@@ -229,7 +232,7 @@ text = "SINGLE PLAYER"
 
 [node name="Settings" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 margin_top = 175.0
-margin_right = 249.0
+margin_right = 291.0
 margin_bottom = 208.0
 custom_styles/hover = ExtResource( 8 )
 custom_styles/pressed = ExtResource( 6 )
@@ -243,7 +246,7 @@ __meta__ = {
 
 [node name="Quit" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 margin_top = 214.0
-margin_right = 249.0
+margin_right = 291.0
 margin_bottom = 247.0
 custom_styles/hover = ExtResource( 8 )
 custom_styles/pressed = ExtResource( 6 )

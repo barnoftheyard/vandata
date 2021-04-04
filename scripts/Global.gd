@@ -30,7 +30,8 @@ var game_config = {					#default settings
 	"show_fps": false,
 	"player_name": "player",
 	"mouse_sensitivity": 0.2,
-	"fov": 90
+	"fov": 90,
+	"spray": "res://icon.png"
 }
 
 #Three dimensional distance formula

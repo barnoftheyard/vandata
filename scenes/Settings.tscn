@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scripts/control/Settings.gd" type="Script" id=1]
 [ext_resource path="res://resources/DynamicFonts/menu.tres" type="DynamicFont" id=2]
@@ -9,11 +9,9 @@
 [ext_resource path="res://resources/Buttons/button_hover.tres" type="StyleBox" id=7]
 [ext_resource path="res://scripts/control/CrosshairSub.gd" type="Script" id=8]
 [ext_resource path="res://resources/Panels/panel.tres" type="StyleBox" id=9]
+[ext_resource path="res://resources/DynamicFonts/conduit.tres" type="DynamicFont" id=10]
+[ext_resource path="res://resources/Theme.tres" type="Theme" id=11]
 [ext_resource path="res://scenes/Control/Button.tscn" type="PackedScene" id=12]
-
-
-
-
 
 [node name="Settings" type="Control"]
 anchor_right = 1.0
@@ -32,8 +30,8 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="."]
-margin_right = 384.0
-margin_bottom = 69.0
+margin_right = 1016.0
+margin_bottom = 564.0
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color_shadow = Color( 0.2, 0.2, 0.2, 1 )
 text = "SETTINGS
@@ -42,75 +40,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PlayerNameSub" type="Panel" parent="."]
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_top = -32.0001
-margin_right = 259.0
-margin_bottom = 32.0001
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="PlayerNameSub"]
-margin_right = 40.0
-margin_bottom = 14.0
-custom_fonts/font = ExtResource( 4 )
-text = "PLAYER NAME"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LineEdit" type="LineEdit" parent="PlayerNameSub"]
-margin_top = 40.0
-margin_right = 259.0
-margin_bottom = 64.0
-custom_styles/normal = ExtResource( 5 )
-caret_blink = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="CheckBox3" type="CheckBox" parent="."]
-anchor_left = 0.839844
-anchor_top = 0.476667
-anchor_right = 1.0
-anchor_bottom = 0.523333
-custom_fonts/font = ExtResource( 4 )
-text = "FULLSCREEN"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="CheckBox4" type="CheckBox" parent="."]
-anchor_left = 0.839844
-anchor_top = 0.436667
-anchor_right = 0.999023
-anchor_bottom = 0.483333
-custom_fonts/font = ExtResource( 4 )
-text = "SHOW FPS"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="CheckBox5" type="CheckBox" parent="."]
-anchor_left = 0.839844
-anchor_top = 0.398333
-anchor_right = 1.0
-anchor_bottom = 0.445
-custom_fonts/font = ExtResource( 4 )
-text = "FLIP GUNS"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
 [node name="PopupMenu" type="PopupMenu" parent="."]
-anchor_left = 0.727
-anchor_top = 0.128071
-anchor_right = 0.966797
-anchor_bottom = 0.128071
-margin_left = -0.447998
-margin_bottom = 159.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
 custom_styles/panel = ExtResource( 5 )
 custom_fonts/font = ExtResource( 4 )
 items = [ "1920x1080", null, 2, true, false, 1, 0, null, "", false, "1600x900", null, 2, false, false, 1, 0, null, "", false, "1366x768", null, 2, false, false, 2, 0, null, "", false, "800x600", null, 2, false, false, 3, 0, null, "", false, "640x480", null, 2, false, false, 4, 0, null, "", false ]
@@ -118,71 +54,250 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="InvertCameraSub" type="Panel" parent="."]
-anchor_top = 0.136667
-anchor_bottom = 0.283
-margin_right = 186.0
-margin_bottom = 0.199783
+[node name="Resolution" parent="." instance=ExtResource( 12 )]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+text = "RESOLUTION"
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -250.5
+margin_top = -300.0
+margin_right = 250.5
+margin_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource( 11 )
+stretch_mode = 3
+alignment_horizontal = 0
+alignment_vertical = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="AspectRatioContainer"]
+margin_right = 600.0
+margin_bottom = 600.0
+grow_horizontal = 0
+grow_vertical = 0
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OptionsList" type="VBoxContainer" parent="AspectRatioContainer/ScrollContainer"]
+margin_right = 233.0
+margin_bottom = 801.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_constants/separation = 10
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Visuals" type="PanelContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList"]
+margin_right = 233.0
+margin_bottom = 141.0
 custom_styles/panel = ExtResource( 9 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/Visuals"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 225.0
+margin_bottom = 137.0
+alignment = 2
+
+[node name="Label" type="Label" parent="AspectRatioContainer/ScrollContainer/OptionsList/Visuals/VBoxContainer"]
+margin_right = 221.0
+margin_bottom = 37.0
+custom_fonts/font = ExtResource( 10 )
+text = "VISUALS"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckBox1" type="CheckBox" parent="AspectRatioContainer/ScrollContainer/OptionsList/Visuals/VBoxContainer"]
+margin_top = 41.0
+margin_right = 221.0
+margin_bottom = 69.0
+custom_fonts/font = ExtResource( 4 )
+text = "FULLSCREEN"
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
-[node name="CheckBox" type="CheckBox" parent="InvertCameraSub"]
-margin_left = -1.0
-margin_top = 34.0
-margin_right = 186.0
-margin_bottom = 62.0
+[node name="CheckBox2" type="CheckBox" parent="AspectRatioContainer/ScrollContainer/OptionsList/Visuals/VBoxContainer"]
+margin_top = 73.0
+margin_right = 221.0
+margin_bottom = 101.0
+custom_fonts/font = ExtResource( 4 )
+text = "SHOW FPS"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="CheckBox3" type="CheckBox" parent="AspectRatioContainer/ScrollContainer/OptionsList/Visuals/VBoxContainer"]
+margin_top = 105.0
+margin_right = 221.0
+margin_bottom = 133.0
+custom_fonts/font = ExtResource( 4 )
+text = "FLIP GUNS"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="MouseSensitivity" type="PanelContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList"]
+margin_top = 151.0
+margin_right = 233.0
+margin_bottom = 242.0
+custom_styles/panel = ExtResource( 9 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/MouseSensitivity"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 225.0
+margin_bottom = 87.0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="AspectRatioContainer/ScrollContainer/OptionsList/MouseSensitivity/VBoxContainer"]
+margin_right = 221.0
+margin_bottom = 37.0
+custom_fonts/font = ExtResource( 10 )
+text = "MOUSE SENSITIVITY"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/MouseSensitivity/VBoxContainer"]
+margin_top = 41.0
+margin_right = 221.0
+margin_bottom = 63.0
+
+[node name="LineEdit" type="LineEdit" parent="AspectRatioContainer/ScrollContainer/OptionsList/MouseSensitivity/VBoxContainer/HBoxContainer"]
+margin_right = 60.0
+margin_bottom = 22.0
+caret_blink = true
+caret_blink_speed = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MouseSenseSlider" type="HSlider" parent="AspectRatioContainer/ScrollContainer/OptionsList/MouseSensitivity/VBoxContainer"]
+margin_top = 67.0
+margin_right = 221.0
+margin_bottom = 83.0
+min_value = 0.01
+max_value = 1.0
+step = 0.01
+value = 0.1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InvertMouse" type="PanelContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList"]
+margin_top = 252.0
+margin_right = 233.0
+margin_bottom = 361.0
+custom_styles/panel = ExtResource( 9 )
+
+[node name="VBboxContainer" type="VBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/InvertMouse"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 225.0
+margin_bottom = 105.0
+alignment = 2
+
+[node name="Label" type="Label" parent="AspectRatioContainer/ScrollContainer/OptionsList/InvertMouse/VBboxContainer"]
+margin_right = 221.0
+margin_bottom = 37.0
+custom_fonts/font = ExtResource( 10 )
+text = "INVERT MOUSE"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckBox1" type="CheckBox" parent="AspectRatioContainer/ScrollContainer/OptionsList/InvertMouse/VBboxContainer"]
+margin_top = 41.0
+margin_right = 221.0
+margin_bottom = 69.0
 custom_fonts/font = ExtResource( 4 )
 text = " INVERT X"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CheckBox2" type="CheckBox" parent="InvertCameraSub"]
-margin_left = -1.0
-margin_top = 63.0
-margin_right = 186.0
-margin_bottom = 91.0
+[node name="CheckBox2" type="CheckBox" parent="AspectRatioContainer/ScrollContainer/OptionsList/InvertMouse/VBboxContainer"]
+margin_top = 73.0
+margin_right = 221.0
+margin_bottom = 101.0
 custom_fonts/font = ExtResource( 4 )
 text = " INVERT Y"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="InvertCameraSub"]
-margin_left = 9.28534
-margin_top = -2.86102e-06
-margin_right = 316.285
-margin_bottom = 20.0
-custom_fonts/font = ExtResource( 4 )
-text = "INVERT CAMERA"
+[node name="Crosshair" type="PanelContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList"]
+margin_top = 371.0
+margin_right = 233.0
+margin_bottom = 444.0
+custom_styles/panel = ExtResource( 9 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 225.0
+margin_bottom = 69.0
+alignment = 2
+
+[node name="Label" type="Label" parent="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair/VBoxContainer"]
+margin_right = 221.0
+margin_bottom = 37.0
+custom_fonts/font = ExtResource( 10 )
+text = "CROSSHAIR"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CrosshairSub" type="Panel" parent="."]
-anchor_top = 0.581667
-anchor_bottom = 0.71
-margin_right = 159.0
-margin_bottom = -3.05176e-05
-custom_styles/panel = ExtResource( 9 )
-script = ExtResource( 8 )
+[node name="HBoxContainer" type="HBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair/VBoxContainer"]
+margin_top = 41.0
+margin_right = 221.0
+margin_bottom = 65.0
+custom_constants/separation = 12
+alignment = 1
 __meta__ = {
-"_edit_use_anchors_": true
+"_edit_use_anchors_": false
 }
 
-[node name="Crosshair" type="Sprite" parent="CrosshairSub"]
-position = Vector2( 30.9733, 40.6334 )
-texture = ExtResource( 3 )
-vframes = 8
-hframes = 8
+[node name="CrosshairSub" type="Control" parent="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer"]
+margin_left = 79.0
+margin_right = 79.0
+margin_bottom = 24.0
+script = ExtResource( 8 )
 
-[node name="Button" type="Button" parent="CrosshairSub"]
-margin_left = 62.9733
-margin_top = 34.731
-margin_right = 87.9733
-margin_bottom = 58.731
+[node name="Crosshair" type="Sprite" parent="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer/CrosshairSub"]
+position = Vector2( 111, -4 )
+texture = ExtResource( 3 )
+hframes = 8
+vframes = 8
+
+[node name="Button" type="Button" parent="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer"]
+margin_left = 91.0
+margin_right = 110.0
+margin_bottom = 24.0
+grow_horizontal = 0
+grow_vertical = 0
 custom_styles/hover = ExtResource( 7 )
 custom_styles/pressed = ExtResource( 6 )
 custom_styles/normal = ExtResource( 5 )
@@ -192,11 +307,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button2" type="Button" parent="CrosshairSub"]
-margin_left = 101.82
-margin_top = 34.731
-margin_right = 126.82
-margin_bottom = 58.731
+[node name="Button2" type="Button" parent="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer"]
+margin_left = 122.0
+margin_right = 141.0
+margin_bottom = 24.0
 custom_styles/hover = ExtResource( 7 )
 custom_styles/pressed = ExtResource( 6 )
 custom_styles/normal = ExtResource( 5 )
@@ -206,24 +320,72 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="CrosshairSub"]
-margin_left = 9.28534
-margin_top = 3.33786e-06
-margin_right = 231.285
-margin_bottom = 20.0
-custom_fonts/font = ExtResource( 4 )
-text = "CROSSHAIR"
+[node name="Spray" type="PanelContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList"]
+margin_top = 454.0
+margin_right = 233.0
+margin_bottom = 623.0
+custom_styles/panel = ExtResource( 9 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/Spray"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 225.0
+margin_bottom = 165.0
+
+[node name="Label" type="Label" parent="AspectRatioContainer/ScrollContainer/OptionsList/Spray/VBoxContainer"]
+margin_right = 221.0
+margin_bottom = 37.0
+custom_fonts/font = ExtResource( 10 )
+text = "SPRAY"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FovSlider" type="HSlider" parent="."]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 14.0
-margin_top = -123.052
-margin_right = 354.0
-margin_bottom = -107.052
+[node name="HBoxContainer" type="HBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/Spray/VBoxContainer"]
+margin_top = 41.0
+margin_right = 221.0
+margin_bottom = 161.0
+
+[node name="TextureRect" type="TextureRect" parent="AspectRatioContainer/ScrollContainer/OptionsList/Spray/VBoxContainer/HBoxContainer"]
+margin_right = 120.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 120, 120 )
+expand = true
+stretch_mode = 5
+
+[node name="Load" parent="AspectRatioContainer/ScrollContainer/OptionsList/Spray/VBoxContainer/HBoxContainer" instance=ExtResource( 12 )]
+margin_left = 124.0
+margin_right = 221.0
+margin_bottom = 120.0
+custom_fonts/font = ExtResource( 10 )
+text = "LOAD"
+
+[node name="Fov" type="PanelContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList"]
+margin_top = 633.0
+margin_right = 233.0
+margin_bottom = 724.0
+custom_styles/panel = ExtResource( 9 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/Fov"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 225.0
+margin_bottom = 87.0
+alignment = 2
+
+[node name="Label" type="Label" parent="AspectRatioContainer/ScrollContainer/OptionsList/Fov/VBoxContainer"]
+margin_right = 221.0
+margin_bottom = 37.0
+custom_fonts/font = ExtResource( 10 )
+text = "FOV"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FovSlider" type="HSlider" parent="AspectRatioContainer/ScrollContainer/OptionsList/Fov/VBoxContainer"]
+margin_top = 41.0
+margin_right = 221.0
+margin_bottom = 57.0
 min_value = 50.0
 max_value = 150.0
 step = 10.0
@@ -232,96 +394,101 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="FovSlider"]
-margin_top = -32.0
-margin_right = 407.0
-margin_bottom = -15.0
-custom_fonts/font = ExtResource( 4 )
-text = "FOV"
+[node name="HBoxContainer" type="HBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/Fov/VBoxContainer"]
+margin_top = 61.0
+margin_right = 221.0
+margin_bottom = 83.0
+
+[node name="FovEdit" type="LineEdit" parent="AspectRatioContainer/ScrollContainer/OptionsList/Fov/VBoxContainer/HBoxContainer"]
+margin_right = 60.0
+margin_bottom = 22.0
+caret_blink = true
+caret_blink_speed = 0.5
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FovEdit" type="LineEdit" parent="FovSlider"]
-margin_left = 349.0
-margin_top = -7.0
-margin_right = 407.0
-margin_bottom = 17.0
+[node name="PlayerName" type="PanelContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList"]
+margin_top = 734.0
+margin_right = 233.0
+margin_bottom = 801.0
+custom_styles/panel = ExtResource( 9 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/PlayerName"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 225.0
+margin_bottom = 63.0
+
+[node name="Label" type="Label" parent="AspectRatioContainer/ScrollContainer/OptionsList/PlayerName/VBoxContainer"]
+margin_right = 221.0
+margin_bottom = 37.0
+custom_fonts/font = ExtResource( 10 )
+text = "PLAYER NAME"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MouseSenseSlider" type="HSlider" parent="."]
+[node name="LineEdit" type="LineEdit" parent="AspectRatioContainer/ScrollContainer/OptionsList/PlayerName/VBoxContainer"]
+margin_top = 41.0
+margin_right = 221.0
+margin_bottom = 59.0
+custom_styles/normal = ExtResource( 5 )
+caret_blink = true
+caret_blink_speed = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OptionsButtons" type="VBoxContainer" parent="."]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 14.0
-margin_top = -54.0
-margin_right = 354.0
-margin_bottom = -38.0
-min_value = 0.01
-max_value = 1.0
-step = 0.01
-value = 0.1
+margin_top = -70.0
+margin_right = 184.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="MouseSenseSlider"]
-margin_top = -32.0
-margin_right = 407.0
-margin_bottom = -15.0
-custom_fonts/font = ExtResource( 4 )
-text = "MOUSE SENSITIVITY"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LineEdit" type="LineEdit" parent="MouseSenseSlider"]
-margin_left = 349.0
-margin_top = -7.0
-margin_right = 407.0
-margin_bottom = 17.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Resolution" parent="." instance=ExtResource( 12 )]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -279.941
-margin_top = 19.8425
-margin_right = -36.9409
-margin_bottom = 76.8425
-text = "RESOLUTION"
-
-[node name="Save" parent="." instance=ExtResource( 12 )]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -280.0
-margin_top = -75.0
-margin_right = -37.0
-margin_bottom = -32.0
+[node name="Save" parent="OptionsButtons" instance=ExtResource( 12 )]
+margin_right = 184.0
+margin_bottom = 33.0
+custom_fonts/font = ExtResource( 10 )
 text = "SAVE"
 
-[node name="Back" parent="." instance=ExtResource( 12 )]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -280.0
-margin_top = -130.052
-margin_right = -37.0
-margin_bottom = -87.052
+[node name="Back" parent="OptionsButtons" instance=ExtResource( 12 )]
+margin_top = 37.0
+margin_right = 184.0
+margin_bottom = 70.0
+custom_fonts/font = ExtResource( 10 )
 text = "BACK"
+
+[node name="SprayFileDialog" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -317.5
+margin_top = -240.5
+margin_right = 317.5
+margin_bottom = 240.5
+theme = ExtResource( 11 )
+window_title = "Open a File"
+resizable = true
+mode = 0
+filters = PoolStringArray( "*.png", "*.jpg", "*.tga", "*.webp" )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="id_pressed" from="PopupMenu" to="." method="_on_PopupMenu_id_pressed"]
-[connection signal="pressed" from="CrosshairSub/Button" to="CrosshairSub" method="_on_Button_pressed"]
-[connection signal="pressed" from="CrosshairSub/Button2" to="CrosshairSub" method="_on_Button2_pressed"]
-[connection signal="value_changed" from="FovSlider" to="." method="_on_FovSlider_value_changed"]
-[connection signal="text_entered" from="FovSlider/FovEdit" to="." method="_on_FovEdit_text_entered"]
-[connection signal="value_changed" from="MouseSenseSlider" to="." method="_on_MouseSenseSlider_value_changed"]
-[connection signal="text_entered" from="MouseSenseSlider/LineEdit" to="." method="_on_LineEdit_text_entered"]
 [connection signal="pressed" from="Resolution" to="." method="_on_Resolution_pressed"]
-[connection signal="pressed" from="Save" to="." method="_on_Save_pressed"]
-[connection signal="pressed" from="Back" to="." method="_on_Back_pressed"]
+[connection signal="text_entered" from="AspectRatioContainer/ScrollContainer/OptionsList/MouseSensitivity/VBoxContainer/HBoxContainer/LineEdit" to="." method="_on_LineEdit_text_entered"]
+[connection signal="value_changed" from="AspectRatioContainer/ScrollContainer/OptionsList/MouseSensitivity/VBoxContainer/MouseSenseSlider" to="." method="_on_MouseSenseSlider_value_changed"]
+[connection signal="pressed" from="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer/Button" to="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer/CrosshairSub" method="_on_Button_pressed"]
+[connection signal="pressed" from="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer/Button2" to="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer/CrosshairSub" method="_on_Button2_pressed"]
+[connection signal="pressed" from="AspectRatioContainer/ScrollContainer/OptionsList/Spray/VBoxContainer/HBoxContainer/Load" to="." method="_on_Load_pressed"]
+[connection signal="value_changed" from="AspectRatioContainer/ScrollContainer/OptionsList/Fov/VBoxContainer/FovSlider" to="." method="_on_FovSlider_value_changed"]
+[connection signal="text_entered" from="AspectRatioContainer/ScrollContainer/OptionsList/Fov/VBoxContainer/HBoxContainer/FovEdit" to="." method="_on_FovEdit_text_entered"]
+[connection signal="pressed" from="OptionsButtons/Save" to="." method="_on_Save_pressed"]
+[connection signal="pressed" from="OptionsButtons/Back" to="." method="_on_Back_pressed"]
+[connection signal="file_selected" from="SprayFileDialog" to="." method="_on_SprayFileDialog_file_selected"]

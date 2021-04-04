@@ -236,7 +236,6 @@ func clear_cmd():
 const exit_help = "Exits the game";
 func exit_cmd():
 	print("Exiting...")
-	get_tree().get_network_peer().close_connection()
 	get_tree().quit()
 	
 const eval_desc = "Evaluate an expression"

@@ -6,6 +6,8 @@ extends Spatial
 var anim_strafe_interp = 0
 var anim_strafe_dir_interp = 0
 
+var stance = true
+
 var jumpscale = 0
 var anim_run_interp = 0			#KEEP THIS, IT DOES THE INERTIA OF THE ANIMATIONS
 
@@ -35,17 +37,22 @@ func set_all_meshes_layer_mask(node, value):
 	
 func _ready():
 	anim_tree.set("parameters/aim/blend_amount", 0)
+	anim_tree.set("parameters/stance/blend_amount", 0)
 	
 	#if we are master and not a bot
 	if is_network_master() and get_parent().get_node("controller").has_method("is_player"):
-		player_model.get_node("Armature/Skeleton/USSR_Male").set_layer_mask(8)
+		player_model.get_node("Armature/Skeleton/USSR_Male").set_layer_mask(9)
 	else:
 		player_model.get_node("Armature/Skeleton/USSR_Male").set_layer_mask(9)
+		
+	#player_model.get_node("Armature/Skeleton/SkeletonIK").start()
 
 func _physics_process(delta):
 	
 	var cmd = get_parent().cmd
 	var Command = get_parent().Command
+	
+	var camera = get_parent().camera
 	
 	var dir = get_parent().dir
 	var hvel = get_parent().hvel
@@ -57,12 +64,15 @@ func _physics_process(delta):
 		anim_strafe_interp = clamp(anim_strafe_interp, 0, 1)
 		anim_strafe_dir_interp = clamp(anim_strafe_dir_interp, 0, 1)
 		
+		var r = camera.rotation_degrees
+		
 		if cmd[Command.LEFT]:			#nice smoothing of turning while doing strafing
 			anim_strafe_interp += delta * ACCEL
 			anim_strafe_dir_interp += delta * ACCEL
 			
 			anim_tree.set("parameters/strafe/add_amount", anim_strafe_interp)
 			anim_tree.set("parameters/strafe_dir/blend_amount", anim_strafe_dir_interp)
+			
 		elif cmd[Command.RIGHT]:
 			
 			anim_strafe_interp += delta * ACCEL
@@ -70,6 +80,7 @@ func _physics_process(delta):
 				
 			anim_tree.set("parameters/strafe/add_amount", anim_strafe_interp)
 			anim_tree.set("parameters/strafe_dir/blend_amount", anim_strafe_dir_interp)
+			
 		else:
 			
 			anim_strafe_interp -= delta * ACCEL				#reset to normal
@@ -77,6 +88,7 @@ func _physics_process(delta):
 			
 			anim_tree.set("parameters/strafe/add_amount", anim_strafe_interp)
 			anim_tree.set("parameters/strafe_dir/blend_amount", anim_strafe_dir_interp)
+			
 			
 		if get_parent().is_on_floor():
 			jumpscale = 0
@@ -94,10 +106,10 @@ func _physics_process(delta):
 		hitscan.translation.z += cos(Global.delta_time * get_parent().speed) * 0.015 * anim_run_interp * lerp(1, 0.1, jumpscale)
 	else:
 		anim_run_interp -= delta * ACCEL		#-1 = idle
-			
+		
 	anim_tree.set("parameters/Blend3/blend_amount", anim_run_interp)
 	
-	tilt = -clamp(get_parent().get_node("Camera").rotation_degrees.x, -65, 65)
+	tilt = -clamp(get_parent().get_node("Camera").rotation_degrees.x + 12, -65, 65)
 	$ussr_male/Armature/Skeleton/tilt.rotation_degrees.x = tilt
 	
 	if hurt > 0:
@@ -116,7 +128,6 @@ remotesync func network_update(new_anim_strafe_interp, new_anim_strafe_dir_inter
 	hurt = new_hurt
 	
 func _on_change_playermodel_weapon(weapon):
-	anim_tree.set("parameters/aim/blend_amount", 1)
 	var helper = $ussr_male/Armature/Skeleton/hand_r/helper
 	
 	for i in helper.get_children():
@@ -124,12 +135,15 @@ func _on_change_playermodel_weapon(weapon):
 		
 	set_all_meshes_layer_mask(helper, 8)
 	
+	player_model.get_node("Tween").interpolate_property(anim_tree,
+	"parameters/aim/blend_amount", 0, 1, 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	player_model.get_node("Tween").start()
+	
+	#the stance flag is for a one handed stance animation for idle pistol holding
 	match weapon:
 		"pistol":
 			helper.get_node("pistol").show()
-		"smg2":
-			helper.get_node("smg2").show()
+		"smg":
+			helper.get_node("smg").show()
 		"br":
 			helper.get_node("br").show()
-		_:
-			anim_tree.set("parameters/aim/blend_amount", 0)

@@ -35,36 +35,43 @@ var weapons = {
 	"pistol": {
 		"clip": 12, 
 		"ammo": 144, 
+		"recoil": 2,
 		"times_fired": 0
 	},
 	"smg": {
 		"clip": 30, 
-		"ammo": 256, 
+		"ammo": 256,
+		"recoil": 1,
 		"times_fired": 0
 	},
 	"br": {
 		"clip": 20, 
-		"ammo": 128, 
+		"ammo": 128,
+		"recoil": 3,
 		"times_fired": 0
 	},
 	"auto5": {
 		"clip": 6, 
-		"ammo": 36, 
+		"ammo": 36,
+		"recoil": 1,
 		"times_fired": 0
 	},
 	"double barrel": {
 		"clip": 2, 
-		"ammo": 24, 
+		"ammo": 24,
+		"recoil": 1,
 		"times_fired": 0
 	},
 	"grenade": {
 		"clip": null,
 		"ammo": 6,
+		"recoil": null,
 		"times_fired": 0
 	},
 	"bow": {
 		"clip": 1,
 		"ammo": 12,
+		"recoil": null,
 		"times_fired": 0
 	}
 }
@@ -83,6 +90,9 @@ var player_y_vel = 0
 
 #this is just a flag for semi auto guns to check whether the gun has been fired
 var can_fire = true
+
+var can_spray = true
+var previous_spray = null
 
 signal finished_reloading
 signal update_weapon_list
@@ -109,7 +119,7 @@ func fire_weapon(damage, bullets, sound):
 		weapons[weapon_name]["times_fired"] += bullets
 		
 	if recoil:
-		player_node.get_node("Camera").rotation_degrees.x += 1
+		player_node.get_node("Camera").rotation_degrees.x += weapons[weapon_name]["recoil"]
 
 #Our grenade throwing function
 func throw_grenade(bullets):
@@ -138,6 +148,7 @@ func reload_weapon():
 	
 	if !instant_reload and anim != null and anim.has_animation("reload"):
 		anim.play("reload")
+		weapon_nodes[pos].get_node("Reload").play()
 	else:
 		_on_animation_finished("reload")
 	
@@ -192,6 +203,63 @@ func remove_all_weapons():
 	pos = 0
 		
 	_on_update_weapon_list()
+	
+func create_decal(body, trans, normal, color, decal_scale, image_path):
+	var b = decal.instance()
+	body.add_child(b)
+	b.global_transform.origin = trans
+	#get translation and rotation
+	var c = trans + normal
+	
+	#this just prevents a look_at error that reports if our target vector is equal to UP
+	if c != Vector3.UP:
+		b.look_at(c, Vector3.UP)
+	
+	#rotate the decal around on the X axis
+	b.rotation.x *= -1
+	
+	var texture = load(image_path)
+	
+	var decal_shader = b.get_node("MeshInstance").mesh.material
+	decal_shader.set_shader_param("albedo", 
+	texture)
+	
+	#decal_shader.set_shader_param("uv_scale", Vector2.ONE * decal_scale)
+	
+	decal_shader.set_shader_param("albedo_tint", color)
+	b.get_node("MeshInstance").scale = Vector3.ONE * decal_scale
+	
+	#return the node
+	return b
+	
+func spray():
+	var ray = $UseCast
+	ray.force_raycast_update()
+	
+	if ray.is_colliding():
+		var body = ray.get_collider()
+		
+		if body is StaticBody and can_spray:
+			#is our previous spray node valid? if so remove it
+			if is_instance_valid(previous_spray):
+				previous_spray.queue_free()
+			
+			#create our spray with on the static body
+			var spray = create_decal(body, ray.get_collision_point(), ray.get_collision_normal(), 
+			Color(1, 1, 1, 1), 1, Global.game_config["spray"])
+			#stop the despawn timer
+			spray.get_node("Timer").stop()
+			#play the spray sound
+			$spray.play()
+			#set our previous spray variable to our current one
+			previous_spray = spray
+			
+			#set that we can't spray until the timer times out, until then, yield this
+			#function
+			can_spray = false
+			$SprayTimer.start()
+			yield($SprayTimer, "timeout")
+			can_spray = true
 			
 func fire_hitscan(damage):
 	var ray = $RayCast
@@ -217,14 +285,8 @@ func fire_hitscan(damage):
 				
 		elif body is StaticBody:
 			#bullet decal adding
-			var b = decal.instance()
-			body.add_child(b)
-			b.global_transform.origin = ray.get_collision_point()
-			#get translation and rotation
-			var c = ray.get_collision_point() + ray.get_collision_normal()
-			
-			if c != Vector3.UP:
-				b.look_at(c, Vector3.UP)
+			create_decal(body, ray.get_collision_point(), ray.get_collision_normal(), 
+			Color(0.67, 0.67, 0.67, 1), 0.1, "res://textures/bullethole.png")
 				
 		elif body is CSGShape:
 			var hole = load("res://scenes/BulletHole.tscn").instance()
@@ -373,10 +435,12 @@ func _physics_process(delta):
 		if cmd[Command.PRIMARY] and can_fire:
 			
 			if (weapon_name == "pistol" and current_clip > 0 and 
-			!anim.is_playing() and !anim.current_animation == "reload"):
-				fire_weapon(15, 1, $RayCast/PistolFire)
+			weapon_nodes[pos].get_node("Timer").is_stopped() and !anim.current_animation == "reload"):
+				weapon_nodes[pos].get_node("Timer").start()
+				if anim.is_playing():
+					anim.stop(true)
+				fire_weapon(15, 1, weapon_nodes[pos].get_node("Fire"))
 				
-				can_fire = false
 				
 			elif (weapon_name == "smg" and current_clip > 0 and 
 			weapon_nodes[pos].get_node("Timer").is_stopped() and !anim.current_animation == "reload"):
@@ -384,7 +448,7 @@ func _physics_process(delta):
 				if anim.is_playing():
 					anim.stop(true)
 				
-				fire_weapon(15, 1, $RayCast/SmgFire)
+				fire_weapon(15, 1, weapon_nodes[pos].get_node("Fire"))
 				
 			elif (weapon_name == "br" and current_clip > 0 and 
 			weapon_nodes[pos].get_node("Timer").is_stopped() and !anim.current_animation == "reload"):
@@ -392,7 +456,7 @@ func _physics_process(delta):
 				if anim.is_playing():
 					anim.stop(true)
 				
-				fire_weapon(20, 1, $RayCast/BrFire)
+				fire_weapon(20, 1, weapon_nodes[pos].get_node("Fire"))
 				
 			elif (weapon_name == "auto5" and current_clip > 0):
 				
@@ -416,12 +480,12 @@ func _physics_process(delta):
 				
 				can_fire = false
 				
-			elif (weapon_name != "bow" and current_clip == 0 and current_ammo > 0 and 
-			times_fired != 0 and !anim.is_playing()):
+			elif (current_clip == 0 and current_ammo > 0 and !anim.is_playing() 
+			and weapon_name != "bow"):
 				reload_weapon()
 				
 			#play empty fire sound if we have zero bullets left in clip
-			elif current_clip == 0 and current_ammo == 0:
+			elif current_clip == 0 and current_ammo == 0 and !anim.is_playing():
 				$RayCast/Empty.play()
 				
 				can_fire = false
@@ -444,17 +508,13 @@ func _physics_process(delta):
 				throw_grenade(1)
 			
 			#bow shooting code
-			elif weapon_name == "bow" and current_clip > 0 and current_ammo > 0:
+			elif weapon_name == "bow" and current_clip > 0:
 				weapon_nodes[pos].shoot(anim.current_animation_position, player_node.name)
 				
 				if consume_ammo:
 					weapons[weapon_name]["clip"] -= 1
 					weapons[weapon_name]["times_fired"] += 1
-					
-			elif (weapon_name == "bow" and current_ammo > 0 and 
-			times_fired != 0):
-				weapon_nodes[pos].reload()
-				reload_weapon()
+				
 				
 		if cmd[Command.SECONDARY] and can_fire:
 				
@@ -467,7 +527,7 @@ func _physics_process(delta):
 			elif current_clip == 0:
 				reload_weapon()
 				
-			elif current_clip == 0 and current_ammo == 0:
+			elif current_clip == 0 and current_ammo == 0 and !anim.is_playing():
 				$RayCast/Empty.play()
 				
 				can_fire = false
@@ -478,38 +538,17 @@ func _physics_process(delta):
 		#We don't use just_pressed because we want as little bytes sent over
 		elif cmd[Command.RELOAD]:
 			
-			if (weapon_name == "pistol" and current_ammo > 0 and 
+			if (weapon_name in weapons and current_ammo > 0 and 
 			times_fired != 0 and !anim.is_playing()):
-				reload_weapon()
-				$RayCast/PistolReload.play()
-				
-			elif (weapon_name == "smg" and current_ammo > 0 and 
-			times_fired != 0 and !anim.is_playing()):
-				reload_weapon()
-				$RayCast/SmgReload.play()
-				
-			elif (weapon_name == "auto5" and current_ammo > 0 and 
-			times_fired != 0):
-				reload_weapon()
-				$RayCast/SmgReload.play()
-				
-			elif (weapon_name == "br" and current_ammo > 0 and 
-			times_fired != 0 and !anim.is_playing()):
-				reload_weapon()
-				$RayCast/BrReload.play()
-				
-			elif (weapon_name == "double barrel" and current_ammo > 0 and 
-			times_fired != 0 and !anim.is_playing()):
-				reload_weapon()
-				$RayCast/DoubleBarrelReload.play()
-				
-			elif (weapon_name == "bow" and current_ammo > 0 and 
-			times_fired != 0 and !anim.is_playing()):
-				weapon_nodes[pos].reload()
+				if weapon_name == "bow":
+					weapon_nodes[pos].reload()
 				reload_weapon()
 				
 		elif cmd[Command.USE]:
 			use_hitscan()
+			
+		elif cmd[Command.SPRAY]:
+			spray()
 
 func _on_weapon_switch():
 	#we do our one-time logic here after weapon switch
@@ -519,6 +558,8 @@ func _on_weapon_switch():
 	$Tween.interpolate_property(hitscan, "translation", Vector3(0, -2, -1), 
 	hitscan_initpos, 1, Tween.TRANS_QUART, Tween.EASE_IN_OUT)
 	$Tween.start()
+	
+	hitscan.get_node("../hands").get_helpers(hitscan)
 	
 	_on_update_weapon_list()
 	

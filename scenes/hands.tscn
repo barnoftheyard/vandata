@@ -1,18 +1,29 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://models/hands/hands.glb" type="PackedScene" id=1]
+[ext_resource path="res://scripts/hands.gd" type="Script" id=2]
 
 [node name="hands" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
 
 [node name="SkeletonIK" type="SkeletonIK" parent="Armature/Skeleton" index="0"]
 process_priority = 1
 root_bone = "upper_arm_l"
 tip_bone = "hand_l"
+target_node = NodePath("../left_hand")
 
 [node name="SkeletonIK2" type="SkeletonIK" parent="Armature/Skeleton" index="1"]
 process_priority = 1
 root_bone = "upper_arm_r"
 tip_bone = "hand_r"
+target_node = NodePath("../right_hand")
+
+[node name="USSR_Male" parent="Armature/Skeleton" index="2"]
+layers = 2
+
+[node name="left_hand" type="Position3D" parent="Armature/Skeleton" index="3"]
+
+[node name="right_hand" type="Position3D" parent="Armature/Skeleton" index="4"]
 
 [node name="AnimationPlayer" parent="." index="1"]
 autoplay = "idle -loop"

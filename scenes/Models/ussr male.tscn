@@ -8,17 +8,20 @@
 
 [node name="ussr male" instance=ExtResource( 2 )]
 
+[node name="Skeleton" parent="Armature" index="0"]
+bones/15/bound_children = [ NodePath("hand_r") ]
+
 [node name="USSR_Male" parent="Armature/Skeleton" index="0"]
 layers = 8
 
 [node name="hand_r" type="BoneAttachment" parent="Armature/Skeleton" index="1"]
-transform = Transform( -0.99928, 0.0343796, -0.0160331, -0.0183891, -0.0693457, 0.997423, 0.0331791, 0.997, 0.0699279, -0.124334, 1.24647, 0.384386 )
-bone_name = "hand_r"
+transform = Transform( -0.995119, 0.0956768, -0.0241778, -0.00270965, 0.218419, 0.975851, 0.0986472, 0.971153, -0.217093, -0.105417, 1.36304, 0.356924 )
+bone_name = "Hand.R"
 
 [node name="helper" type="Spatial" parent="Armature/Skeleton/hand_r" index="0"]
-transform = Transform( 1, -6.55651e-07, 2.86594e-14, 0, -4.37114e-08, -1, 6.55651e-07, 1, -4.37114e-08, 0.0108306, 0.0695195, -0.0448492 )
+transform = Transform( 1, -6.56117e-07, 3.72529e-09, 0, -5.21541e-08, -1, 6.54021e-07, 1, -4.47035e-08, 0.0108306, 0.0695195, -0.0448492 )
 
-[node name="smg2" parent="Armature/Skeleton/hand_r/helper" index="0" instance=ExtResource( 3 )]
+[node name="smg" parent="Armature/Skeleton/hand_r/helper" index="0" instance=ExtResource( 3 )]
 transform = Transform( 0.297764, 0, 0.0365608, 0, 0.3, 0, -0.0365608, 0, 0.297764, -0.0016534, 0.0538143, -0.0743475 )
 visible = false
 
@@ -32,20 +35,24 @@ visible = false
 
 [node name="SkeletonIK" type="SkeletonIK" parent="Armature/Skeleton" index="2"]
 process_priority = 1
-root_bone = "hips"
-tip_bone = "spine"
+root_bone = "Hips"
+tip_bone = "Chest"
 target_node = NodePath("../tilt")
 
 [node name="tilt" type="Position3D" parent="Armature/Skeleton" index="3"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+transform = Transform( 1, 0, -7.45058e-09, -1.86265e-09, 0.969656, -0.244473, 0, 0.244473, 0.969656, -2.32831e-10, 0.879324, -0.0264011 )
 
 [node name="AnimationTree" type="AnimationTree" parent="." index="2"]
 tree_root = ExtResource( 1 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/Blend3/blend_amount = 1.0
-parameters/aim/blend_amount = 1.0
+parameters/aim/blend_amount = 0.0
 parameters/hurt/blend_amount = 0.0
+parameters/pistol_aim/blend_amount = 1.0
 parameters/speed/scale = 1.0
+parameters/stance/blend_amount = 1.0
 parameters/strafe/add_amount = 0.0
 parameters/strafe_dir/blend_amount = 0.0
+
+[node name="Tween" type="Tween" parent="." index="3"]

@@ -32,6 +32,8 @@ func make_screenshot():
 
 	_update_tags()
 	image.save_png("%s%s%s_%s.png" % [output_path, file_prefix, _tag, _index])
+	
+	network.console_msg("Screenshot taken: %s%s%s_%s.png" % [output_path, file_prefix, _tag, _index])
 
 func _check_actions(actions=[]):
 	if OS.is_debug_build():

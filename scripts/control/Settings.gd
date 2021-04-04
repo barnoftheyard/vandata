@@ -1,28 +1,42 @@
 extends Control
 
+onready var options = $AspectRatioContainer/ScrollContainer/OptionsList
+
 func init_config():		#I should really set up some sort of clever for loop that takes care of all the path-setting for me
-	Global.config_file.set_value("game", "player_name", $PlayerNameSub/LineEdit.text)
-	Global.config_file.set_value("game", "crosshair", $CrosshairSub.crosshair)		#game = unique to the user's program instance
-	Global.config_file.set_value("game", "invert_x", $InvertCameraSub/CheckBox.is_pressed())
-	Global.config_file.set_value("game", "invert_y", $InvertCameraSub/CheckBox2.is_pressed())
-	Global.config_file.set_value("game", "flip_guns", $CheckBox5.is_pressed())
-	Global.config_file.set_value("game", "fullscreen", $CheckBox3.is_pressed())
-	Global.config_file.set_value("game", "show_fps", $CheckBox4.is_pressed())
-	Global.config_file.set_value("game", "mouse_sensitivity", $MouseSenseSlider.value)
-	Global.config_file.set_value("game", "fov", $FovSlider.value)
+	Global.config_file.set_value("game", "player_name", 
+	options.get_node("PlayerName/VBoxContainer/LineEdit").text)
+	Global.config_file.set_value("game", "crosshair", 
+	options.get_node("Crosshair/VBoxContainer/HBoxContainer/CrosshairSub").crosshair)		#game = unique to the user's program instance
+	Global.config_file.set_value("game", "invert_x", 
+	options.get_node("InvertMouse/VBboxContainer/CheckBox1").is_pressed())
+	Global.config_file.set_value("game", "invert_y", 
+	options.get_node("InvertMouse/VBboxContainer/CheckBox2").is_pressed())
+	Global.config_file.set_value("game", "flip_guns", 
+	options.get_node("Visuals/VBoxContainer/CheckBox3").is_pressed())
+	Global.config_file.set_value("game", "fullscreen", 
+	options.get_node("Visuals/VBoxContainer/CheckBox1").is_pressed())
+	Global.config_file.set_value("game", "show_fps",
+	options.get_node("Visuals/VBoxContainer/CheckBox2").is_pressed())
+	Global.config_file.set_value("game", "mouse_sensitivity", 
+	options.get_node("MouseSensitivity/VBoxContainer/MouseSenseSlider").value)
+	Global.config_file.set_value("game", "fov", 
+	options.get_node("Fov/VBoxContainer/FovSlider").value)
+	Global.config_file.set_value("game", "spray", 
+	options.get_node("Spray/VBoxContainer/HBoxContainer/TextureRect").texture.resource_path)
 	
 func set_settings():
-	$PlayerNameSub/LineEdit.text = Global.game_config["player_name"]
-	$CrosshairSub.crosshair = Global.game_config["crosshair"]
-	$InvertCameraSub/CheckBox.pressed = Global.game_config["invert_x"]
-	$InvertCameraSub/CheckBox2.pressed = Global.game_config["invert_y"]
-	$CheckBox5.pressed = Global.game_config["flip_guns"]
-	$CheckBox3.pressed = Global.game_config["fullscreen"]
-	$CheckBox4.pressed = Global.game_config["show_fps"]
-	$MouseSenseSlider.value = Global.game_config["mouse_sensitivity"]
-	$MouseSenseSlider/LineEdit.text = str(Global.game_config["mouse_sensitivity"])
-	$FovSlider.value = Global.game_config["fov"]
-	$FovSlider/FovEdit.text = str(Global.game_config["fov"])
+	options.get_node("PlayerName/VBoxContainer/LineEdit").text = Global.game_config["player_name"]
+	options.get_node("Crosshair/VBoxContainer/HBoxContainer/CrosshairSub").crosshair = Global.game_config["crosshair"]
+	options.get_node("InvertMouse/VBboxContainer/CheckBox1").pressed = Global.game_config["invert_x"]
+	options.get_node("InvertMouse/VBboxContainer/CheckBox2").pressed = Global.game_config["invert_y"]
+	options.get_node("Visuals/VBoxContainer/CheckBox3").pressed = Global.game_config["flip_guns"]
+	options.get_node("Visuals/VBoxContainer/CheckBox1").pressed = Global.game_config["fullscreen"]
+	options.get_node("Visuals/VBoxContainer/CheckBox2").pressed = Global.game_config["show_fps"]
+	options.get_node("MouseSensitivity/VBoxContainer/MouseSenseSlider").value = Global.game_config["mouse_sensitivity"]
+	options.get_node("MouseSensitivity/VBoxContainer/HBoxContainer/LineEdit").text = str(Global.game_config["mouse_sensitivity"])
+	options.get_node("Fov/VBoxContainer/FovSlider").value = Global.game_config["fov"]
+	options.get_node("Fov/VBoxContainer/HBoxContainer/FovEdit").text = str(Global.game_config["fov"])
+	options.get_node("Spray/VBoxContainer/HBoxContainer/TextureRect").texture = load(Global.game_config["spray"])
 	
 func _ready():
 	set_settings()
@@ -41,16 +55,24 @@ func _on_Save_pressed():
 
 
 func _on_MouseSenseSlider_value_changed(value):
-	$MouseSenseSlider/LineEdit.text = str(value)
+	options.get_node("MouseSensitivity/VBoxContainer/HBoxContainer/LineEdit").text = str(value)
 func _on_LineEdit_text_entered(new_text):
-	$MouseSenseSlider.value = float(new_text)
+	options.get_node("MouseSensitivity/VBoxContainer/MouseSenseSlider").value = float(new_text)
 
 
 func _on_FovSlider_value_changed(value):
-	$FovSlider/FovEdit.text = str(value)
+	options.get_node("Fov/VBoxContainer/HBoxContainer/FovEdit").text = str(value)
 func _on_FovEdit_text_entered(new_text):
-	$FovSlider.value = float(new_text)
+	options.get_node("Fov/VBoxContainer/FovSlider").value = float(new_text)
 
 
 func _on_Back_pressed():
 	queue_free()
+
+
+func _on_Load_pressed():
+	$SprayFileDialog.popup_centered()
+
+
+func _on_SprayFileDialog_file_selected(path):
+	options.get_node("Spray/VBoxContainer/HBoxContainer/TextureRect").texture = load(path)

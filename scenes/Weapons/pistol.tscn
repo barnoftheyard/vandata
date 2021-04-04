@@ -16,3 +16,7 @@ stream = ExtResource( 4 )
 
 [node name="Reload" type="AudioStreamPlayer" parent="." index="4"]
 stream = ExtResource( 3 )
+
+[node name="Timer" type="Timer" parent="." index="5"]
+wait_time = 0.25
+one_shot = true

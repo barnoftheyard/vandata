@@ -1,10 +1,33 @@
 # Blender MTL File: 'arrow.blend'
-# Material Count: 1
+# Material Count: 3
 
-newmtl None
-Ns 500
-Ka 0.8 0.8 0.8
-Kd 0.8 0.8 0.8
-Ks 0.8 0.8 0.8
-d 1
+newmtl Material
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\barnyard\\Desktop\\godot3\\Blender files\\telecom models\\bow\\plywood_diff_1k.png
+
+newmtl Material.001
+Ns 182.249990
+Ka 1.000000 1.000000 1.000000
+Kd 0.076580 0.076580 0.076580
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+
+newmtl Material.002
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.438545 0.438545 0.438545
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
 illum 2

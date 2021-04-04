@@ -1,4 +1,4 @@
-[gd_scene load_steps=142 format=2]
+[gd_scene load_steps=144 format=2]
 
 [ext_resource path="res://scripts/entities/physbrush.gd" type="Script" id=1]
 [ext_resource path="res://addons/qodot/game_definitions/fgd/point_classes/light.gd" type="Script" id=2]
@@ -702,6 +702,20 @@ points = PoolVector3Array( -0.25, 0.5, -0.25, -0.25, -0.5, -0.25, 0.25, -0.5, -0
 flags_world_triplanar = true
 albedo_texture = ExtResource( 22 )
 uv1_triplanar = true
+
+[sub_resource type="ProceduralSky" id=118]
+ground_bottom_color = Color( 0.0470588, 0.529412, 0.952941, 1 )
+ground_horizon_color = Color( 0.647059, 0.839216, 0.945098, 1 )
+
+[sub_resource type="Environment" id=119]
+background_mode = 2
+background_sky = SubResource( 118 )
+ssao_enabled = true
+ssao_intensity = 2.0
+glow_bloom = 0.2
+adjustment_enabled = true
+adjustment_contrast = 1.1
+adjustment_saturation = 1.2
 
 [node name="Qodot" type="Spatial"]
 
@@ -1534,3 +1548,6 @@ use_collision = true
 width = 18.0
 depth = 38.0
 material = SubResource( 117 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 119 )

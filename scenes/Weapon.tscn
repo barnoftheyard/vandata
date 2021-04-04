@@ -1,18 +1,14 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/Weapon.gd" type="Script" id=1]
 [ext_resource path="res://sounds/double barrel/sbarrel1.wav" type="AudioStream" id=2]
 [ext_resource path="res://scripts/EndPoint.gd" type="Script" id=3]
 [ext_resource path="res://sounds/dryfire1.wav" type="AudioStream" id=4]
-[ext_resource path="res://sounds/pistol/p228_clipout.wav" type="AudioStream" id=5]
+[ext_resource path="res://scenes/hands.tscn" type="PackedScene" id=5]
 [ext_resource path="res://default_env.tres" type="Environment" id=6]
-[ext_resource path="res://sounds/pistol/p228-1.wav" type="AudioStream" id=9]
+[ext_resource path="res://sounds/spray.ogg" type="AudioStream" id=7]
 [ext_resource path="res://sounds/double barrel/scock1.wav" type="AudioStream" id=10]
 [ext_resource path="res://sounds/double barrel/dbarrel1.wav" type="AudioStream" id=11]
-[ext_resource path="res://sounds/smg/mac10_clipout.wav" type="AudioStream" id=13]
-[ext_resource path="res://sounds/smg/mac10-1.wav" type="AudioStream" id=14]
-[ext_resource path="res://sounds/br/aug-1.wav" type="AudioStream" id=16]
-[ext_resource path="res://sounds/br/aug_clipout.wav" type="AudioStream" id=17]
 [ext_resource path="res://sounds/items/tick.wav" type="AudioStream" id=19]
 
 [sub_resource type="CylinderShape" id=1]
@@ -33,14 +29,8 @@ script = ExtResource( 3 )
 enabled = true
 cast_to = Vector3( 0, 0, -2048 )
 
-[node name="PistolFire" type="AudioStreamPlayer" parent="RayCast"]
-stream = ExtResource( 9 )
-
 [node name="DoubleBarrelFire" type="AudioStreamPlayer" parent="RayCast"]
 stream = ExtResource( 2 )
-
-[node name="PistolReload" type="AudioStreamPlayer" parent="RayCast"]
-stream = ExtResource( 5 )
 
 [node name="DoubleBarrelReload" type="AudioStreamPlayer" parent="RayCast"]
 stream = ExtResource( 10 )
@@ -48,19 +38,7 @@ stream = ExtResource( 10 )
 [node name="DoubleBarrelFireBoth" type="AudioStreamPlayer" parent="RayCast"]
 stream = ExtResource( 11 )
 
-[node name="SmgFire" type="AudioStreamPlayer" parent="RayCast"]
-stream = ExtResource( 14 )
-
-[node name="SmgReload" type="AudioStreamPlayer" parent="RayCast"]
-stream = ExtResource( 13 )
-
 [node name="ThrowGrenade" type="AudioStreamPlayer" parent="RayCast"]
-
-[node name="BrFire" type="AudioStreamPlayer" parent="RayCast"]
-stream = ExtResource( 16 )
-
-[node name="BrReload" type="AudioStreamPlayer" parent="RayCast"]
-stream = ExtResource( 17 )
 
 [node name="Empty" type="AudioStreamPlayer" parent="RayCast"]
 stream = ExtResource( 4 )
@@ -96,6 +74,10 @@ render_target_update_mode = 3
 [node name="Hitscan" type="Spatial" parent="ViewportContainer/Viewport/TransformHelper"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6, -1.25 )
 
+[node name="hands" parent="ViewportContainer/Viewport/TransformHelper" instance=ExtResource( 5 )]
+transform = Transform( -2, 0, -3.01992e-07, 0, 2, 0, 3.01992e-07, 0, -2, 0, -3.50132, -0.0404123 )
+visible = false
+
 [node name="Camera" type="Camera" parent="ViewportContainer/Viewport/TransformHelper"]
 cull_mask = 6
 environment = ExtResource( 6 )
@@ -103,3 +85,10 @@ environment = ExtResource( 6 )
 [node name="Tween" type="Tween" parent="."]
 playback_speed = 3.0
 playback/speed = 3.0
+
+[node name="spray" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 7 )
+
+[node name="SprayTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true

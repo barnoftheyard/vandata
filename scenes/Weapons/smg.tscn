@@ -1,15 +1,23 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://models/smg/smg.glb" type="PackedScene" id=1]
+[ext_resource path="res://sounds/smg/mac10-1.wav" type="AudioStream" id=2]
+[ext_resource path="res://sounds/smg/mac10_clipout.wav" type="AudioStream" id=3]
 
 [node name="smg" instance=ExtResource( 1 )]
+
+[node name="right" type="Position3D" parent="Armature/Bone/frame" index="0"]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -7.66943e-15, -0.158753, 0.255806 )
+
+[node name="left" type="Position3D" parent="Armature/Bone/frame" index="1"]
+transform = Transform( 0.866025, 0.5, 0, -0.5, 0.866025, 0, 0, 0, 1, -7.10543e-15, 2.98023e-08, -0.125613 )
 
 [node name="Timer" type="Timer" parent="." index="2"]
 wait_time = 0.1
 one_shot = true
 
-[node name="left" type="Position3D" parent="." index="3"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5 )
+[node name="Fire" type="AudioStreamPlayer" parent="." index="3"]
+stream = ExtResource( 2 )
 
-[node name="right" type="Position3D" parent="." index="4"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.128314 )
+[node name="Reload" type="AudioStreamPlayer" parent="." index="4"]
+stream = ExtResource( 3 )

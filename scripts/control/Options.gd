@@ -31,7 +31,7 @@ func _on_Settings_pressed():
 	add_child(settings_node)
 	
 func _on_Quit_pressed():
-	Console.emit_signal("run_command", "exit")
+	$AcceptDialog.popup_centered()
 
 func _on_Disconnect_pressed():
 	get_tree().change_scene("res://scenes/Control/Menu.tscn")
@@ -40,3 +40,7 @@ func _on_Disconnect_pressed():
 	
 	Console.emit_signal("open_console")
 	network.console_msg("Connection to the server ended.")
+
+
+func _on_AcceptDialog_confirmed():
+	Console.emit_signal("run_command", "exit")

@@ -68,9 +68,9 @@ var is_invul = false
 #multiplayer data commands, to send forth over the network to tell clients how to
 #move our player node
 enum Command {FORWARD, BACKWARD, LEFT, RIGHT, JUMP, RUN, CROUCH, FLASHLIGHT, 
-	PRIMARY, SECONDARY, USE, RELOAD}
+	PRIMARY, SECONDARY, USE, RELOAD, SPRAY}
 var cmd = [false, false, false, false, false, false, false, false, false, false,
-	false, false]
+	false, false, false]
 
 #TODO maybe make the player health functions into signals?
 #signal damaged
@@ -201,6 +201,7 @@ func _input(event):
 		Global.game_config["mouse_sensitivity"] * invert_x))
 		
 		camera.rotation_degrees.x = clamp(camera.rotation_degrees.x, -89, 89)
+		camera.rotation_degrees.z = 0
 
 func _physics_process(delta):
 	
@@ -348,7 +349,8 @@ func _physics_process(delta):
 			#Transmit our animation data
 			var a = $AnimController
 			a.rpc_unreliable("network_update", a.anim_strafe_interp, 
-			a.anim_strafe_dir_interp, a.jumpscale, a.anim_run_interp, a.tilt, a.hurt)
+			a.anim_strafe_dir_interp, a.jumpscale, a.anim_run_interp, a.tilt, 
+			a.hurt)
 			
 		#Our client specific code
 		camera.make_current()
