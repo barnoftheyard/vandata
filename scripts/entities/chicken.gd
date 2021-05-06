@@ -16,6 +16,7 @@ var anim_run_interp = 0
 
 export var health = 15
 export var speed = 8
+export var interp = true
 
 func bullet_hit(damage, id, _bullet_hit_pos, _force_multiplier):
 	health -= damage
@@ -67,6 +68,16 @@ func _physics_process(delta):
 	vel.z = hvel.z
 	
 	vel = move_and_slide(vel, Vector3(0, 1, 0), false, 4, deg2rad(40), false)
+	
+	rpc_unreliable("network_update", translation, rotation, delta * network.interp_scale)
+	
+remotesync func network_update(new_translation, new_rotation, delta):
+	if interp:
+		translation = translation.linear_interpolate(new_translation, delta)
+		rotation = rotation.linear_interpolate(new_rotation, delta)
+	else:
+		translation = new_translation
+		rotation = new_rotation
 
 func _on_Timer_timeout():
 	queue_free()

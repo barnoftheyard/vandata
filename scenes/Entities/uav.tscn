@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://models/uav/uav.glb" type="PackedScene" id=1]
+[ext_resource path="res://scripts/entities/uav.gd" type="Script" id=2]
+[ext_resource path="res://sounds/uav/hover.wav" type="AudioStream" id=3]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 1.2, 1, 1.2 )
+
+[sub_resource type="SphereShape" id=2]
+radius = 16.0
+
+[node name="uav" type="KinematicBody"]
+script = ExtResource( 2 )
+
+[node name="uav" parent="." instance=ExtResource( 1 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1.72815, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shape = SubResource( 1 )
+
+[node name="Area" type="Area" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="Area"]
+shape = SubResource( 2 )
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="RayCast" type="RayCast" parent="."]
+enabled = true
+cast_to = Vector3( 0, -4, 0 )
+
+[node name="hover" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 3 )
+unit_size = 3.0
+pitch_scale = 0.5
+autoplay = true
+
+[connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

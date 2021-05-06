@@ -30,11 +30,10 @@ var cam = null
 export var invert_x = -1
 export var invert_y = -1
 export var noclip = false
-export var interp = true
-export var interp_scale = 50
+
 
 var inertia = 0.1
-var speed = 8
+var speed = 12
 
 var always_run = true
 var step_time = 0
@@ -162,7 +161,7 @@ remotesync func bullet_hit(damage, from, bullet_hit_pos, _force_multiplier):			#
 			
 			rpc_id(from, "give_kill")
 			
-remote func give_kill():
+remotesync func give_kill():
 	player_info["kills"] += 1
 
 
@@ -171,7 +170,8 @@ func _ready():
 	init()
 	
 	#give our weapon node this node path
-	weapon.player_node = self
+	if weapon != null:
+		weapon.player_node = self
 	
 	if Global.game_config["invert_x"]:
 		invert_x *= -1
@@ -307,10 +307,6 @@ func _physics_process(delta):
 	
 	#apply the velocity to our player
 	vel = move_and_slide(vel, Vector3.UP, false, 4, deg2rad(MAX_SLOPE_ANGLE), false)
-	
-	#kill ourselves if we go too far down (poetic!)
-	if transform.origin.y < -200 and !noclip:
-		damage(player_info["health"])
 		
 	if !is_invul:
 		$AnimController/ussr_male/Armature/Skeleton/USSR_Male.material_override = null
@@ -342,9 +338,9 @@ func _physics_process(delta):
 		if get_parent().get_child_count() > 1:
 			
 			#This sends all the player info of every player node
-			network.rpc_unreliable("send_player_data", name, player_info)
+			network.rpc("send_player_data", name, player_info)
 			# RPC unreliable is faster but doesn't verify whether data has arrived or is intact
-			rpc_unreliable("network_update", translation, rotation, delta * interp_scale)
+			rpc_unreliable("network_update", translation, rotation, delta * network.interp_scale)
 			
 			#Transmit our animation data
 			var a = $AnimController
@@ -357,12 +353,18 @@ func _physics_process(delta):
 
 # To update data both on a server and clients "sync" is used
 remotesync func network_update(new_translation, new_rotation, delta):
-	if interp:
+	if network.interp:
 		translation = translation.linear_interpolate(new_translation, delta)
 		rotation = rotation.linear_interpolate(new_rotation, delta)
 	else:
 		translation = new_translation
 		rotation = new_rotation
+		
+#remotesync func network_update(new_transform, delta):
+#	if network.interp:
+#		transform = transform.interpolate_with(new_transform, delta)
+#	else:
+#		transform = new_transform
 		
 func _on_StepTimer_timeout():				#this is optimized
 	Global.play_rand(step_sound, steps)
@@ -385,32 +387,7 @@ func noclip_cmd(command):
 	else:
 		print("cheats is not set to true!")
 		Console.print("cheats is not set to true!")
-		
-const interp_help = "Whether to interpolate player movement for multiplayer"
-func interp_cmd(command):
-	if network.cheats and command != null:
-		interp = bool(int(command))
-		print("Interpolation is set to " + str(interp))
-		Console.print("Interpolation is set to " + str(interp))
-	elif command == null:
-		print("No argument given!")
-		Console.print("No argument given!")
-	else:
-		print("cheats is not set to true!")
-		Console.print("cheats is not set to true!")
-		
-const interp_scale_help = "How much to scale the interpolation"
-func interp_scale_cmd(command):
-	if network.cheats and command != null:
-		interp_scale = int(command)
-		print("Interpolation scale is set to " + str(interp_scale))
-		Console.print("Interpolation scale is set to " + str(interp_scale))
-	elif command == null:
-		print("No argument given!")
-		Console.print("No argument given!")
-	else:
-		print("cheats is not set to true!")
-		Console.print("cheats is not set to true!")
+	
 
 const kill_help = "Kills self"
 func kill_cmd():

@@ -93,15 +93,17 @@ func lexer(tokens):
 		
 func toggle():
 	if visible:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		hide();
 		Global.is_paused = false
+		
+		if get_node("/root/characters").get_child_count() > 0:
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	else:
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		popup();
 		line.clear();
 		line.grab_focus();
 		Global.is_paused = true
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 func _ready():
 	connect("open_console", self, "_on_open_console")
@@ -109,11 +111,11 @@ func _ready():
 	connect("run_command", self, "_on_run_command")
 	
 	connect_node(self);
-	window_title = "Console";
+	window_title = "Developer Console";
 	popup_exclusive = true;
 	resizable = true;
-	rect_min_size = Vector2(200, 100);
-	rect_size = Vector2(300, 200);
+	rect_min_size = Vector2(1024, 200);
+	rect_size = Vector2(1024, 200);
 	
 	var c = VBoxContainer.new();
 	add_child(c);

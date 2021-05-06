@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/pistol.glb-9ff46917d5537fd54b128af62b9e909c.scn"
+path="res://.import/shovel.glb-8ddee98b63b7c452e095604fdcfd577c.scn"
 
 [deps]
 
-source_file="res://models/pistol/pistol.glb"
-dest_files=[ "res://.import/pistol.glb-9ff46917d5537fd54b128af62b9e909c.scn" ]
+source_file="res://models/shovel/shovel.glb"
+dest_files=[ "res://.import/shovel.glb-8ddee98b63b7c452e095604fdcfd577c.scn" ]
 
 [params]
 
@@ -16,9 +16,8 @@ nodes/root_name="Scene Root"
 nodes/root_scale=1.0
 nodes/custom_script=""
 nodes/storage=0
-nodes/use_legacy_names=true
 materials/location=1
-materials/storage=0
+materials/storage=1
 materials/keep_on_reimport=true
 meshes/compress=true
 meshes/ensure_tangents=true

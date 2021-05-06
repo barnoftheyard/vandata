@@ -73,6 +73,12 @@ var weapons = {
 		"ammo": 12,
 		"recoil": null,
 		"times_fired": 0
+	},
+	"shovel": {
+		"clip": null,
+		"ammo": null,
+		"recoil": 1,
+		"times_fired": null
 	}
 }
 
@@ -106,7 +112,7 @@ var da_wep = null
 #Our hitscan weapon firing function
 func fire_weapon(damage, bullets, sound):
 	anim.play("fire")
-	fire_hitscan(damage)
+	fire_hitscan(damage, 2048)
 	sound.play()
 	
 	if muzzle_flash != null:
@@ -118,6 +124,14 @@ func fire_weapon(damage, bullets, sound):
 		weapons[weapon_name]["clip"] -= bullets
 		weapons[weapon_name]["times_fired"] += bullets
 		
+	if recoil:
+		player_node.get_node("Camera").rotation_degrees.x += weapons[weapon_name]["recoil"]
+		
+func melee_weapon(damage):
+	#anim.play("swing")
+	fire_hitscan(damage, 4)
+	#sound.play()
+	
 	if recoil:
 		player_node.get_node("Camera").rotation_degrees.x += weapons[weapon_name]["recoil"]
 
@@ -158,6 +172,8 @@ func switch_weapon(index):
 	pos += index
 	if pos > weapon_num:			#don't go past our total number of weapons available
 		pos = weapon_num
+	#-1 means no weapons in our inventory. 0 means one, as the weapon index is offset by 1
+	#because arrays :P
 	elif pos < -1:
 		pos = -1
 	weapon_nodes[pos - index].hide()
@@ -261,8 +277,10 @@ func spray():
 			yield($SprayTimer, "timeout")
 			can_spray = true
 			
-func fire_hitscan(damage):
+func fire_hitscan(damage, ray_range):
 	var ray = $RayCast
+	ray.cast_to.z = -ray_range
+		
 	ray.force_raycast_update()
 	
 	if ray.is_colliding():
@@ -308,6 +326,7 @@ func use_hitscan():
 			
 		elif body.has_method("use"):
 			body.use()
+			body.rpc("use")
 			
 	else:
 		grab = false
@@ -326,7 +345,6 @@ func _ready():
 		weapon_nodes[pos].show()		#so that it shows up when it first loads
 		switch_weapon(0)
 		
-	
 			
 func _input(event):
 	if !Global.is_paused:
@@ -369,8 +387,8 @@ func _physics_process(delta):
 				$UseCast/EndPoint.global_transform.origin, sway * delta)
 			
 			#server side
-			#grab_target.rset_unreliable("global_transform.origin", grab_target.global_transform.origin.linear_interpolate(
-			#	$UseCast/EndPoint.global_transform.origin, sway * delta))
+#			grab_target.rset_unreliable("global_transform.origin", grab_target.global_transform.origin.linear_interpolate(
+#				$UseCast/EndPoint.global_transform.origin, sway * delta))
 			
 			#put away view model when grabbing
 			if can_fire:
@@ -405,9 +423,9 @@ func _physics_process(delta):
 	hitscan.rotation.y = lerp_angle(hitscan.rotation.y, mouse_accel.x, sway * delta)
 	hitscan.rotation.x = lerp_angle(hitscan.rotation.x, mouse_accel.y, sway * delta)
 	
-	#Recoil
-	$RayCast.rotation.y = lerp_angle($RayCast.rotation.y, mouse_accel.x, sway * delta)
-	$RayCast.rotation.x = lerp_angle($RayCast.rotation.x, mouse_accel.y, sway * delta)
+#	#Recoil
+#	$RayCast.rotation.y = lerp_angle($RayCast.rotation.y, mouse_accel.x, sway * delta)
+#	$RayCast.rotation.x = lerp_angle($RayCast.rotation.x, mouse_accel.y, sway * delta)
 	
 	#breathing-esque effect on the weapon
 	hitscan.translation.y += cos(Global.delta_time * 2) * 0.0005
@@ -457,6 +475,12 @@ func _physics_process(delta):
 					anim.stop(true)
 				
 				fire_weapon(20, 1, weapon_nodes[pos].get_node("Fire"))
+				
+			if weapon_name == "shovel" and weapon_nodes[pos].get_node("Timer").is_stopped():
+				weapon_nodes[pos].get_node("Timer").start()
+				if anim.is_playing():
+					anim.stop(true)
+				melee_weapon(25)
 				
 			elif (weapon_name == "auto5" and current_clip > 0):
 				

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/hover.wav-6a0edfc6be96d95041cab9a5ac893697.sample"
+
+[deps]
+
+source_file="res://sounds/uav/hover.wav"
+dest_files=[ "res://.import/hover.wav-6a0edfc6be96d95041cab9a5ac893697.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=true
+compress/mode=0

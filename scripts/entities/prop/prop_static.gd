@@ -32,4 +32,4 @@ func update_properties():
 			create_convex_collision()
 			
 	if "scale" in properties:
-		self.scale * properties["scale"]
+		self.scale *= properties["scale"]

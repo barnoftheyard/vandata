@@ -4,7 +4,7 @@ var moving = false
 
 var mouse_accel = Vector2()
 
-onready var chat_box = $VBoxContainer/ChatBox
+onready var chat_box = $PanelContainer/VBoxContainer/ChatBox
 var chat_text = ""
 
 var player_list = null
@@ -40,18 +40,18 @@ func _input(event):
 			
 		#Pop up the chat window
 		if Input.is_action_just_pressed("ui_chat"):
-			if $VBoxContainer/ChatLine.visible:
+			if $PanelContainer/VBoxContainer/ChatLine.visible:
 				Global.is_paused = false
 				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 				
-				$VBoxContainer/ChatLine.release_focus()
-				$VBoxContainer/ChatLine.hide()
+				$PanelContainer/VBoxContainer/ChatLine.release_focus()
+				$PanelContainer/VBoxContainer/ChatLine.hide()
 			else:
 				Global.is_paused = true
 				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 				
-				$VBoxContainer/ChatLine.grab_focus()
-				$VBoxContainer/ChatLine.show()
+				$PanelContainer/VBoxContainer/ChatLine.grab_focus()
+				$PanelContainer/VBoxContainer/ChatLine.show()
 		
 		#The player list UI
 		if Input.is_action_just_pressed("ui_tab"):
@@ -85,19 +85,20 @@ func _process(delta):
 	if noise > 0:
 		$VisualNoise.material.set_shader_param("grain_alpha", noise - delta)
 		
-	#Hud update code
-	$AmmoCounter.text = str(weapon.current_ammo)
-	$WeaponName.text = weapon.weapon_name
-	
-	#to make sure the counters don't display "null" as a string
-	if weapon.current_clip != null:
-		$ClipCounter.text = str(weapon.current_clip)
-	else:
-		$ClipCounter.text = ""
-	if weapon.current_ammo != null:
+	if get_parent().weapon != null:
+		#Hud update code
 		$AmmoCounter.text = str(weapon.current_ammo)
-	else:
-		$AmmoCounter.text = ""
+		$WeaponName.text = weapon.weapon_name
+		
+		#to make sure the counters don't display "null" as a string
+		if weapon.current_clip != null:
+			$ClipCounter.text = str(weapon.current_clip)
+		else:
+			$ClipCounter.text = ""
+		if weapon.current_ammo != null:
+			$AmmoCounter.text = str(weapon.current_ammo)
+		else:
+			$AmmoCounter.text = ""
 	
 	# if our player list doesn't match the network's (something has changed)
 	if player_list != network.player_list:
@@ -117,21 +118,23 @@ func _process(delta):
 
 
 func _on_LineEdit_text_entered(text):
-	$VBoxContainer/ChatLine.clear()
+	$PanelContainer/VBoxContainer/ChatLine.clear()
 	
 	Global.is_paused = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
-	$VBoxContainer/ChatLine.hide()
+	$PanelContainer/VBoxContainer/ChatLine.hide()
 	
 	if text != "":
 		rpc("update_chat", text)
+		
+	chat_box.get_node("Timer").start()
 
 #Update our chat
 remotesync func update_chat(new_text):
 	var the_text = network.player_list[str(get_tree().get_rpc_sender_id())]["name"] + ": " + new_text
-	$VBoxContainer/ChatBox.text += the_text + '\n'
-	$VBoxContainer/ChatBox.rset("text", the_text + '\n')
+	$PanelContainer/VBoxContainer/ChatBox.text += the_text + '\n'
+	$PanelContainer/VBoxContainer/ChatBox.rset("text", the_text + '\n')
 	network.console_msg(the_text)
 	
 #func list_change():
@@ -150,11 +153,10 @@ remotesync func update_chat(new_text):
 
 func _on_ChatBox_draw():
 	chat_box.get_node("AnimationPlayer").stop()
-	chat_box.get_node("Timer").start()
 	chat_box.modulate = Color(1, 1, 1, 1)
 
 func _on_Timer_timeout():
-	$VBoxContainer/ChatBox/AnimationPlayer.play("fadeout")
+	$PanelContainer/VBoxContainer/ChatBox/AnimationPlayer.play("fadeout")
 	
 const hud_desc = "Enables/disables the player HUD"
 const hud_help = "Enables/disables the player HUD"
@@ -174,4 +176,4 @@ func list_cmd(list):
 
 func _on_ChatLine_focus_entered():
 	yield(get_tree().create_timer(0.001), "timeout")
-	$VBoxContainer/ChatLine.text = ""
+	$PanelContainer/VBoxContainer/ChatLine.text = ""

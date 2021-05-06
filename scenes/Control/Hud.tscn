@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://resources/DynamicFonts/buttons.tres" type="DynamicFont" id=1]
 [ext_resource path="res://textures/crosshairs64.png" type="Texture" id=2]
@@ -6,9 +6,10 @@
 [ext_resource path="res://resources/DynamicFonts/greekish.tres" type="DynamicFont" id=4]
 [ext_resource path="res://textures/player/hurt.png" type="Texture" id=5]
 [ext_resource path="res://textures/player/vignette.png" type="Texture" id=6]
-[ext_resource path="res://resources/DynamicFonts/denmark.tres" type="DynamicFont" id=7]
+[ext_resource path="res://resources/DynamicFonts/conduit.tres" type="DynamicFont" id=7]
 [ext_resource path="res://resources/StyleBoxFlat/Hud.tres" type="StyleBox" id=8]
 [ext_resource path="res://scripts/FilmGrain.gd" type="Script" id=9]
+[ext_resource path="res://resources/Theme.tres" type="Theme" id=10]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.352941, 0.784314, 1, 1 )
@@ -18,6 +19,8 @@ border_width_right = 6
 border_width_bottom = 6
 border_color = Color( 0.2, 0.2, 0.2, 1 )
 border_blend = true
+corner_radius_bottom_right = 45
+corner_radius_bottom_left = 45
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.198107, 0.255268, 0.28125, 0.784314 )
@@ -27,23 +30,32 @@ border_width_right = 6
 border_width_bottom = 6
 border_color = Color( 0.356863, 0.0784314, 0.0784314, 1 )
 border_blend = true
+corner_radius_bottom_right = 45
+corner_radius_bottom_left = 45
 
-[sub_resource type="Animation" id=3]
-resource_name = "fadeout"
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.352941, 1, 0.529412, 1 )
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color( 0.2, 0.2, 0.2, 1 )
+border_blend = true
+corner_radius_bottom_right = 45
+corner_radius_bottom_left = 45
 
-[sub_resource type="Shader" id=4]
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.198107, 0.255268, 0.28125, 0.784314 )
+border_width_left = 6
+border_width_top = 6
+border_width_right = 6
+border_width_bottom = 6
+border_color = Color( 0.203922, 0.356863, 0.0784314, 1 )
+border_blend = true
+corner_radius_bottom_right = 45
+corner_radius_bottom_left = 45
+
+[sub_resource type="Shader" id=5]
 code = "shader_type canvas_item;
 render_mode unshaded;
 
@@ -68,20 +80,34 @@ void fragment()
 	COLOR.rgba = vec4(col.r, col.g, col.b, col.a) / noise.rgba;
 }"
 
-[sub_resource type="OpenSimplexNoise" id=5]
+[sub_resource type="OpenSimplexNoise" id=6]
 
-[sub_resource type="NoiseTexture" id=6]
+[sub_resource type="NoiseTexture" id=7]
 width = 2048
 height = 2048
-noise = SubResource( 5 )
+noise = SubResource( 6 )
 
-[sub_resource type="ShaderMaterial" id=7]
-shader = SubResource( 4 )
-shader_param/randx = 0.0782449
-shader_param/randy = 0.298712
+[sub_resource type="ShaderMaterial" id=8]
+shader = SubResource( 5 )
+shader_param/randx = 0.326684
+shader_param/randy = 0.321735
 shader_param/grain_alpha = 0.1
 shader_param/grain_scale = 10.0
-shader_param/noise_tex = SubResource( 6 )
+shader_param/noise_tex = SubResource( 7 )
+
+[sub_resource type="Animation" id=9]
+tracks/0/type = "value"
+tracks/0/path = NodePath("../..:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
 
 [node name="Hud" type="Control"]
 anchor_right = 1.0
@@ -111,12 +137,32 @@ __meta__ = {
 }
 
 [node name="HealthMeter" type="ProgressBar" parent="."]
-margin_left = 10.0
-margin_top = 50.0
-margin_right = 384.0
-margin_bottom = 80.0
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -192.0
+margin_top = 20.0
+margin_right = 192.0
+margin_bottom = 50.0
+size_flags_horizontal = 3
 custom_styles/fg = SubResource( 1 )
 custom_styles/bg = SubResource( 2 )
+step = 1.0
+value = 100.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ArmorMeter" type="ProgressBar" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -168.0
+margin_top = 50.0
+margin_right = 168.0
+margin_bottom = 72.0
+size_flags_horizontal = 3
+custom_styles/fg = SubResource( 3 )
+custom_styles/bg = SubResource( 4 )
 step = 1.0
 value = 100.0
 percent_visible = false
@@ -278,44 +324,8 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -92.0
-margin_right = 384.0
-grow_horizontal = 0
-grow_vertical = 0
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ChatBox" type="Label" parent="VBoxContainer"]
-margin_right = 384.0
-margin_bottom = 14.0
-valign = 2
-autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Timer" type="Timer" parent="VBoxContainer/ChatBox"]
-wait_time = 5.0
-one_shot = true
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="VBoxContainer/ChatBox"]
-anims/fadeout = SubResource( 3 )
-
-[node name="ChatLine" type="LineEdit" parent="VBoxContainer"]
-visible = false
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = 536.0
-margin_right = 320.0
-margin_bottom = 560.0
-
 [node name="VisualNoise" type="ColorRect" parent="."]
-material = SubResource( 7 )
+material = SubResource( 8 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 9 )
@@ -324,7 +334,70 @@ __meta__ = {
 }
 frame_switch_time = 0.01
 
-[connection signal="draw" from="VBoxContainer/ChatBox" to="." method="_on_ChatBox_draw"]
-[connection signal="timeout" from="VBoxContainer/ChatBox/Timer" to="." method="_on_Timer_timeout"]
-[connection signal="focus_entered" from="VBoxContainer/ChatLine" to="." method="_on_ChatLine_focus_entered"]
-[connection signal="text_entered" from="VBoxContainer/ChatLine" to="." method="_on_LineEdit_text_entered"]
+[node name="PanelContainer" type="PanelContainer" parent="."]
+margin_top = 508.0
+margin_right = 384.0
+margin_bottom = 600.0
+grow_vertical = 0
+theme = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+margin_left = 6.0
+margin_top = 4.0
+margin_right = 378.0
+margin_bottom = 88.0
+grow_vertical = 0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ChatBox" type="Label" parent="PanelContainer/VBoxContainer"]
+modulate = Color( 1, 1, 1, 0 )
+margin_top = 62.0
+margin_right = 372.0
+margin_bottom = 84.0
+grow_vertical = 0
+valign = 2
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="PanelContainer/VBoxContainer/ChatBox"]
+wait_time = 5.0
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PanelContainer/VBoxContainer/ChatBox"]
+anims/fadeout = SubResource( 9 )
+
+[node name="ChatLine" type="LineEdit" parent="PanelContainer/VBoxContainer"]
+visible = false
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = 536.0
+margin_right = 320.0
+margin_bottom = 560.0
+clear_button_enabled = true
+caret_blink = true
+
+[node name="Notification" type="Label" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -16.0735
+margin_top = -115.86
+margin_right = 23.9265
+margin_bottom = -101.86
+align = 1
+valign = 1
+
+[connection signal="draw" from="PanelContainer/VBoxContainer/ChatBox" to="." method="_on_ChatBox_draw"]
+[connection signal="timeout" from="PanelContainer/VBoxContainer/ChatBox/Timer" to="." method="_on_Timer_timeout"]
+[connection signal="focus_entered" from="PanelContainer/VBoxContainer/ChatLine" to="." method="_on_ChatLine_focus_entered"]
+[connection signal="text_entered" from="PanelContainer/VBoxContainer/ChatLine" to="." method="_on_LineEdit_text_entered"]

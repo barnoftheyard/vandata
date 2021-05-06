@@ -9,6 +9,8 @@ var world_good = false
 var server_map = null
 var client_map = null
 
+var world_state = null
+
 var player_list = {}
 
 var cheats = false
@@ -17,6 +19,9 @@ var cheats = false
 # https://godotengine.org/download/server
 # And choose it as a custom template upon export
 export var background_server : bool = false
+
+export var interp = true
+export var interp_scale = 50
 
 # Preload a character and controllers
 # Character is a node which we control by the controller node
@@ -53,10 +58,10 @@ func join_server(ip, port):
 	#yield()
 	
 	#load our map
-	var scene = load("res://scenes/Qodot.tscn")
+	client_map = load("res://scenes/Qodot.tscn")
 	
 	# Create a player
-	if get_tree().change_scene_to(scene) == OK:
+	if get_tree().change_scene_to(client_map) == OK:
 		# Create our player, 1 is a reference for a host/server
 		call_deferred("create_player", id, false)
 
@@ -82,7 +87,6 @@ func _on_connection_failed():
 func _on_server_disconnected():
 	get_tree().change_scene("res://scenes/Control/Menu.tscn")
 	get_node("/root/characters").queue_free()
-	get_tree().set_network_peer(null)
 	
 	Console.emit_signal("open_console")
 	console_msg("Connection to the server ended.")
@@ -102,13 +106,30 @@ func create_server(map, server_name, port):
 	net.create_server(port, MAX_PLAYERS - 1)
 	get_tree().set_network_peer(net)
 	
-	server_map = map
-	var scene = load(server_map)
-	if get_tree().change_scene_to(scene) == OK:
+	server_map = load(map)
+	if get_tree().change_scene_to(server_map) == OK:
 		# Create our player, 1 is a reference for a host/server
 		call_deferred("create_player", 1, false)
 		
-	print("Server ", server_name, " created on port ", port,". Playing on ", server_map)
+		world_state = sync_world_server(get_tree().get_root(), {})
+		
+	print("Server ", server_name, " created on port ", port,". Playing on ", map)
+	
+func sync_world_server(node, node_list):
+	
+	for n in node.get_children():
+		if n.get_child_count() > 0:
+			sync_world_server(n, node_list)
+		if n is RigidBody:
+			node_list[str(n.get_path())] = n.global_transform
+			
+	return node_list
+	
+puppetsync func sync_world_client(node_list):
+	for n in node_list.keys():
+		var target = get_node_or_null(n)
+		if target != null:
+			target.global_transform = node_list[n]
 
 func create_player(id, is_peer):
 	# Create a player with a client or a peer controller attached
@@ -197,6 +218,11 @@ remotesync func kick_player(player_name):
 			print("Player ", player_name, " not found.")
 			Console.print("Player " + player_name + " not found.")
 			return
+
+remotesync func send_file(file_path):
+	var file = File.new()
+	file.open(file_path, File.READ)
+	var content = file.get_as_text()
 	
 const bot_add_desc = "Add a multiplayer bot"
 const bot_add_help = "Add a multiplayer bot"
@@ -210,7 +236,7 @@ func bot_add_cmd():
 const cheats_desc = "Allow/disalow cheats"
 const cheats_help = "Allow/disalow cheats"
 func cheats_cmd(command):
-	if command != null:
+	if command != null and get_tree().is_network_server():
 		rpc("change_cheats", bool(int(command)))
 		
 const kick_desc = "Kicks a player from the server"
@@ -221,3 +247,36 @@ func kick_cmd(command):
 		
 func host_cmd(command):
 	call_deferred("create_server", "res://scenes/Qodot.tscn", "", int(command))
+	
+const interp_scale_help = "How much to scale the interpolation"
+func interp_scale_cmd(command):
+	if cheats and command != null:
+		interp_scale = int(command)
+		print("Interpolation scale is set to " + str(interp_scale))
+		Console.print("Interpolation scale is set to " + str(interp_scale))
+	elif command == null:
+		print("No argument given!")
+		Console.print("No argument given!")
+	else:
+		print("cheats is not set to true!")
+		Console.print("cheats is not set to true!")
+		
+const interp_help = "Whether to interpolate player movement for multiplayer"
+func interp_cmd(command):
+	if network.cheats and command != null:
+		interp = bool(int(command))
+		print("Interpolation is set to " + str(interp))
+		Console.print("Interpolation is set to " + str(interp))
+	elif command == null:
+		print("No argument given!")
+		Console.print("No argument given!")
+	else:
+		print("cheats is not set to true!")
+		Console.print("cheats is not set to true!")
+		
+const sync_desc = "Syncs clients from server"
+const sync_help = "syncs clients from server"
+func sync_cmd(command):
+	if get_tree().is_network_master():
+		rpc("sync_world_client", sync_world_server(get_tree().get_root(), {}))
+		console_msg("Syncing clients to server...")

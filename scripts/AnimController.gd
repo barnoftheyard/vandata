@@ -17,7 +17,8 @@ var hurt = 0
 onready var player_model = $ussr_male
 onready var anim_tree = player_model.get_node("AnimationTree")
 onready var model_transform = Quat(player_model.transform.basis)
-onready var hitscan = get_parent().get_node("Camera/Weapon").hitscan
+onready var helper = $ussr_male/Armature/Skeleton/hand_r/helper
+var hitscan = null
 
 enum states {PASSIVE, ARMED}
 
@@ -33,17 +34,28 @@ func set_all_meshes_layer_mask(node, value):
 		if n.get_child_count() > 0:
 			set_all_meshes_layer_mask(n, value)
 		if n is MeshInstance:
-			n.set_layer_mask(value)
+			n.rpc_config("set_layer_mask", MultiplayerAPI.RPC_MODE_REMOTESYNC)
+			n.rpc("set_layer_mask", value)
 	
 func _ready():
 	anim_tree.set("parameters/aim/blend_amount", 0)
-	anim_tree.set("parameters/stance/blend_amount", 0)
+	anim_tree.set("parameters/pistol_aim/blend_amount", 0)
+	anim_tree.set("parameters/stance/blend_amount", 1)
 	
 	#if we are master and not a bot
 	if is_network_master() and get_parent().get_node("controller").has_method("is_player"):
 		player_model.get_node("Armature/Skeleton/USSR_Male").set_layer_mask(8)
 	else:
 		player_model.get_node("Armature/Skeleton/USSR_Male").set_layer_mask(9)
+		
+	if get_parent().has_node("Camera/Weapon"):
+		hitscan = get_parent().get_node("Camera/Weapon").hitscan
+		
+	#third person weapon models
+	for i in helper.get_children():
+		i.rpc_config("show", MultiplayerAPI.RPC_MODE_REMOTESYNC)
+		i.rpc_config("hide", MultiplayerAPI.RPC_MODE_REMOTESYNC)
+	player_model.get_node("Tween").rpc_config("start", MultiplayerAPI.RPC_MODE_REMOTESYNC)
 		
 	#player_model.get_node("Armature/Skeleton/SkeletonIK").start()
 
@@ -103,7 +115,9 @@ func _physics_process(delta):
 	anim_run_interp = clamp(anim_run_interp, -1, 1)
 	if dir.dot(hvel) > 0:		#dot product: get speed, check if speed is above zero
 		anim_run_interp += delta * ACCEL		#1 = run
-		hitscan.translation.z += cos(Global.delta_time * get_parent().speed) * 0.015 * anim_run_interp * lerp(1, 0.1, jumpscale)
+		
+		if hitscan:
+			hitscan.translation.z += cos(Global.delta_time * get_parent().speed) * 0.015 * anim_run_interp * lerp(1, 0.1, jumpscale)
 	else:
 		anim_run_interp -= delta * ACCEL		#-1 = idle
 		
@@ -127,14 +141,13 @@ remotesync func network_update(new_anim_strafe_interp, new_anim_strafe_dir_inter
 	tilt = new_tilt
 	hurt = new_hurt
 	
+#third person animation code
 func _on_change_playermodel_weapon(weapon):
-	var helper = $ussr_male/Armature/Skeleton/hand_r/helper
 	
 	for i in helper.get_children():
-		i.hide()
+		i.rpc("hide")
 		
 	set_all_meshes_layer_mask(helper, 8)
-	
 	
 	player_model.get_node("Tween").interpolate_property(anim_tree,
 	"parameters/pistol_aim/blend_amount", 0, 1, 0.25, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
@@ -146,17 +159,17 @@ func _on_change_playermodel_weapon(weapon):
 		"parameters/aim/blend_amount", 1, 0, 0.25, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 		player_model.get_node("Tween").start()
 		
-		helper.get_node("pistol").show()
+		helper.get_node("pistol").rpc("show")
 	elif weapon == "smg":
 		player_model.get_node("Tween").interpolate_property(anim_tree,
 		"parameters/aim/blend_amount", 0, 1, 0.25, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 		player_model.get_node("Tween").start()
 		
-		helper.get_node("smg").show()
+		helper.get_node("smg").rpc("show")
 	elif weapon == "br":
 		player_model.get_node("Tween").interpolate_property(anim_tree,
 		"parameters/aim/blend_amount", 0, 1, 0.25, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 		player_model.get_node("Tween").start()
 		
-		helper.get_node("br").show()
+		helper.get_node("br").rpc("show")
 		

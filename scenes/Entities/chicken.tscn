@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scenes/Models/ChickenModel.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scripts/chicken.gd" type="Script" id=2]
+[ext_resource path="res://scripts/entities/chicken.gd" type="Script" id=2]
 [ext_resource path="res://sounds/chicken/killChicken.wav" type="AudioStream" id=3]
 [ext_resource path="res://textures/particles/feather.png" type="Texture" id=4]
 
