@@ -1,8 +1,12 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://models/uav/uav.glb" type="PackedScene" id=1]
 [ext_resource path="res://scripts/entities/uav.gd" type="Script" id=2]
 [ext_resource path="res://sounds/uav/hover.wav" type="AudioStream" id=3]
+[ext_resource path="res://models/smg/smg.glb" type="PackedScene" id=4]
+[ext_resource path="res://sounds/smg/mac10-1.wav" type="AudioStream" id=5]
+[ext_resource path="res://sounds/uav/active2.wav" type="AudioStream" id=6]
+[ext_resource path="res://sounds/uav/active.wav" type="AudioStream" id=7]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 1.2, 1, 1.2 )
@@ -38,5 +42,41 @@ unit_size = 3.0
 pitch_scale = 0.5
 autoplay = true
 
+[node name="head" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.130551, 0.700028, -0.000580996 )
+
+[node name="smg" parent="head" instance=ExtResource( 4 )]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -0.125003, -0.355363, 0.0111498 )
+
+[node name="fire" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 5 )
+unit_size = 3.0
+
+[node name="Firerate" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="RayCast2" type="RayCast" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
+enabled = true
+cast_to = Vector3( 0, 0, -2048 )
+
+[node name="ImmediateGeometry" type="ImmediateGeometry" parent="."]
+
+[node name="lock_on" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 7 )
+unit_size = 3.0
+
+[node name="lock_off" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 6 )
+unit_size = 3.0
+
+[node name="die" type="AudioStreamPlayer3D" parent="."]
+
+[node name="IdleTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
 [connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="IdleTimer" to="." method="_on_IdleTimer_timeout"]

@@ -30,6 +30,7 @@ var cam = null
 export var invert_x = -1
 export var invert_y = -1
 export var noclip = false
+export var god_mode = false
 
 
 var inertia = 0.1
@@ -103,6 +104,8 @@ func death():
 	
 	weapon.remove_all_weapons()
 	
+	vel = Vector3.ZERO
+	
 	#playermodel.get_node("Armature/Skeleton").physical_bones_start_simulation()
 	
 func respawn():
@@ -145,25 +148,26 @@ func damage(amount):
 remotesync func bullet_hit(damage, from, bullet_hit_pos, _force_multiplier):			#handles how bullets push the prop
 	var direction_vect = global_transform.origin - bullet_hit_pos
 	direction_vect = direction_vect.normalized()
-	damage(damage)
+	if !god_mode:
+		damage(damage)
 	
-	from = get_tree().get_rpc_sender_id()
-	var from_str = str(from)
+	var from_str = str(get_tree().get_rpc_sender_id())
 	
 	#if we got killed handle the score
 	if player_info["health"] <= 0 and !is_dead:
 		
 		#If our killer is a player
-		if from_str in network.player_list:
+		if from_str in network.player_list and from_str != "1":
 			network.rpc("console_msg", player_info["name"] + " was killed by " + 
 			network.player_list[from_str]["name"])
-			$Hud/VBoxContainer/ChatBox.text += "\n" + "You got killed by " + network.player_list[from]["name"]
+			$Hud/PanelContainer/VBoxContainer/ChatBox.text += "\n" + "You got killed by " + network.player_list[from_str]["name"] + "\n"
 			
 			rpc_id(from, "give_kill")
+		else:
+			pass
 			
 remotesync func give_kill():
 	player_info["kills"] += 1
-
 
 func _ready():
 	Console.connect_node(self)
@@ -381,6 +385,19 @@ func noclip_cmd(command):
 		noclip = bool(int(command))
 		print("Noclip is set to " + str(noclip))
 		Console.print("Noclip is set to " + str(noclip))
+	elif command == null:
+		print("No argument given!")
+		Console.print("No argument given!")
+	else:
+		print("cheats is not set to true!")
+		Console.print("cheats is not set to true!")
+		
+const god_help = "Set player god mode"
+func god_cmd(command):
+	if network.cheats and command != null:
+		god_mode = bool(int(command))
+		print("God mode is set to " + str(god_mode))
+		Console.print("God mode is set to " + str(god_mode))
 	elif command == null:
 		print("No argument given!")
 		Console.print("No argument given!")

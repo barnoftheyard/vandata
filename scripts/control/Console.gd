@@ -96,7 +96,9 @@ func toggle():
 		hide();
 		Global.is_paused = false
 		
-		if get_node("/root/characters").get_child_count() > 0:
+		#if we are in the game world, which has the "characters" node created,
+		#capture the mouse
+		if has_node("/root/characters"):
 			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	else:
 		popup();

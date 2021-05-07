@@ -1563,3 +1563,6 @@ environment = SubResource( 119 )
 
 [node name="uav" parent="." instance=ExtResource( 25 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.63007, 1.74526, 5.72987 )
+
+[node name="uav2" parent="." instance=ExtResource( 25 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.1609, 1.74526, 5.72987 )

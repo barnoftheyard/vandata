@@ -3,75 +3,189 @@ class_name Uav
 
 const GRAVITY = -24.8
 const ACCEL = 4
-const DEACCEL = 8
+const DEACCEL = 2
 
 const UAV = true
 
 var vel = Vector3()
 var accel = 0
 var targets = []
+var target = null
 var last_body = null
 
 var is_dead = false
+var laser_on = false
 
-export var health = 25
+export var health = 100
 export var speed = 8
 export var interp = true
+export var damage = 5
 
-var p = 0.2
-var i = 0.05
-var d = 1.0
+var decal = preload("res://scenes/decal.tscn")
 
-func bullet_hit(damage, id, _bullet_hit_pos, _force_multiplier):
-	health -= damage
+onready var die = Global.files_in_dir("res://sounds/uav/die/", ".wav")
+
+enum states {IDLE, ALERT, AWARE}
+var state = states.IDLE
+
+func bullet_hit(damagef, id, _bullet_hit_pos, _force_multiplier):
+	health -= damagef
 	
 	if health <= 0 and !is_dead:
 		var killer = get_node("/root/characters/" + id)
 		print("UAV killed by " + killer.player_info["name"])
 		
 		killer.get_node("Hud").chat_box.text += ("UAV killed by " + killer.player_info["name"] + "\n")
-		$Timer.start()
+		killer.player_info["kills"] += 1
+		#$Timer.start()
 		$hover.stop()
+		Global.play_rand($die, die)
 		is_dead = true
+		
+func create_decal(body, trans, normal, color, decal_scale, image_path):
+	var b = decal.instance()
+	body.add_child(b)
+	b.global_transform.origin = trans
+	#get translation and rotation
+	var c = trans + normal
+	
+	#this just prevents a look_at error that reports if our target vector is equal to UP
+	if c != Vector3.UP:
+		b.look_at(c, Vector3.UP)
+	
+	#rotate the decal around on the X axis
+	b.rotation.x *= -1
+	
+	var texture = load(image_path)
+	
+	var decal_shader = b.get_node("MeshInstance").mesh.material
+	decal_shader.set_shader_param("albedo", 
+	texture)
+	
+	#decal_shader.set_shader_param("uv_scale", Vector2.ONE * decal_scale)
+	
+	decal_shader.set_shader_param("albedo_tint", color)
+	b.get_node("MeshInstance").scale = Vector3.ONE * decal_scale
+	
+	#return the node
+	return b
+		
+func fire_hitscan(damage):
+	var ray = $RayCast2
+	var ig = $ImmediateGeometry
+	
+	ray.force_raycast_update()
+	
+	if ray.is_colliding():
+		var body = ray.get_collider()
+		
+		if laser_on:
+			ig.clear()
+			ig.begin(Mesh.PRIMITIVE_LINE_STRIP)
+			
+			ig.set_color(Color.red)
+			ig.add_vertex($head.transform.origin)
+			ig.add_vertex(to_local(ray.get_collision_point()))
+			
+			ig.end()
+		
+		#check if we can call the function on the node
+		if body.has_method("bullet_hit") and $Firerate.is_stopped():
+			$Firerate.start()
+			$fire.play()
+			
+			#is it a player?
+			if body is Player and body.is_player:
+				#serverside, fire damage, id, collision point, and force
+				body.rpc_id(int(body.name), "bullet_hit", damage, self.name, ray.get_collision_point(), 0.5)
+			#if not, its an NPC/physics object
+			else:
+				#clientside, fire damage, id, collision point, and force
+				body.bullet_hit(damage, self.name, ray.get_collision_point(), 0.5)
 
 func _ready():
-	$hover.play()
 	$uav/X.rotate_y(deg2rad(90))
 
 func _physics_process(delta):
 	var dir = Vector3()
 	
 	$RayCast.force_raycast_update()
-	if $RayCast.is_colliding() and !$RayCast.get_collider() is Player and !is_dead:
+	if $RayCast.is_colliding() and !$RayCast.get_collider() is Player and !is_dead and state != states.IDLE:
 		var distance =  $RayCast.get_collision_point().y - $RayCast.translation.y
 		if distance < 4:
-			vel.y += distance * speed * 2 * delta
+			vel.y += distance * speed * delta
 		elif distance > 4:
-			vel.y -= distance * speed * 2 * delta
+			vel.y -= distance * speed * delta
 		else:
 			vel.y = 0
+	elif is_dead or state == states.IDLE:
+		vel.y += GRAVITY * 4 * delta
 	else:
-		vel.y += GRAVITY * delta
+		vel.y = 0
 	
 	var hvel = vel
 	
-	if targets != null:
-		for target in targets:		#go through all bodies that we collected and apply our shit
-			if (is_instance_valid(target) and $Area.overlaps_body(target)
-			and not "UAV" in target and target is Player and !is_dead):
-				
-				if target.translation.distance_to(self.translation) > 6:
-					dir = translation.direction_to(target.translation)
+	if !targets.empty():
+		var target = targets.front()
+		
+		if (is_instance_valid(target) and $Area.overlaps_body(target)
+		and not "UAV" in target and target is Player and !is_dead):
+			
+			if state != states.AWARE:
+				state = states.AWARE
+				$lock_on.play()
+				laser_on = true
+				$IdleTimer.stop()
+			
+			#go foward if we're more than 8 units away
+			if target.translation.distance_to(self.translation) > 8:
+				dir = translation.direction_to(target.translation).normalized()
+			#go backwards if we're less than
+			else:
+				dir = -translation.direction_to(target.translation).normalized()
+			
+			#constantly track whatever we're aiming at	
+			fire_hitscan(damage)
 
-				var new_transform = transform.looking_at(target.global_transform.origin, Vector3.UP)
-				transform = transform.interpolate_with(new_transform, ACCEL * delta)
-				rotation.x = 0
-				rotation.z = 0
+			var new_transform = transform.looking_at(target.global_transform.origin, Vector3.UP)
+			transform = transform.interpolate_with(new_transform, 0.2)
+			rotation.x = 0
+			rotation.z = 0
+			
+			var foo = target.global_transform.origin
+			var bar = Vector3(foo.x, foo.y + 0.5, foo.z)
+			
+			var new_transform_x = $uav/X.transform.looking_at(bar, Vector3.UP)
+			$uav/X.transform = $uav/X.transform.interpolate_with(new_transform_x, 0.2)
+			$uav/X.rotation.x = 0
+			$uav/X.rotation.y = 0
+			$uav/X.rotation.z = -$uav/X.rotation.z
+			
+			#autoaim the gun
+			var new_transform_z = $RayCast2.global_transform.looking_at(bar, Vector3.UP)
+			$RayCast2.global_transform = $RayCast2.global_transform.interpolate_with(new_transform_z, 1)
+			$RayCast2.rotation.y = 0
+			$RayCast2.rotation.z = 0
+			
+			
+			$head.rotation.x = $uav/X.rotation.z
+		else:
+			if state != states.ALERT and !is_dead:
+				state = states.ALERT
+				$lock_off.play()
+				laser_on = false
+				$IdleTimer.start()
 				
-				var new_transform_x = $uav/X.transform.looking_at(target.global_transform.origin, Vector3.UP)
-				$uav/X.transform = $uav/X.transform.interpolate_with(new_transform_x, ACCEL * delta)
-				$uav/X.rotation.x = 0
-				$uav/X.rotation.y = 0
+			if !is_dead:
+				$head.rotation = $head.rotation.linear_interpolate(Vector3.ZERO, speed * delta)
+				rotate_y(delta)
+				
+	if is_on_floor():
+		$hover.stop()
+	else:
+		if !$hover.is_playing() and !is_dead:
+			$hover.play()
+		
 
 	if dir.dot(hvel) > 0:
 		accel = ACCEL
@@ -98,6 +212,13 @@ func _on_Timer_timeout():
 
 func _on_Area_body_entered(body):
 	#if our body is a KinematicBody, and isn't the same one we just added
-	if body is KinematicBody and last_body != body:
+	if body is Player and last_body != body:
 		targets.append(body)
 		last_body = body
+
+
+func _on_IdleTimer_timeout():
+	if state != states.IDLE:
+		state = states.IDLE
+		targets = []
+		last_body = null

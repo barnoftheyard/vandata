@@ -175,6 +175,7 @@ anims/crouch = SubResource( 2 )
 
 [node name="Blood" type="Particles" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+visible = false
 emitting = false
 amount = 5
 visibility_aabb = AABB( -2, -1, -2, 4, 2, 4 )

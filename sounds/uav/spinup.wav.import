@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/spinup.wav-a0e5c86636e95dc75fa636a92a50c846.sample"
+
+[deps]
+
+source_file="res://sounds/uav/spinup.wav"
+dest_files=[ "res://.import/spinup.wav-a0e5c86636e95dc75fa636a92a50c846.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

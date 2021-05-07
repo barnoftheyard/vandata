@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/die3.wav-c774f7dcc7c4b0aeaa89e21cec4e027d.sample"
+
+[deps]
+
+source_file="res://sounds/uav/die/die3.wav"
+dest_files=[ "res://.import/die3.wav-c774f7dcc7c4b0aeaa89e21cec4e027d.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

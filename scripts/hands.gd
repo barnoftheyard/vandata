@@ -31,8 +31,8 @@ func _ready():
 	if hitscan != null:
 		get_helpers(hitscan)
 
-func _physics_process(delta):
-	if left_trans != null:
-		$Armature/Skeleton/left_hand.global_transform = left_trans.global_transform
-	if right_trans != null:
-		$Armature/Skeleton/right_hand.global_transform = right_trans.global_transform
+#func _physics_process(delta):
+#	if has_node("Armature/Skeleton/left_hand") and left_trans != null:
+#		$Armature/Skeleton/left_hand.global_transform = left_trans.global_transform
+#	if has_node("Armature/Skeleton/right_hand") and right_trans != null:
+#		$Armature/Skeleton/right_hand.global_transform = right_trans.global_transform
