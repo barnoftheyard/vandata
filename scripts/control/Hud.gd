@@ -46,12 +46,18 @@ func _input(event):
 				
 				$PanelContainer/VBoxContainer/ChatLine.release_focus()
 				$PanelContainer/VBoxContainer/ChatLine.hide()
+				
+				chat_box.get_node("Timer").start()
 			else:
 				Global.is_paused = true
 				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 				
 				$PanelContainer/VBoxContainer/ChatLine.grab_focus()
 				$PanelContainer/VBoxContainer/ChatLine.show()
+				
+				$PanelContainer.modulate.a = 1
+				
+				chat_box.get_node("Timer").stop()
 		
 		#The player list UI
 		if Input.is_action_just_pressed("ui_tab"):
@@ -78,7 +84,7 @@ func _process(delta):
 		$Fps.hide()
 	
 	#if the pain overlay is visible gradually fade it away until it isn't
-	if $PainOverlay.self_modulate.a > 0:
+	if $PainOverlay.self_modulate.a > 0 and !get_parent().is_dead:
 		$PainOverlay.self_modulate.a -= delta
 		
 	var noise = $VisualNoise.material.get_shader_param("grain_alpha")
@@ -153,7 +159,7 @@ remotesync func update_chat(new_text):
 
 func _on_ChatBox_draw():
 	chat_box.get_node("AnimationPlayer").stop()
-	chat_box.modulate = Color(1, 1, 1, 1)
+	chat_box.self_modulate.a = 1
 
 func _on_Timer_timeout():
 	$PanelContainer/VBoxContainer/ChatBox/AnimationPlayer.play("fadeout")

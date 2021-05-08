@@ -20,6 +20,9 @@ export var health = 100
 export var speed = 8
 export var interp = true
 export var damage = 5
+export var hover_height = 4
+export var hover_tolerance = 0.1
+var target_height = 0
 
 var decal = preload("res://scenes/decal.tscn")
 
@@ -112,10 +115,10 @@ func _physics_process(delta):
 	$RayCast.force_raycast_update()
 	if $RayCast.is_colliding() and !$RayCast.get_collider() is Player and !is_dead and state != states.IDLE:
 		var distance =  $RayCast.get_collision_point().y - $RayCast.translation.y
-		if distance < 4:
-			vel.y += distance * speed * delta
-		elif distance > 4:
-			vel.y -= distance * speed * delta
+		if distance < target_height:
+			vel.y += distance * 2 * speed * delta
+		elif distance > target_height + hover_tolerance:
+			vel.y -= distance * 2 * speed * delta
 		else:
 			vel.y = 0
 	elif is_dead or state == states.IDLE:
@@ -136,6 +139,8 @@ func _physics_process(delta):
 				$lock_on.play()
 				laser_on = true
 				$IdleTimer.stop()
+				
+			target_height = hover_height + target.translation.y - self.translation.y
 			
 			#go foward if we're more than 8 units away
 			if target.translation.distance_to(self.translation) > 8:
@@ -179,12 +184,15 @@ func _physics_process(delta):
 			if !is_dead:
 				$head.rotation = $head.rotation.linear_interpolate(Vector3.ZERO, speed * delta)
 				rotate_y(delta)
+				target_height = to_local(Vector3(0, hover_height, 0)).y
 				
 	if is_on_floor():
 		$hover.stop()
+		$Particles.emitting = false
 	else:
 		if !$hover.is_playing() and !is_dead:
 			$hover.play()
+			$Particles.emitting = true
 		
 
 	if dir.dot(hvel) > 0:
@@ -218,7 +226,7 @@ func _on_Area_body_entered(body):
 
 
 func _on_IdleTimer_timeout():
-	if state != states.IDLE:
+	if state != states.IDLE and $RayCast.is_colliding():
 		state = states.IDLE
 		targets = []
 		last_body = null

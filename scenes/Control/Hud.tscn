@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://resources/DynamicFonts/buttons.tres" type="DynamicFont" id=1]
 [ext_resource path="res://textures/crosshairs64.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://resources/StyleBoxFlat/Hud.tres" type="StyleBox" id=8]
 [ext_resource path="res://scripts/FilmGrain.gd" type="Script" id=9]
 [ext_resource path="res://resources/Theme.tres" type="Theme" id=10]
+[ext_resource path="res://fonts/conduit/conduit_itc_bold1.ttf" type="DynamicFontData" id=11]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.352941, 0.784314, 1, 1 )
@@ -89,11 +90,16 @@ noise = SubResource( 6 )
 
 [sub_resource type="ShaderMaterial" id=8]
 shader = SubResource( 5 )
-shader_param/randx = 0.190121
-shader_param/randy = 0.0590975
+shader_param/randx = 0.095801
+shader_param/randy = 0.123514
 shader_param/grain_alpha = 0.1
 shader_param/grain_scale = 10.0
 shader_param/noise_tex = SubResource( 7 )
+
+[sub_resource type="DynamicFont" id=10]
+size = 24
+use_filter = true
+font_data = ExtResource( 11 )
 
 [sub_resource type="Animation" id=9]
 tracks/0/type = "value"
@@ -335,9 +341,11 @@ __meta__ = {
 frame_switch_time = 0.01
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
-margin_top = 508.0
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -92.0
 margin_right = 384.0
-margin_bottom = 600.0
+grow_horizontal = 0
 grow_vertical = 0
 theme = ExtResource( 10 )
 __meta__ = {
@@ -356,11 +364,11 @@ __meta__ = {
 }
 
 [node name="ChatBox" type="Label" parent="PanelContainer/VBoxContainer"]
-modulate = Color( 1, 1, 1, 0 )
-margin_top = 62.0
+margin_top = 53.0
 margin_right = 372.0
 margin_bottom = 84.0
 grow_vertical = 0
+custom_fonts/font = SubResource( 10 )
 valign = 2
 autowrap = true
 __meta__ = {
