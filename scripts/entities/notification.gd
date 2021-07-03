@@ -25,3 +25,6 @@ func update_properties():
 		timer.connect("timeout", self, "_on_timeout")
 		
 		add_child(timer)
+		
+func _on_timeout():
+	queue_free()

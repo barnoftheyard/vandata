@@ -27,14 +27,17 @@ export var interp_scale = 50
 # Character is a node which we control by the controller node
 # This way we can extend the Controller class to create an AI controller
 # Peer controller represents other players in the network
-onready var player_scene = preload("res://scenes/Player.tscn")
-
-onready var client_scene = preload("res://scenes/client.tscn")
-onready var peer_scene = preload("res://scenes/peer.tscn")
-onready var bot_scene = preload("res://scenes/bot.tscn")
+var player_scene = preload("res://scenes/Player.tscn")
+var client_scene = preload("res://scenes/client.tscn")
+var peer_scene = preload("res://scenes/peer.tscn")
+var bot_scene = preload("res://scenes/bot.tscn")
 
 func _ready():
 	Console.connect_node(self)
+	player_scene.set_local_to_scene(true)
+	client_scene.set_local_to_scene(true)
+	peer_scene.set_local_to_scene(true)
+	bot_scene.set_local_to_scene(true)
 
 # When Connect button is pressed
 func join_server(ip, port):

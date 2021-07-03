@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://models/uav/uav.glb" type="PackedScene" id=1]
 [ext_resource path="res://scripts/entities/uav.gd" type="Script" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://sounds/smg/mac10-1.wav" type="AudioStream" id=5]
 [ext_resource path="res://sounds/uav/active2.wav" type="AudioStream" id=6]
 [ext_resource path="res://sounds/uav/active.wav" type="AudioStream" id=7]
+[ext_resource path="res://sounds/uav/ping.wav" type="AudioStream" id=8]
+[ext_resource path="res://resources/ShaderMaterial/smoke.tres" type="Material" id=9]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 1.2, 1, 1.2 )
@@ -38,6 +40,142 @@ height = 0.2
 radial_segments = 8
 rings = 4
 
+[sub_resource type="QuadMesh" id=8]
+resource_local_to_scene = true
+material = ExtResource( 9 )
+size = Vector2( 2, 2 )
+
+[sub_resource type="Animation" id=9]
+resource_name = "die"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("smoke:mesh:material:shader_param/smoke_volume")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.3 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("hover:pitch_scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.75, 0.01 ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath("hover")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+}, {
+"args": [  ],
+"method": "stop"
+} ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "fade"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("hover:pitch_scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.75, 0.01 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath("hover")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+}, {
+"args": [  ],
+"method": "stop"
+} ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "hit"
+length = 0.4
+step = 0.01
+tracks/0/type = "transform"
+tracks/0/path = NodePath("uav")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = PoolRealArray(  )
+tracks/1/type = "value"
+tracks/1/path = NodePath("uav:rotation_degrees")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05, 0.15, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 90, 0 ), Vector3( -8.46793, 89.1027, 6.07143 ), Vector3( 8.468, 89.103, 6.071 ), Vector3( 0, 90, 0 ) ]
+}
+
+[sub_resource type="Animation" id=12]
+resource_name = "start"
+tracks/0/type = "value"
+tracks/0/path = NodePath("hover:pitch_scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.01, 0.75 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath("hover")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ 0.0 ],
+"method": "play"
+} ]
+}
+
 [node name="uav" type="KinematicBody"]
 script = ExtResource( 2 )
 
@@ -62,12 +200,11 @@ cast_to = Vector3( 0, -2048, 0 )
 
 [node name="hover" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource( 3 )
-unit_size = 3.0
-pitch_scale = 0.5
-autoplay = true
+unit_size = 5.0
+pitch_scale = 0.01
 
 [node name="head" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.130551, 0.700028, -0.000580996 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.131, 0.7, 0 )
 
 [node name="smg" parent="head" instance=ExtResource( 4 )]
 transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -0.125003, -0.355363, 0.0111498 )
@@ -85,7 +222,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
 enabled = true
 cast_to = Vector3( 0, 0, -2048 )
 
-[node name="ImmediateGeometry" type="ImmediateGeometry" parent="."]
+[node name="Laser" type="ImmediateGeometry" parent="."]
 
 [node name="lock_on" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource( 7 )
@@ -108,6 +245,29 @@ lifetime = 0.5
 process_material = SubResource( 5 )
 draw_pass_1 = SubResource( 7 )
 
+[node name="WhenFire" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="ping" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 8 )
+autoplay = true
+
+[node name="ping_timer" type="Timer" parent="ping"]
+autostart = true
+
+[node name="smoke" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.74597, 0 )
+mesh = SubResource( 8 )
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/die = SubResource( 9 )
+anims/fade = SubResource( 11 )
+anims/hit = SubResource( 10 )
+anims/start = SubResource( 12 )
+
 [connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="IdleTimer" to="." method="_on_IdleTimer_timeout"]
+[connection signal="timeout" from="ping/ping_timer" to="." method="_on_ping_timer_timeout"]

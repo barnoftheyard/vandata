@@ -26,6 +26,7 @@ func respawn():
 	
 func _ready():
 	Console.connect_node(self)
+	#hack!
 	#network.connect("player_list_changed", self, "_on_player_list_changed")
 	#list_change()
 	
@@ -159,7 +160,8 @@ remotesync func update_chat(new_text):
 
 func _on_ChatBox_draw():
 	chat_box.get_node("AnimationPlayer").stop()
-	chat_box.self_modulate.a = 1
+	$PanelContainer.modulate.a = 1
+	chat_box.get_node("Timer").start()
 
 func _on_Timer_timeout():
 	$PanelContainer/VBoxContainer/ChatBox/AnimationPlayer.play("fadeout")
