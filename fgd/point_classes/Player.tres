@@ -3,8 +3,6 @@
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_point_class.gd" type="Script" id=2]
 
-
-
 [resource]
 script = ExtResource( 2 )
 class_options = "----------------------------------------------------------------"
@@ -13,10 +11,8 @@ description = "The player entity."
 qodot_internal = false
 base_classes = [  ]
 class_properties = {
-
 }
 class_property_descriptions = {
-
 }
 meta_properties = {
 "color": Color( 0.8, 0.8, 0.8, 1 ),

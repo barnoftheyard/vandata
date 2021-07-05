@@ -220,6 +220,20 @@ func remove_all_weapons():
 		
 	_on_update_weapon_list()
 	
+func put_away_weapon():
+	if can_fire:
+		$Tween.interpolate_property(hitscan, "translation", hitscan_initpos, 
+		Vector3(0, -2, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		$Tween.start()
+	can_fire = false
+	
+func bring_out_weapon():
+	if !can_fire:
+		$Tween.interpolate_property(hitscan, "translation", Vector3(0, -2, 0), 
+		hitscan_initpos, 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		$Tween.start()
+	can_fire = true
+	
 func create_decal(body, trans, normal, color, decal_scale, image_path):
 	var b = decal.instance()
 	body.add_child(b)
@@ -291,7 +305,7 @@ func fire_hitscan(damage, ray_range):
 			pass
 		#check if we can call the function on the node
 		elif body.has_method("bullet_hit"):
-			
+			body.rpc_config("bullet_hit", MultiplayerAPI.RPC_MODE_REMOTESYNC)
 			#is it a player?
 			if body is Player and body.is_player:
 				#serverside, fire damage, id, collision point, and force
@@ -299,7 +313,7 @@ func fire_hitscan(damage, ray_range):
 			#if not, its an NPC/physics object
 			else:
 				#clientside, fire damage, id, collision point, and force
-				body.bullet_hit(damage, player_node.name, ray.get_collision_point(), 0.5)
+				body.rpc("bullet_hit", damage, player_node.name, ray.get_collision_point(), 0.5)
 				
 		elif body is StaticBody:
 			#bullet decal adding
@@ -325,8 +339,11 @@ func use_hitscan():
 			grab_target = body
 			
 		elif body.has_method("use"):
-			body.use()
-			body.rpc("use")
+			body.rpc_config("use", MultiplayerAPI.RPC_MODE_REMOTESYNC)
+			if body is Ladder:
+				body.rpc("use", player_node)
+			else:
+				body.rpc("use")
 			
 	else:
 		grab = false
@@ -390,12 +407,8 @@ func _physics_process(delta):
 #			grab_target.rset_unreliable("global_transform.origin", grab_target.global_transform.origin.linear_interpolate(
 #				$UseCast/EndPoint.global_transform.origin, sway * delta))
 			
-			#put away view model when grabbing
-			if can_fire:
-				$Tween.interpolate_property(hitscan, "translation", hitscan_initpos, 
-				Vector3(0, -2, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-				$Tween.start()
-			can_fire = false
+			put_away_weapon()
+			
 		else:
 			grab_target.mode = RigidBody.MODE_RIGID
 			grab_target.sleeping = false
@@ -408,12 +421,7 @@ func _physics_process(delta):
 			#grab_target.rset_unreliable("linear_velocity", ($UseCast/EndPoint.velocity.normalized() + player_node.vel) * (1 / grab_target.mass))
 			
 			grab_target = null
-			#bring out view model when not grabbing
-			if !can_fire:
-				$Tween.interpolate_property(hitscan, "translation", Vector3(0, -2, 0), 
-				hitscan_initpos, 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-				$Tween.start()
-			can_fire = true
+			bring_out_weapon()
 			
 	if can_fire:
 		#directional sway

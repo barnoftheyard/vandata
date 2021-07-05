@@ -44,6 +44,7 @@ var rng = Global.rng
 var is_dead = false
 var is_jumping = false
 var is_inwater = false
+var is_on_ladder = false
 
 var mouse_colliding = false
 var steps_target
@@ -60,6 +61,7 @@ onready var playermodel = $AnimController/ussr_male
 
 #arrays of paths to appropriate sounds that we can play
 onready var steps = Global.files_in_dir("res://sounds/player/step/", ".wav")
+onready var ladder_steps = Global.files_in_dir("res://sounds/player/ladder/", ".wav")
 onready var pain_sounds = Global.files_in_dir("res://sounds/player/pain/", ".wav")
 
 var spawn_point = null
@@ -236,21 +238,24 @@ func _physics_process(delta):
 		if cmd[Command.RIGHT]:
 			dir += cam.basis.x
 			
-		if cmd[Command.JUMP] and (is_on_floor() or is_inwater or noclip):
-			vel.y = JUMP_SPEED
-		if Input.is_action_just_released("move_jump") and noclip:
+		if cmd[Command.JUMP] and (is_on_floor() or is_inwater or noclip or is_on_ladder):
+			if is_on_ladder:
+				vel.y = JUMP_SPEED / 2
+			else:
+				vel.y = JUMP_SPEED
+		if Input.is_action_just_released("move_jump") and (noclip or is_on_ladder):
 			vel.y = 0
 				
 		if cmd[Command.CROUCH]:
-			if is_inwater or noclip:
+			if is_inwater or noclip or is_on_ladder:
 				vel.y = JUMP_SPEED * -1
-			elif !is_crouching and !noclip:
+			elif !is_crouching and !noclip and !is_on_ladder:
 				$AnimationPlayer.play("crouch")
 				speed *= 0.5
 				is_crouching = true
 				$StepTimer.wait_time = 0.8
 		if Input.is_action_just_released("move_crouch"):
-			if noclip:
+			if noclip or is_on_ladder:
 				vel.y = 0
 			else:
 				$AnimationPlayer.play_backwards("crouch")
@@ -274,9 +279,9 @@ func _physics_process(delta):
 			
 	#input code ends here
 	
-	if !noclip and !is_dead:
+	if !noclip and !is_dead and !is_on_ladder:
 		vel.y += GRAVITY * delta			#apply gravity
-	
+		
 	hvel = vel
 	if !is_inwater:
 		hvel.y = 0
@@ -290,17 +295,27 @@ func _physics_process(delta):
 	var accel
 	if dir.dot(hvel) > 0:		#dot product: get speed, check if speed is above zero
 		
+		# if we're on a floor, start making step noises
 		if $StepTimer.is_stopped() and is_on_floor():
 			$StepTimer.start()
 		
 		accel = ACCEL
 		is_invul = false
 	else:
+		#stop the step noises cleanly
 		if !$StepTimer.is_stopped() and step_sound.get_playback_position() == 0.0:
 			$StepTimer.stop()
 			step_sound.stop()
 			
 		accel = DEACCEL
+	
+	# make ladder sounds
+	if vel.y > 0 and is_on_ladder:
+		if $StepTimer.is_stopped():
+			$StepTimer.start()
+		elif !$StepTimer.is_stopped() and step_sound.get_playback_position() == 0.0:
+			$StepTimer.stop()
+			step_sound.stop()
 	
 	#Apply our horizontal velocity to our combined velocity variable
 	hvel = hvel.linear_interpolate(target, accel * delta)	#the interpolation is for momentium,
@@ -371,7 +386,10 @@ remotesync func network_update(new_translation, new_rotation, delta):
 #		transform = new_transform
 		
 func _on_StepTimer_timeout():				#this is optimized
-	Global.play_rand(step_sound, steps)
+	if is_on_ladder:
+		Global.play_rand(step_sound, ladder_steps)
+	else:
+		Global.play_rand(step_sound, steps)
 
 func _on_RespawnTimer_timeout():
 	respawn()

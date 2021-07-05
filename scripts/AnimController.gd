@@ -76,8 +76,6 @@ func _physics_process(delta):
 		anim_strafe_interp = clamp(anim_strafe_interp, 0, 1)
 		anim_strafe_dir_interp = clamp(anim_strafe_dir_interp, 0, 1)
 		
-		var r = camera.rotation_degrees
-		
 		if cmd[Command.LEFT]:			#nice smoothing of turning while doing strafing
 			anim_strafe_interp += delta * ACCEL
 			anim_strafe_dir_interp += delta * ACCEL

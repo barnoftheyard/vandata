@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=2]
 
-[sub_resource type="Shader" id=8]
+[sub_resource type="Shader" id=1]
 resource_local_to_scene = true
 code = "/*
 	煙シェーダー by あるる（きのもと 結衣） @arlez80
@@ -126,7 +126,7 @@ void fragment( )
 
 [resource]
 resource_local_to_scene = true
-shader = SubResource( 8 )
+shader = SubResource( 1 )
 shader_param/scale = 1.0
 shader_param/tex_speed = Vector3( 0, -2.2, 0 )
 shader_param/mokomoko = Vector2( 0.1, 0.1 )

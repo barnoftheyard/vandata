@@ -177,7 +177,7 @@ func say_cmd(command):
 	
 const list_desc = "See player list"
 const list_help = "See player list"
-func list_cmd(list):
+func list_cmd():
 	print(network.player_list)
 	Console.print(network.player_list)
 

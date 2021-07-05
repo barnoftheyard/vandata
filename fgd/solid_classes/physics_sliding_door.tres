@@ -1,29 +1,33 @@
-[gd_resource type="Resource" load_steps=4 format=2]
+[gd_resource type="Resource" load_steps=3 format=2]
 
-[ext_resource path="res://scripts/entities/physbrush.gd" type="Script" id=1]
-[ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_solid_class.gd" type="Script" id=2]
-[ext_resource path="res://addons/qodot/game_definitions/fgd/solid_classes/physics_solid_class.tres" type="Resource" id=3]
+[ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_solid_class.gd" type="Script" id=1]
+[ext_resource path="res://scripts/entities/physics_sliding_door.gd" type="Script" id=2]
 
 [resource]
-script = ExtResource( 2 )
+script = ExtResource( 1 )
 class_options = "----------------------------------------------------------------"
-classname = "physics_physbrush"
+classname = "physics_sliding_door"
 description = ""
 qodot_internal = false
-base_classes = [ ExtResource( 3 ) ]
+base_classes = [  ]
 class_properties = {
-"mass": 1,
-"sleeping": 0
+"direction": Vector3( 0, 0, 0 ),
+"distance": 0.0,
+"interp": 0,
+"name": "",
+"offset": Vector3( 0, 0, 0 ),
+"open_on_damage": 0,
+"speed": 0.0,
+"time": 0.0
 }
 class_property_descriptions = {
-
 }
 meta_properties = {
 "color": Color( 0.8, 0.8, 0.8, 1 ),
 "size": AABB( -8, -8, -8, 8, 8, 8 )
 }
 node_options = "----------------------------------------------------------------"
-node_class = "RigidBody"
+node_class = "KinematicBody"
 transient_node = false
 spawn = "----------------------------------------------------------------"
 spawn_type = 2
@@ -32,4 +36,4 @@ build_visuals = true
 collision_build = "----------------------------------------------------------------"
 collision_shape_type = 1
 scripting = "----------------------------------------------------------------"
-script_class = ExtResource( 1 )
+script_class = ExtResource( 2 )

@@ -1,31 +1,28 @@
-[gd_resource type="Resource" load_steps=3 format=2]
+[gd_resource type="Resource" load_steps=4 format=2]
 
-[ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_solid_class.gd" type="Script" id=1]
-[ext_resource path="res://game-definitions/fgd/solid_classes/button.gd" type="Script" id=2]
+[ext_resource path="res://scripts/entities/physbrush.gd" type="Script" id=1]
+[ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_solid_class.gd" type="Script" id=2]
+[ext_resource path="res://addons/qodot/game_definitions/fgd/solid_classes/physics_solid_class.tres" type="Resource" id=3]
 
 [resource]
-script = ExtResource( 1 )
+script = ExtResource( 2 )
 class_options = "----------------------------------------------------------------"
-classname = "button"
-description = "Interactive button brush."
+classname = "physics_physbrush"
+description = ""
 qodot_internal = false
-base_classes = [  ]
+base_classes = [ ExtResource( 3 ) ]
 class_properties = {
-"angle": 0.0,
-"delay": 0.0,
-"depth": 0.0,
-"name": "",
-"speed": 0.0,
-"wait": 0.0
+"mass": 1,
+"sleeping": 0
 }
 class_property_descriptions = {
-
 }
 meta_properties = {
-
+"color": Color( 0.8, 0.8, 0.8, 1 ),
+"size": AABB( -8, -8, -8, 8, 8, 8 )
 }
 node_options = "----------------------------------------------------------------"
-node_class = "KinematicBody"
+node_class = "RigidBody"
 transient_node = false
 spawn = "----------------------------------------------------------------"
 spawn_type = 2
@@ -34,4 +31,4 @@ build_visuals = true
 collision_build = "----------------------------------------------------------------"
 collision_shape_type = 1
 scripting = "----------------------------------------------------------------"
-script_class = ExtResource( 2 )
+script_class = ExtResource( 1 )

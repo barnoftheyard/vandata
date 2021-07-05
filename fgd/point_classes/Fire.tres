@@ -1,33 +1,31 @@
-[gd_resource type="Resource" load_steps=3 format=2]
+[gd_resource type="Resource" load_steps=4 format=2]
 
-[ext_resource path="res://scripts/entities/prop/prop_static.gd" type="Script" id=1]
+[ext_resource path="res://scenes/Entities/Fire.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_point_class.gd" type="Script" id=2]
+[ext_resource path="res://scripts/entities/Fire.gd" type="Script" id=3]
 
 [resource]
 script = ExtResource( 2 )
 class_options = "----------------------------------------------------------------"
-classname = "prop_static"
-description = "A static prop."
+classname = "fire"
+description = "A fire."
 qodot_internal = false
 base_classes = [  ]
 class_properties = {
-"collisions": 0,
-"material": "",
-"model": "",
-"scale": Vector3( 1, 1, 1 )
+"damage": 15,
+"name": ""
 }
 class_property_descriptions = {
-"collisions": "Whether to generate a trimesh collisions. 0 = none (default. 1 = generate.",
-"material": "The model path used to load from. Must be .mtl.",
-"model": "The model path used to load from. Must be .obj."
+"damage": "How much damage to do upon each cycle."
 }
 meta_properties = {
 "color": Color( 0.8, 0.8, 0.8, 1 ),
 "size": AABB( -8, -8, -8, 8, 8, 8 )
 }
 node_options = "----------------------------------------------------------------"
-node_class = "MeshInstance"
+node_class = ""
 transient_node = false
 scene = "----------------------------------------------------------------"
+scene_file = ExtResource( 1 )
 scripting = "----------------------------------------------------------------"
-script_class = ExtResource( 1 )
+script_class = ExtResource( 3 )

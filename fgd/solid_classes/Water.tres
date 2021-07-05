@@ -11,10 +11,8 @@ description = "Water brush."
 qodot_internal = false
 base_classes = [  ]
 class_properties = {
-
 }
 class_property_descriptions = {
-
 }
 meta_properties = {
 "color": Color( 0.8, 0.8, 0.8, 1 ),
