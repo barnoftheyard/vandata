@@ -15,13 +15,17 @@ onready var map_text = $MarginContainer2/ScrollContainer2/VBoxContainer/PanelCon
 
 
 func _ready():
+	#create a dummy server
+	var net = NetworkedMultiplayerENet.new()
+	net.create_server(9999, 1)
+	get_tree().set_network_peer(net)
+	
 	$Copyright.text = Global.version + " - " + Global.author
+	$ViewportContainer/Viewport/AnimationPlayer.playback_speed = 0.1
+	$ViewportContainer/Viewport/AnimationPlayer.play("gesture")
 	
 func _process(delta):
 	$FlavorText.rect_rotation += 200 * delta
-	
-	if !$VideoPlayer.is_playing():
-		$VideoPlayer.play()
 
 func _on_TestAreaButton_pressed():
 	selected_map = maps["TestArea"]
@@ -40,6 +44,9 @@ func _on_Button_pressed():
 	
 	if Global.game_mode == Global.game_modes.SINGLEPLAYER:
 		get_tree().change_scene(selected_map)
+		
+func _on_TestButton_pressed():
+	pass # Replace with function body.
 
 
 func _on_Singleplayer_toggled(button_pressed):
@@ -79,6 +86,7 @@ func _on_Host_pressed():
 		var server_name = $MarginContainer2/ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer/ServerEdit.text
 	
 		# And create the server, using the function previously added into the code
+		get_tree().set_network_peer(null)
 		network.create_server(selected_map, server_name, port)
 		
 func _on_ready_to_play():
@@ -103,10 +111,12 @@ func _on_JoinServer_pressed():
 	selected_map = null
 	var port = int($MarginContainer/ScrollContainer/VBoxContainer/Port/HBoxContainer/LineEdit.text)
 	var ip = $MarginContainer/ScrollContainer/VBoxContainer/IP/HBoxContainer/LineEdit.text
+	
+	get_tree().set_network_peer(null)
 	network.join_server(ip, port)
 
 func _on_Quit_toggled(button_pressed):
-	$AcceptDialog.popup_centered()
+	$QuitDialog.popup_centered()
 
 func _on_AcceptDialog_confirmed():
 	get_tree().quit()
@@ -114,3 +124,7 @@ func _on_AcceptDialog_confirmed():
 func _on_Settings_pressed():
 	var settings_node = load("res://scenes/Settings.tscn").instance()
 	add_child(settings_node)
+
+
+func _on_Credits_pressed():
+	$CreditsPopup.popup_centered()

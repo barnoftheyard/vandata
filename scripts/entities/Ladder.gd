@@ -1,8 +1,18 @@
 class_name Ladder
 extends StaticBody
 
+export(Dictionary) var properties setget set_properties
+
+func set_properties(new_properties : Dictionary) -> void:
+	if(properties != new_properties):
+		properties = new_properties
+		update_properties()
+
 var captured = false
 var player_node = null
+
+func update_properties():
+	pass
 
 func use(player):
 	if player is Player:

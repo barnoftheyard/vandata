@@ -146,7 +146,6 @@ script = ExtResource( 9 )
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0 )
 cull_mask = 2148532193
-current = true
 fov = 90.0
 far = 200.0
 script = ExtResource( 10 )

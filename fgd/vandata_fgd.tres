@@ -1,13 +1,14 @@
-[gd_resource type="Resource" load_steps=18 format=2]
+[gd_resource type="Resource" load_steps=19 format=2]
 
 [ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_file.gd" type="Script" id=1]
 [ext_resource path="res://addons/qodot/game_definitions/fgd/qodot_fgd.tres" type="Resource" id=2]
 [ext_resource path="res://fgd/solid_classes/button_solid_class.tres" type="Resource" id=3]
 [ext_resource path="res://fgd/solid_classes/PhysBrush.tres" type="Resource" id=4]
+[ext_resource path="res://fgd/solid_classes/brush_ladder.tres" type="Resource" id=5]
 [ext_resource path="res://fgd/point_classes/physics_ball_point_class.tres" type="Resource" id=6]
+[ext_resource path="res://fgd/point_classes/npc_uav.tres" type="Resource" id=7]
 [ext_resource path="res://fgd/point_classes/chicken.tres" type="Resource" id=8]
 [ext_resource path="res://fgd/point_classes/Fire.tres" type="Resource" id=9]
-[ext_resource path="res://fgd/point_classes/Player.tres" type="Resource" id=10]
 [ext_resource path="res://fgd/point_classes/Text.tres" type="Resource" id=11]
 [ext_resource path="res://fgd/point_classes/PlayerSpawn.tres" type="Resource" id=12]
 [ext_resource path="res://fgd/solid_classes/Water.tres" type="Resource" id=13]
@@ -24,4 +25,4 @@ export_file = false
 target_folder = "C:/Users/barnyard/Desktop/TrenchBroom/games/Qodot"
 fgd_name = "Qodot"
 base_fgd_files = [ ExtResource( 2 ) ]
-entity_definitions = [ ExtResource( 6 ), ExtResource( 9 ), ExtResource( 10 ), ExtResource( 8 ), ExtResource( 11 ), ExtResource( 13 ), ExtResource( 12 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 4 ), ExtResource( 3 ) ]
+entity_definitions = [ ExtResource( 6 ), ExtResource( 9 ), ExtResource( 8 ), ExtResource( 11 ), ExtResource( 13 ), ExtResource( 12 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 17 ), ExtResource( 18 ), ExtResource( 19 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 5 ), ExtResource( 7 ) ]

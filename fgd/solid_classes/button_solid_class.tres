@@ -75,7 +75,7 @@ func release():
 [resource]
 script = ExtResource( 1 )
 class_options = "----------------------------------------------------------------"
-classname = "button"
+classname = "brush_button"
 description = "Interactive button brush."
 qodot_internal = false
 base_classes = [  ]

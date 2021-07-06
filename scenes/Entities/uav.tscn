@@ -196,6 +196,7 @@ one_shot = true
 [node name="RayCast" type="RayCast" parent="."]
 enabled = true
 cast_to = Vector3( 0, -2048, 0 )
+collide_with_areas = true
 
 [node name="hover" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource( 3 )

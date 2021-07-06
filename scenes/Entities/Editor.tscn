@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scripts/entities/Ladder.gd" type="Script" id=1]
+[ext_resource path="res://textures/Orange/texture_10.png" type="Texture" id=2]
+
+[sub_resource type="SpatialMaterial" id=123]
+albedo_texture = ExtResource( 2 )
+uv1_triplanar = true
+
+[sub_resource type="CubeMesh" id=121]
+material = SubResource( 123 )
+size = Vector3( 1, 8, 0.2 )
+
+[sub_resource type="BoxShape" id=122]
+extents = Vector3( 0.5, 4, 0.1 )
+
+[node name="Ladder" type="StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -44.3952, 6, 51.9 )
+script = ExtResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
+mesh = SubResource( 121 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
+shape = SubResource( 122 )

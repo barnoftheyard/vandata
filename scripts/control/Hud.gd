@@ -15,7 +15,7 @@ func pain():
 	
 func death(time_remaining):
 	$DeathOverlay.show()
-	$DeathOverlay/Label.text = "RESPAWN: " + time_remaining
+	$DeathOverlay/Label.text = time_remaining
 	$CenterContainer.hide()
 	
 func respawn():

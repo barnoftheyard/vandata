@@ -106,9 +106,8 @@ func death():
 	
 	weapon.remove_all_weapons()
 	
+	#kill our velocity
 	vel = Vector3.ZERO
-	
-	#playermodel.get_node("Armature/Skeleton").physical_bones_start_simulation()
 	
 func respawn():
 	
@@ -121,8 +120,6 @@ func respawn():
 	
 	self.show()
 	$PlayerCollision.disabled = false
-	
-	#playermodel.get_node("Armature/Skeleton").physical_bones_stop_simulation()
 	
 	#print(player_info["name"] + " respawned at: " + str(transform.origin))
 	$Hud.respawn()
@@ -158,7 +155,7 @@ remotesync func bullet_hit(damage, from, bullet_hit_pos, _force_multiplier):			#
 	#if we got killed handle the score
 	if player_info["health"] <= 0 and !is_dead:
 		
-		#If our killer is a player
+		#If our killer is a player and isn't ourselves
 		if from_str in network.player_list and from_str != "1":
 			network.rpc("console_msg", player_info["name"] + " was killed by " + 
 			network.player_list[from_str]["name"])
@@ -189,6 +186,7 @@ func _ready():
 	if !is_network_master() or !is_player:
 		$Hud.hide()
 		$Camera.hide()
+		#weapon viewmodels
 		weapon.get_node("ViewportContainer").hide()
 	
 	#we call respawn in first spawn, since it sets up random spawning and death
@@ -282,6 +280,11 @@ func _physics_process(delta):
 	if !noclip and !is_dead and !is_on_ladder:
 		vel.y += GRAVITY * delta			#apply gravity
 		
+	if noclip:
+		$PlayerCollision.disabled = true
+	else:
+		$PlayerCollision.disabled = false
+		
 	hvel = vel
 	if !is_inwater:
 		hvel.y = 0
@@ -310,7 +313,7 @@ func _physics_process(delta):
 		accel = DEACCEL
 	
 	# make ladder sounds
-	if vel.y > 0 and is_on_ladder:
+	if vel.y != 0 and is_on_ladder:
 		if $StepTimer.is_stopped():
 			$StepTimer.start()
 		elif !$StepTimer.is_stopped() and step_sound.get_playback_position() == 0.0:
@@ -353,6 +356,7 @@ func _physics_process(delta):
 	# Update the position and rotation over network
 	# If this character is controlled by the actual player - send it's position and rotation
 	if $controller.has_method("is_player"):
+		$Camera.current = true
 		# And only transmit, if the characters node has more than 1 player
 		if get_parent().get_child_count() > 1:
 			

@@ -31,6 +31,21 @@ onready var die = Global.files_in_dir("res://sounds/uav/die/", ".wav")
 enum states {IDLE, ALERT, AWARE}
 var state = states.IDLE
 
+export(Dictionary) var properties setget set_properties
+
+func set_properties(new_properties : Dictionary) -> void:
+	if(properties != new_properties):
+		properties = new_properties
+		update_properties()
+		
+func update_properties():
+	if "health" in properties:
+		health = properties["health"]
+	if "speed" in properties:
+		speed = properties["speed"]
+	if "damage" in properties:
+		damage = properties["damage"]
+
 func bullet_hit(damage_, id, _bullet_hit_pos, _force_multiplier):
 	
 	if !is_dead:

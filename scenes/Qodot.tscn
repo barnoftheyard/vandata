@@ -1,4 +1,4 @@
-[gd_scene load_steps=150 format=2]
+[gd_scene load_steps=146 format=2]
 
 [ext_resource path="res://scripts/entities/physbrush.gd" type="Script" id=1]
 [ext_resource path="res://addons/qodot/game_definitions/fgd/point_classes/light.gd" type="Script" id=2]
@@ -25,8 +25,7 @@
 [ext_resource path="res://scenes/Entities/Health.tscn" type="PackedScene" id=23]
 [ext_resource path="res://scenes/Entities/Fire.tscn" type="PackedScene" id=24]
 [ext_resource path="res://scenes/Entities/uav.tscn" type="PackedScene" id=25]
-[ext_resource path="res://scripts/entities/Ladder.gd" type="Script" id=26]
-[ext_resource path="res://textures/Orange/texture_10.png" type="Texture" id=27]
+[ext_resource path="res://scenes/Entities/Editor.tscn" type="PackedScene" id=26]
 
 [sub_resource type="SpatialMaterial" id=1]
 
@@ -717,17 +716,6 @@ ssao_intensity = 2.0
 glow_bloom = 0.2
 adjustment_contrast = 1.1
 adjustment_saturation = 1.2
-
-[sub_resource type="SpatialMaterial" id=123]
-albedo_texture = ExtResource( 27 )
-uv1_triplanar = true
-
-[sub_resource type="CubeMesh" id=121]
-material = SubResource( 123 )
-size = Vector3( 1, 8, 0.2 )
-
-[sub_resource type="BoxShape" id=122]
-extents = Vector3( 0.5, 4, 0.1 )
 
 [node name="Qodot" type="Spatial"]
 
@@ -1578,15 +1566,4 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.5051, 11.0694, 54.9383 )
 [node name="uav2" parent="." instance=ExtResource( 25 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.497602, 1.74526, 54.9383 )
 
-[node name="Ladder" type="StaticBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -44.3952, 6, 51.9 )
-script = ExtResource( 26 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Ladder"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
-mesh = SubResource( 121 )
-material/0 = null
-
-[node name="CollisionShape" type="CollisionShape" parent="Ladder"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
-shape = SubResource( 122 )
+[node name="Ladder" parent="." instance=ExtResource( 26 )]

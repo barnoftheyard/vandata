@@ -23,6 +23,7 @@ onready var hitscan_initpos = hitscan.translation
 onready var weapon_nodes = hitscan.get_children()
 #get the number of children and offset the index by 1 to account for arrays
 onready var weapon_num = hitscan.get_child_count() - 1
+onready var bullet_holes = Global.files_in_dir("res://textures/bullethole/", ".png")
 
 var weapon_name = ""
 
@@ -174,8 +175,12 @@ func switch_weapon(index):
 		pos = weapon_num
 	#-1 means no weapons in our inventory. 0 means one, as the weapon index is offset by 1
 	#because arrays :P
-	elif pos < -1:
-		pos = -1
+	elif pos < 0:
+		pos = 0
+		
+	if pos <= -1 or pos - index <= -1:
+		return
+		
 	weapon_nodes[pos - index].hide()
 	weapon_nodes[pos].show()
 	
@@ -257,7 +262,7 @@ func create_decal(body, trans, normal, color, decal_scale, image_path):
 	#decal_shader.set_shader_param("uv_scale", Vector2.ONE * decal_scale)
 	
 	decal_shader.set_shader_param("albedo_tint", color)
-	b.get_node("MeshInstance").scale = Vector3.ONE * decal_scale
+	b.get_node("MeshInstance").mesh.size = Vector3.ONE * decal_scale
 	
 	#return the node
 	return b
@@ -318,12 +323,8 @@ func fire_hitscan(damage, ray_range):
 		elif body is StaticBody:
 			#bullet decal adding
 			create_decal(body, ray.get_collision_point(), ray.get_collision_normal(), 
-			Color(0.67, 0.67, 0.67, 1), 0.1, "res://textures/bullethole.png")
-				
-		elif body is CSGShape:
-			var hole = load("res://scenes/BulletHole.tscn").instance()
-			body.add_child(hole)
-			hole.global_transform.origin = ray.get_collision_point()
+			Color(1, 1, 1, 1), 0.5, 
+			bullet_holes[Global.rng.randi_range(0, bullet_holes.size() - 1)])
 			
 func use_hitscan():
 	var ray = $UseCast
@@ -371,13 +372,24 @@ func _input(event):
 				if event.button_index == BUTTON_WHEEL_UP and pos < weapon_num:	#ignore is_pressed, godot still registers scroll-wheel movement as a button press
 					switch_weapon(1)
 				
-				elif event.button_index == BUTTON_WHEEL_DOWN and pos > -1:
+				elif event.button_index == BUTTON_WHEEL_DOWN and pos > 0:
 					switch_weapon(-1)
 					
 				
 		if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			mouse_accel.x = -event.relative.x * 0.0075
 			mouse_accel.y = -event.relative.y * 0.0075
+			
+		if Input.is_action_just_pressed("ui_1"):
+			switch_to_weapon("shovel")
+		elif Input.is_action_just_pressed("ui_2"):
+			switch_to_weapon("pistol")
+		elif Input.is_action_just_pressed("ui_3"):
+			switch_to_weapon("smg")
+		elif Input.is_action_just_pressed("ui_4"):
+			switch_to_weapon("br")
+		elif Input.is_action_just_pressed("ui_5"):
+			switch_to_weapon("bow")
 				
 func _physics_process(delta):
 	

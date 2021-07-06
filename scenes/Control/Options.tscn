@@ -105,7 +105,7 @@ text = "QUIT"
 margin_right = 160.0
 margin_bottom = 80.0
 theme = ExtResource( 7 )
-window_title = ""
+window_title = "Quit"
 dialog_text = "Quit now?"
 
 [connection signal="pressed" from="VBoxContainer/Resume" to="." method="_on_Resume_pressed"]
