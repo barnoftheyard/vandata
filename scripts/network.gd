@@ -38,15 +38,16 @@ func _ready():
 	client_scene.set_local_to_scene(true)
 	peer_scene.set_local_to_scene(true)
 	bot_scene.set_local_to_scene(true)
-
-# When Connect button is pressed
-func join_server(ip, port):
-	# Connect network events
+	
 	get_tree().connect("network_peer_connected", self, "_on_peer_connected")
 	get_tree().connect("network_peer_disconnected", self, "_on_peer_disconnected")
 	get_tree().connect("connected_to_server", self, "_on_connected_to_server")
 	get_tree().connect("connection_failed", self, "_on_connection_failed")
 	get_tree().connect("server_disconnected", self, "_on_server_disconnected")
+
+# When Connect button is pressed
+func join_server(ip, port):
+
 	
 	# Set up an ENet instance
 	var net = NetworkedMultiplayerENet.new()
@@ -96,8 +97,6 @@ func _on_server_disconnected():
 
 func create_server(map, server_name, port):
 	# Connect network events
-	get_tree().connect("network_peer_connected", self, "_on_peer_connected")
-	get_tree().connect("network_peer_disconnected", self, "_on_peer_disconnected")
 	
 #	var command = ["-n", "1", "-w", "3", "127.0.0.1"]
 #	if OS.execute("ping", command, true) != 1:

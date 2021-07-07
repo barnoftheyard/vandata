@@ -338,6 +338,11 @@ func use_hitscan():
 			grab = !grab
 			grab_target = body
 			
+			if grab:
+				put_away_weapon()
+			else:
+				bring_out_weapon()
+			
 		elif body.has_method("use"):
 			body.rpc_config("use", MultiplayerAPI.RPC_MODE_REMOTESYNC)
 			if body is Ladder:
@@ -418,7 +423,6 @@ func _physics_process(delta):
 #			grab_target.rset_unreliable("global_transform.origin", grab_target.global_transform.origin.linear_interpolate(
 #				$UseCast/EndPoint.global_transform.origin, sway * delta))
 			
-			put_away_weapon()
 			
 		else:
 			grab_target.mode = RigidBody.MODE_RIGID
@@ -432,7 +436,6 @@ func _physics_process(delta):
 			#grab_target.rset_unreliable("linear_velocity", ($UseCast/EndPoint.velocity.normalized() + player_node.vel) * (1 / grab_target.mass))
 			
 			grab_target = null
-			bring_out_weapon()
 			
 	if !disabled:
 		#directional sway
@@ -441,10 +444,6 @@ func _physics_process(delta):
 		#rotational sway
 		hitscan.rotation.y = lerp_angle(hitscan.rotation.y, mouse_accel.x, sway * delta)
 		hitscan.rotation.x = lerp_angle(hitscan.rotation.x, mouse_accel.y, sway * delta)
-		
-	#	#Recoil
-	#	$RayCast.rotation.y = lerp_angle($RayCast.rotation.y, mouse_accel.x, sway * delta)
-	#	$RayCast.rotation.x = lerp_angle($RayCast.rotation.x, mouse_accel.y, sway * delta)
 		
 		#breathing-esque effect on the weapon
 		hitscan.translation.y += cos(Global.delta_time * 2) * 0.0005
@@ -589,11 +588,11 @@ func _physics_process(delta):
 					weapon_nodes[pos].reload()
 				reload_weapon()
 				
-		elif cmd[Command.USE]:
-			use_hitscan()
-			
-		elif cmd[Command.SPRAY]:
-			spray()
+	#work-arounds so that the disabled flag doesn't effect these inputs	
+	if !Global.is_paused and player_node.is_network_master() and cmd[Command.USE]:
+		use_hitscan()
+	if !Global.is_paused and player_node.is_network_master() and cmd[Command.SPRAY]:
+		spray()
 
 func _on_weapon_switch():
 	#we do our one-time logic here after weapon switch
