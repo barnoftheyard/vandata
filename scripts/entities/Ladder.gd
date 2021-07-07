@@ -1,30 +1,21 @@
 class_name Ladder
 extends StaticBody
 
-export(Dictionary) var properties setget set_properties
-
-func set_properties(new_properties : Dictionary) -> void:
-	if(properties != new_properties):
-		properties = new_properties
-		update_properties()
-
 var captured = false
 var player_node = null
-
-func update_properties():
-	pass
 
 func use(player):
 	if player is Player:
 		captured = !captured
 		player_node = player
 		
+		player_node.is_on_ladder = true
+		player_node.weapon.put_away_weapon()
+		player_node.vel.y = 0
+		
 func _physics_process(delta):
 	if player_node != null:
 		if captured:
-			player_node.is_on_ladder = true
-			player_node.weapon.put_away_weapon()
-			player_node.vel.y = 0
 			
 			var x = self.global_transform.origin
 			#get the second child's shape (which in qodot is always the CollisionShape)

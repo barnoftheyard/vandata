@@ -2,38 +2,7 @@
 
 [ext_resource path="res://scenes/Entities/PhysicsBall.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_point_class.gd" type="Script" id=2]
-
-[sub_resource type="GDScript" id=1]
-script/source = "extends RigidBody
-tool
-
-signal bounce
-
-export(Dictionary) var properties setget set_properties
-
-func set_properties(new_properties : Dictionary) -> void:
-	if(properties != new_properties):
-		properties = new_properties
-		update_properties()
-		
-func bullet_hit(damage, _id, bullet_hit_pos, force_multiplier):			#handles how bullets push the prop
-	var direction_vect = global_transform.origin - bullet_hit_pos
-	direction_vect = direction_vect.normalized()
-	apply_impulse(bullet_hit_pos, direction_vect * (mass / (damage * force_multiplier)))
-
-func update_properties():
-	if 'velocity' in properties:
-		linear_velocity = properties['velocity']
-		
-func _ready():
-	connect(\"bounce\", self, \"_on_bounce\")
-
-func use():
-	emit_signal(\"bounce\")
-
-func _on_bounce():
-	linear_velocity.y = 10
-"
+[ext_resource path="res://scripts/entities/physics_ball.gd" type="Script" id=3]
 
 [resource]
 script = ExtResource( 2 )
@@ -59,4 +28,4 @@ transient_node = false
 scene = "----------------------------------------------------------------"
 scene_file = ExtResource( 1 )
 scripting = "----------------------------------------------------------------"
-script_class = SubResource( 1 )
+script_class = ExtResource( 3 )

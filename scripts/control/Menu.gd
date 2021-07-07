@@ -2,7 +2,8 @@ extends Control
 
 var maps = {
 	"TestArea": "res://scenes/TestArea.tscn",
-	"Qodot": "res://scenes/Qodot.tscn"
+	"Qodot": "res://scenes/Qodot.tscn",
+	"ladder test": "res://scenes/Maps/ladder test.tscn"
 }
 
 var client = null
@@ -31,7 +32,7 @@ func _on_TestAreaButton_pressed():
 	selected_map = maps["TestArea"]
 	selected_map_name = "TestArea"
 	
-	map_text.text = "Map: " + "TestArea"
+	map_text.text = "Map: " + selected_map_name
 	
 	if Global.game_mode == Global.game_modes.SINGLEPLAYER:
 		get_tree().change_scene(selected_map)
@@ -40,13 +41,19 @@ func _on_Button_pressed():
 	selected_map = maps["Qodot"]
 	selected_map_name = "Qodot"
 	
-	map_text.text = "Map: " + "Qodot"
+	map_text.text = "Map: " + selected_map_name
 	
 	if Global.game_mode == Global.game_modes.SINGLEPLAYER:
 		get_tree().change_scene(selected_map)
 		
 func _on_TestButton_pressed():
-	pass # Replace with function body.
+	selected_map = maps["ladder test"]
+	selected_map_name = "ladder test"
+	
+	map_text.text = "Map: " + selected_map_name
+	
+	if Global.game_mode == Global.game_modes.SINGLEPLAYER:
+		get_tree().change_scene(selected_map)
 
 
 func _on_Singleplayer_toggled(button_pressed):

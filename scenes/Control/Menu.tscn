@@ -12,7 +12,7 @@
 [ext_resource path="res://resources/Theme.tres" type="Theme" id=12]
 [ext_resource path="res://resources/Panels/new_styleboxflat.tres" type="StyleBox" id=13]
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 resource_name = "gesture"
 length = 3.0
 loop = true
@@ -29,7 +29,7 @@ tracks/0/keys = {
 "values": [ Vector3( -10.086, 167.496, 0 ), Vector3( 3.73222, 138.652, -2.0532 ), Vector3( 5.9088, 165.548, 0.266367 ), Vector3( -10.086, 167.496, 0 ) ]
 }
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=2]
 size = 84
 use_mipmaps = true
 use_filter = true
@@ -105,7 +105,7 @@ current = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="ViewportContainer/Viewport"]
 autoplay = "gesture"
-anims/gesture = SubResource( 2 )
+anims/gesture = SubResource( 1 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0
@@ -146,7 +146,7 @@ __meta__ = {
 [node name="Title" type="Label" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 margin_right = 291.0
 margin_bottom = 91.0
-custom_fonts/font = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 text = "VARZA  "
 align = 1
 valign = 1
@@ -471,7 +471,7 @@ margin_bottom = 200.0
 custom_styles/hover = ExtResource( 8 )
 custom_styles/pressed = ExtResource( 6 )
 custom_styles/normal = ExtResource( 7 )
-text = "Qodot"
+text = "ladder test"
 
 [node name="CenterContainer" type="CenterContainer" parent="MarginContainer2/ScrollContainer2/VBoxContainer/Test/HBoxContainer"]
 margin_left = 54.0
@@ -482,7 +482,6 @@ margin_bottom = 200.0
 margin_right = 320.0
 margin_bottom = 200.0
 rect_min_size = Vector2( 320, 200 )
-texture = ExtResource( 2 )
 expand = true
 stretch_mode = 5
 
@@ -494,10 +493,7 @@ margin_bottom = 200.0
 [node name="Label" type="Label" parent="MarginContainer2/ScrollContainer2/VBoxContainer/Test/HBoxContainer/VBoxContainer2"]
 margin_right = 80.0
 margin_bottom = 73.0
-text = "Showcases
-Qodot map
-loading,
-"
+text = "Another debug map"
 
 [node name="CreditsPopup" type="WindowDialog" parent="."]
 anchor_left = 0.5

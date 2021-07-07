@@ -12,7 +12,7 @@
 layers = 8
 
 [node name="hand_r" type="BoneAttachment" parent="Armature/Skeleton" index="1"]
-transform = Transform( -0.440995, 0.518733, 0.73242, 0.846486, 0.511623, 0.14732, -0.298304, 0.68495, -0.664723, -0.187734, 1.42337, 0.222173 )
+transform = Transform( -0.442598, 0.520481, 0.73021, 0.849399, 0.504373, 0.155333, -0.287451, 0.688989, -0.665331, -0.187296, 1.42016, 0.228603 )
 bone_name = "Hand.R"
 
 [node name="helper" type="Spatial" parent="Armature/Skeleton/hand_r" index="0"]

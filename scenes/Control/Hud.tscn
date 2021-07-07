@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://resources/DynamicFonts/buttons.tres" type="DynamicFont" id=1]
 [ext_resource path="res://textures/crosshairs64.png" type="Texture" id=2]
@@ -13,7 +13,7 @@
 [ext_resource path="res://fonts/conduit/conduit_itc_bold1.ttf" type="DynamicFontData" id=11]
 
 [sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.352941, 0.784314, 1, 1 )
+bg_color = Color( 0.35, 0.78, 1, 1 )
 border_width_left = 6
 border_width_top = 6
 border_width_right = 6
@@ -90,8 +90,8 @@ noise = SubResource( 6 )
 
 [sub_resource type="ShaderMaterial" id=8]
 shader = SubResource( 5 )
-shader_param/randx = 0.0422196
-shader_param/randy = 0.228553
+shader_param/randx = 0.248816
+shader_param/randy = 0.329773
 shader_param/grain_alpha = 0.1
 shader_param/grain_scale = 10.0
 shader_param/noise_tex = SubResource( 7 )
@@ -113,6 +113,34 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=11]
+resource_name = "fade"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("HealthMeter:rect_position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 2.07053, 4.43828 ),
+"update": 0,
+"values": [ Vector2( 320, 20 ), Vector2( 320, -55.8602 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("ArmorMeter:rect_position")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 2.07053, 4.43828 ),
+"update": 0,
+"values": [ Vector2( 344, 50 ), Vector2( 344, -25.8602 ) ]
 }
 
 [node name="Hud" type="Control"]
@@ -403,6 +431,9 @@ margin_right = 23.9265
 margin_bottom = -101.86
 align = 1
 valign = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/fade = SubResource( 11 )
 
 [connection signal="draw" from="PanelContainer/VBoxContainer/ChatBox" to="." method="_on_ChatBox_draw"]
 [connection signal="timeout" from="PanelContainer/VBoxContainer/ChatBox/Timer" to="." method="_on_Timer_timeout"]

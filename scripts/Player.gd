@@ -45,6 +45,7 @@ var is_dead = false
 var is_jumping = false
 var is_inwater = false
 var is_on_ladder = false
+var is_in_build = false
 
 var mouse_colliding = false
 var steps_target
@@ -275,12 +276,24 @@ func _physics_process(delta):
 		if Input.is_action_pressed("ui_right"):
 			rotate_y(-4 * delta)
 			
+		if Input.is_action_just_pressed("ui_build"):
+			is_in_build = !is_in_build
+			noclip = is_in_build
+			god_mode = is_in_build
+			
+			if is_in_build:
+				weapon.put_away_weapon()
+				$Hud/AnimationPlayer.play("fade")
+			else:
+				weapon.bring_out_weapon()
+				$Hud/AnimationPlayer.play_backwards("fade")
+			
 	#input code ends here
 	
 	if !noclip and !is_dead and !is_on_ladder:
 		vel.y += GRAVITY * delta			#apply gravity
 		
-	if noclip:
+	if noclip and !is_in_build:
 		$PlayerCollision.disabled = true
 	else:
 		$PlayerCollision.disabled = false
@@ -420,6 +433,7 @@ func god_cmd(command):
 		god_mode = bool(int(command))
 		print("God mode is set to " + str(god_mode))
 		Console.print("God mode is set to " + str(god_mode))
+		
 	elif command == null:
 		print("No argument given!")
 		Console.print("No argument given!")

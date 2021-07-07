@@ -16,6 +16,7 @@ var grab_target = null
 export var consume_ammo = true
 export var instant_reload = false
 export var recoil = true
+export var disabled = false
 
 onready var hitscan = $ViewportContainer/Viewport/TransformHelper/Hitscan
 onready var hitscan_initpos = hitscan.translation
@@ -41,7 +42,7 @@ var weapons = {
 	},
 	"smg": {
 		"clip": 30, 
-		"ammo": 256,
+		"ammo": 30,
 		"recoil": 1,
 		"times_fired": 0
 	},
@@ -226,18 +227,16 @@ func remove_all_weapons():
 	_on_update_weapon_list()
 	
 func put_away_weapon():
-	if can_fire:
-		$Tween.interpolate_property(hitscan, "translation", hitscan_initpos, 
-		Vector3(0, -2, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-		$Tween.start()
-	can_fire = false
+	$Tween.interpolate_property(hitscan, "translation", hitscan_initpos, 
+	Vector3(0, -2, 0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	$Tween.start()
+	disabled = true
 	
 func bring_out_weapon():
-	if !can_fire:
-		$Tween.interpolate_property(hitscan, "translation", Vector3(0, -2, 0), 
-		hitscan_initpos, 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-		$Tween.start()
-	can_fire = true
+	$Tween.interpolate_property(hitscan, "translation", Vector3(0, -2, 0), 
+	hitscan_initpos, 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	$Tween.start()
+	disabled = false
 	
 func create_decal(body, trans, normal, color, decal_scale, image_path):
 	var b = decal.instance()
@@ -435,23 +434,23 @@ func _physics_process(delta):
 			grab_target = null
 			bring_out_weapon()
 			
-	if can_fire:
+	if !disabled:
 		#directional sway
 		hitscan.translation = hitscan.translation.linear_interpolate(mouse_accel + hitscan_initpos, sway * delta)
 		
-	#rotational sway
-	hitscan.rotation.y = lerp_angle(hitscan.rotation.y, mouse_accel.x, sway * delta)
-	hitscan.rotation.x = lerp_angle(hitscan.rotation.x, mouse_accel.y, sway * delta)
-	
-#	#Recoil
-#	$RayCast.rotation.y = lerp_angle($RayCast.rotation.y, mouse_accel.x, sway * delta)
-#	$RayCast.rotation.x = lerp_angle($RayCast.rotation.x, mouse_accel.y, sway * delta)
-	
-	#breathing-esque effect on the weapon
-	hitscan.translation.y += cos(Global.delta_time * 2) * 0.0005
-	
-	#set the SunRotate's transform the the transform of our weapon node's transform
-	hitscan.get_parent().transform = get_parent().global_transform
+		#rotational sway
+		hitscan.rotation.y = lerp_angle(hitscan.rotation.y, mouse_accel.x, sway * delta)
+		hitscan.rotation.x = lerp_angle(hitscan.rotation.x, mouse_accel.y, sway * delta)
+		
+	#	#Recoil
+	#	$RayCast.rotation.y = lerp_angle($RayCast.rotation.y, mouse_accel.x, sway * delta)
+	#	$RayCast.rotation.x = lerp_angle($RayCast.rotation.x, mouse_accel.y, sway * delta)
+		
+		#breathing-esque effect on the weapon
+		hitscan.translation.y += cos(Global.delta_time * 2) * 0.0005
+		
+		#set the SunRotate's transform the the transform of our weapon node's transform
+		hitscan.get_parent().transform = get_parent().global_transform
 	
 	#if we have a muzzle flash, and the time it has finished, hide it
 	if muzzle_flash != null and weapon_num > -1:
@@ -469,7 +468,7 @@ func _physics_process(delta):
 		current_ammo = null
 		times_fired = null
 	
-	if !Global.is_paused and player_node.is_network_master():
+	if !Global.is_paused and player_node.is_network_master() and !disabled:
 		if cmd[Command.PRIMARY] and can_fire:
 			
 			if (weapon_name == "pistol" and current_clip > 0 and 
@@ -568,7 +567,9 @@ func _physics_process(delta):
 				
 				can_fire = false
 				
-			elif current_clip == 0:
+			elif (weapon_name == "double barrel" and current_clip == 0 
+			and current_ammo > 0 and !anim.is_playing() 
+			and weapon_name != "bow"):
 				reload_weapon()
 				
 			elif current_clip == 0 and current_ammo == 0 and !anim.is_playing():
@@ -610,7 +611,15 @@ func _on_weapon_switch():
 func _on_animation_finished(anim_name):
 	if anim_name == "reload" and da_wep == weapon_name:
 		weapons[weapon_name]["ammo"] -= weapons[weapon_name]["times_fired"]
-		weapons[weapon_name]["clip"] += weapons[weapon_name]["times_fired"]
+		
+		#If we have less ammo than the times we fired previously, add the difference
+		# than add it to clip
+		if weapons[weapon_name]["ammo"] < 0:
+			weapons[weapon_name]["clip"] += weapons[weapon_name]["ammo"] + weapons[weapon_name]["times_fired"]
+			weapons[weapon_name]["ammo"] = 0
+		else:
+			weapons[weapon_name]["clip"] += weapons[weapon_name]["times_fired"]
+			
 		weapons[weapon_name]["times_fired"] = 0
 		
 func _on_update_weapon_list():

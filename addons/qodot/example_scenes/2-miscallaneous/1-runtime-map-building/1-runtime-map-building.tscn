@@ -165,10 +165,9 @@ mode_overrides_title = false
 mode = 0
 access = 2
 filters = PoolStringArray( "*.map" )
-current_dir = "/Users/barnyard/Desktop/godot3/Vandata"
+current_dir = "P:/Personal/Godot/Qodot/qodot-example"
 current_file = "qodot_example.map"
-current_path = "/Users/barnyard/Desktop/godot3/Vandata/qodot_example.map"
-
+current_path = "P:/Personal/Godot/Qodot/qodot-example/qodot_example.map"
 [connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/MapFileHBox/OpenButton" to="UI/MapFileDialog" method="popup"]
 [connection signal="pressed" from="UI/Panel/MarginContainer/VBoxContainer/MapFileHBox/ReloadButton" to="QodotMap" method="verify_and_build"]
 [connection signal="file_selected" from="UI/MapFileDialog" to="UI/Panel/MarginContainer/VBoxContainer/MapFileHBox/FilenameLabel" method="set_text"]

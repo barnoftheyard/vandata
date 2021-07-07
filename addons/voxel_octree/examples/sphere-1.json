@@ -1,0 +1,6 @@
+{
+  "size" : 32,
+  "shapes": [
+    {"type": "sphere", "position": [0, 0, 0], "radius": 16}
+  ]
+}
