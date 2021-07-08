@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://models/uav/uav.glb" type="PackedScene" id=1]
 [ext_resource path="res://scripts/entities/uav.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://sounds/uav/active.wav" type="AudioStream" id=7]
 [ext_resource path="res://sounds/uav/ping.wav" type="AudioStream" id=8]
 [ext_resource path="res://resources/ShaderMaterial/smoke.tres" type="Material" id=9]
+[ext_resource path="res://models/uav/blades.png" type="Texture" id=10]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 1.2, 1, 1.2 )
@@ -45,8 +46,7 @@ resource_local_to_scene = true
 material = ExtResource( 9 )
 size = Vector2( 2, 2 )
 
-[sub_resource type="Animation" id=9]
-resource_name = "die"
+[sub_resource type="Animation" id=10]
 length = 3.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("smoke:mesh:material:shader_param/smoke_volume")
@@ -90,8 +90,7 @@ tracks/2/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=10]
-resource_name = "fade"
+[sub_resource type="Animation" id=11]
 length = 3.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("hover:pitch_scale")
@@ -123,31 +122,35 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=11]
-length = 0.4
+[sub_resource type="Animation" id=12]
+length = 0.7
 step = 0.01
-tracks/0/type = "transform"
-tracks/0/path = NodePath("uav")
-tracks/0/interp = 1
+tracks/0/type = "value"
+tracks/0/path = NodePath("uav:rotation_degrees")
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/keys = PoolRealArray(  )
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.02, 0.2, 0.3, 0.4, 0.6, 0.7 ),
+"transitions": PoolRealArray( 0.142631, 1, 0.5, 1, 2.07053, 0.784584, 2.37841 ),
+"update": 0,
+"values": [ Vector3( 0, 90, 0 ), Vector3( -7.267, 90, -3.19365e-07 ), Vector3( -7.17402, 91.1618, -9.22383 ), Vector3( 0, 91.165, -8.912 ), Vector3( 2.59399, 91.1539, -9.02649 ), Vector3( 7.267, 90, 0 ), Vector3( 0, 90, 0 ) ]
+}
 tracks/1/type = "value"
-tracks/1/path = NodePath("uav:rotation_degrees")
-tracks/1/interp = 2
+tracks/1/path = NodePath("uav:translation")
+tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.05, 0.15, 0.4 ),
+"times": PoolRealArray( 0, 0.1, 0.3, 0.7 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector3( 0, 90, 0 ), Vector3( -8.46793, 89.1027, 6.07143 ), Vector3( 8.468, 89.103, 6.071 ), Vector3( 0, 90, 0 ) ]
+"values": [ Vector3( 0, 1.64917, 0 ), Vector3( 0, 0.8, 0 ), Vector3( 0, 1.16261, 0 ), Vector3( 0, 1.64917, 0 ) ]
 }
 
-[sub_resource type="Animation" id=12]
-resource_name = "start"
+[sub_resource type="Animation" id=13]
 tracks/0/type = "value"
 tracks/0/path = NodePath("hover:pitch_scale")
 tracks/0/interp = 2
@@ -175,11 +178,50 @@ tracks/1/keys = {
 } ]
 }
 
+[sub_resource type="Animation" id=14]
+resource_name = "blade spin"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("uav/Blade1:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 180, 0 ), Vector3( 0, 360, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("uav/Blade2:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 360, 0 ), Vector3( 0, 180, 0 ), Vector3( 0, 0, 0 ) ]
+}
+
+[sub_resource type="SpatialMaterial" id=15]
+flags_transparent = true
+albedo_texture = ExtResource( 10 )
+uv1_scale = Vector3( 2, 2, 2 )
+
+[sub_resource type="CylinderMesh" id=16]
+material = SubResource( 15 )
+top_radius = 0.75
+bottom_radius = 0.75
+height = 0.001
+radial_segments = 32
+rings = 1
+
 [node name="uav" type="KinematicBody"]
 script = ExtResource( 2 )
-
-[node name="uav" parent="." instance=ExtResource( 1 )]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1.72815, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
@@ -201,13 +243,7 @@ collide_with_areas = true
 [node name="hover" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource( 3 )
 unit_size = 5.0
-pitch_scale = 0.01
-
-[node name="head" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.131, 0.7, 0 )
-
-[node name="smg" parent="head" instance=ExtResource( 4 )]
-transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -0.125003, -0.355363, 0.0111498 )
+pitch_scale = 0.75
 
 [node name="fire" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource( 5 )
@@ -263,12 +299,36 @@ mesh = SubResource( 8 )
 material/0 = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/die = SubResource( 9 )
-anims/fade = SubResource( 10 )
-anims/hit = SubResource( 11 )
-anims/start = SubResource( 12 )
+anims/die = SubResource( 10 )
+anims/fade = SubResource( 11 )
+anims/hit = SubResource( 12 )
+anims/start = SubResource( 13 )
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+autoplay = "blade spin"
+"anims/blade spin" = SubResource( 14 )
+
+[node name="uav" parent="." instance=ExtResource( 1 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 0.999999, 0, -1, 0, -4.37114e-08, 0, 1.64917, 0 )
+
+[node name="smg" parent="uav/X" index="0" instance=ExtResource( 4 )]
+transform = Transform( 4.37114e-08, -3.82137e-15, -1, -8.74228e-08, -1, 0, -1, 8.74228e-08, -4.37114e-08, -0.0111498, -1.38111, 0.005997 )
+
+[node name="Blade1" type="MeshInstance" parent="uav"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.229439, 0 )
+visible = false
+mesh = SubResource( 16 )
+material/0 = null
+
+[node name="Blade2" type="MeshInstance" parent="uav"]
+transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 0.0294393, 0 )
+visible = false
+mesh = SubResource( 16 )
+material/0 = null
 
 [connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="IdleTimer" to="." method="_on_IdleTimer_timeout"]
 [connection signal="timeout" from="ping/ping_timer" to="." method="_on_ping_timer_timeout"]
+
+[editable path="uav"]

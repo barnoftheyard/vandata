@@ -61,6 +61,10 @@ func bullet_hit(damage_, id, _bullet_hit_pos, _force_multiplier):
 			Global.play_rand($die, die)
 			$ping/ping_timer.stop()
 			$AnimationPlayer.play("die")
+			
+			$uav/Blade1.hide()
+			$uav/Blade2.hide()
+			
 			is_dead = true
 			
 		else:
@@ -111,7 +115,7 @@ func fire_hitscan(damage_):
 			ig.begin(Mesh.PRIMITIVE_LINE_STRIP)
 			
 			ig.set_color(Color.red)
-			ig.add_vertex($head.transform.origin)
+			ig.add_vertex($uav/X.transform.origin)
 			ig.add_vertex(to_local(ray.get_collision_point()))
 			
 			ig.end()
@@ -167,6 +171,9 @@ func _physics_process(delta):
 				$WhenFire.start()
 				$ping/ping_timer.stop()
 				
+				$uav/Blade1.show()
+				$uav/Blade2.show()
+				
 			target_height = hover_height + target.translation.y - self.translation.y
 			
 			#go foward if we're more than 8 units away
@@ -199,9 +206,6 @@ func _physics_process(delta):
 			$RayCast2.rotation.y = 0
 			$RayCast2.rotation.z = 0
 			
-			$head.translation = $uav/X.translation + Vector3(0.131, 0.7, 0)
-			$head.rotation = $uav/X.rotation
-			$head.rotation.x = $uav/X.rotation.z
 		else:
 			if state != states.ALERT and !is_dead:
 				state = states.ALERT
@@ -212,7 +216,7 @@ func _physics_process(delta):
 				
 				
 			if !is_dead:
-				$head.rotation = $head.rotation.linear_interpolate(Vector3.ZERO, speed * delta)
+				$uav/X.rotation = $uav/X.rotation.linear_interpolate(Vector3.ZERO, speed * delta)
 				rotation_degrees.y += sin(Global.delta_time) * 1.5
 				target_height = to_local(Vector3(0, hover_height, 0)).y
 				
