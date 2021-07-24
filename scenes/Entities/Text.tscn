@@ -20,7 +20,6 @@ albedo_texture = SubResource( 2 )
 [node name="Text" type="Spatial"]
 script = ExtResource( 1 )
 properties = {
-
 }
 
 [node name="Viewport" type="Viewport" parent="."]

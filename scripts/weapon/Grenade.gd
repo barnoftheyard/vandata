@@ -29,7 +29,7 @@ func _on_Timer_timeout():
 					target.bullet_hit(100, self, explosion_force_dir, 100)	#decimal when players get too close
 				
 	#do our clean up after explosion
-	$MeshInstance.hide()
+	$grenade.hide()
 	#$Area/DebugMesh.show()
 	$TimerToDeletion.start()
 	$Explosion.play()

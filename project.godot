@@ -1,0 +1,536 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Controller",
+"class": "Bot",
+"language": "GDScript",
+"path": "res://scripts/bot.gd"
+}, {
+"base": "KinematicBody",
+"class": "Chicken",
+"language": "GDScript",
+"path": "res://scripts/entities/chicken.gd"
+}, {
+"base": "Controller",
+"class": "Client",
+"language": "GDScript",
+"path": "res://scripts/client.gd"
+}, {
+"base": "MeshInstance",
+"class": "CloudDome",
+"language": "GDScript",
+"path": "res://addons/cloud/Cloud.gd"
+}, {
+"base": "Node",
+"class": "Controller",
+"language": "GDScript",
+"path": "res://scripts/controller.gd"
+}, {
+"base": "",
+"class": "GitAPI",
+"language": "NativeScript",
+"path": "res://git_api.gdns"
+}, {
+"base": "CPUParticles",
+"class": "LODCPUParticles",
+"language": "GDScript",
+"path": "res://addons/lod/lod_cpu_particles.gd"
+}, {
+"base": "OmniLight",
+"class": "LODOmniLight",
+"language": "GDScript",
+"path": "res://addons/lod/lod_omni_light.gd"
+}, {
+"base": "Particles",
+"class": "LODParticles",
+"language": "GDScript",
+"path": "res://addons/lod/lod_particles.gd"
+}, {
+"base": "Spatial",
+"class": "LODSpatial",
+"language": "GDScript",
+"path": "res://addons/lod/lod_spatial.gd"
+}, {
+"base": "SpotLight",
+"class": "LODSpotLight",
+"language": "GDScript",
+"path": "res://addons/lod/lod_spot_light.gd"
+}, {
+"base": "StaticBody",
+"class": "Ladder",
+"language": "GDScript",
+"path": "res://scripts/entities/Ladder.gd"
+}, {
+"base": "LiquidLayer",
+"class": "LavaLayer",
+"language": "GDScript",
+"path": "res://addons/qodot/game_definitions/worldspawn_layers/liquid/lava.gd"
+}, {
+"base": "Area",
+"class": "LiquidLayer",
+"language": "GDScript",
+"path": "res://addons/qodot/game_definitions/worldspawn_layers/liquid.gd"
+}, {
+"base": "Spatial",
+"class": "OrbitArm",
+"language": "GDScript",
+"path": "res://addons/qodot/example_scenes/2-miscallaneous/1-runtime-map-building/orbit_arm.gd"
+}, {
+"base": "Controller",
+"class": "Peer",
+"language": "GDScript",
+"path": "res://scripts/peer.gd"
+}, {
+"base": "PhysicsEntity",
+"class": "PhysBrush",
+"language": "GDScript",
+"path": "res://scripts/entities/physbrush.gd"
+}, {
+"base": "PhysicsEntity",
+"class": "PhysicsBall",
+"language": "GDScript",
+"path": "res://addons/qodot/game_definitions/fgd/point_classes/physics_ball.gd"
+}, {
+"base": "RigidBody",
+"class": "PhysicsEntity",
+"language": "GDScript",
+"path": "res://addons/qodot/game_definitions/fgd/solid_classes/physics.gd"
+}, {
+"base": "KinematicBody",
+"class": "Player",
+"language": "GDScript",
+"path": "res://scripts/Player.gd"
+}, {
+"base": "Spatial",
+"class": "PlayerSpawn",
+"language": "GDScript",
+"path": "res://scripts/PlayerSpawn.gd"
+}, {
+"base": "MeshInstance",
+"class": "PropStatic",
+"language": "GDScript",
+"path": "res://scripts/entities/prop/prop_static.gd"
+}, {
+"base": "Reference",
+"class": "QodotDependencies",
+"language": "GDScript",
+"path": "res://addons/qodot/src/util/qodot_dependencies.gd"
+}, {
+"base": "QodotSpatial",
+"class": "QodotEntity",
+"language": "GDScript",
+"path": "res://addons/qodot/src/nodes/qodot_entity.gd"
+}, {
+"base": "QodotFGDClass",
+"class": "QodotFGDBaseClass",
+"language": "GDScript",
+"path": "res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_base_class.gd"
+}, {
+"base": "Resource",
+"class": "QodotFGDClass",
+"language": "GDScript",
+"path": "res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_class.gd"
+}, {
+"base": "Resource",
+"class": "QodotFGDFile",
+"language": "GDScript",
+"path": "res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_file.gd"
+}, {
+"base": "QodotFGDClass",
+"class": "QodotFGDPointClass",
+"language": "GDScript",
+"path": "res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_point_class.gd"
+}, {
+"base": "QodotFGDClass",
+"class": "QodotFGDSolidClass",
+"language": "GDScript",
+"path": "res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_solid_class.gd"
+}, {
+"base": "QodotEntity",
+"class": "QodotLight",
+"language": "GDScript",
+"path": "res://addons/qodot/game_definitions/fgd/point_classes/light.gd"
+}, {
+"base": "QodotSpatial",
+"class": "QodotMap",
+"language": "GDScript",
+"path": "res://addons/qodot/src/nodes/qodot_map.gd"
+}, {
+"base": "EditorPlugin",
+"class": "QodotPlugin",
+"language": "GDScript",
+"path": "res://addons/qodot/src/qodot_plugin.gd"
+}, {
+"base": "KinematicBody",
+"class": "QodotRotateEntity",
+"language": "GDScript",
+"path": "res://scripts/entities/rotate.gd"
+}, {
+"base": "Spatial",
+"class": "QodotSpatial",
+"language": "GDScript",
+"path": "res://addons/qodot/src/nodes/qodot_spatial.gd"
+}, {
+"base": "Reference",
+"class": "QodotTextureLoader",
+"language": "GDScript",
+"path": "res://addons/qodot/src/util/qodot_texture_loader.gd"
+}, {
+"base": "Reference",
+"class": "QodotUtil",
+"language": "GDScript",
+"path": "res://addons/qodot/src/util/qodot_util.gd"
+}, {
+"base": "Resource",
+"class": "QodotWorldspawnLayer",
+"language": "GDScript",
+"path": "res://addons/qodot/src/resources/worldspawn_layer.gd"
+}, {
+"base": "Resource",
+"class": "QuakeMapFile",
+"language": "GDScript",
+"path": "res://addons/qodot/src/resources/quake_map_file.gd"
+}, {
+"base": "EditorImportPlugin",
+"class": "QuakeMapImportPlugin",
+"language": "GDScript",
+"path": "res://addons/qodot/src/import_plugins/quake_map_import_plugin.gd"
+}, {
+"base": "Resource",
+"class": "QuakePaletteFile",
+"language": "GDScript",
+"path": "res://addons/qodot/src/resources/quake_palette_file.gd"
+}, {
+"base": "EditorImportPlugin",
+"class": "QuakePaletteImportPlugin",
+"language": "GDScript",
+"path": "res://addons/qodot/src/import_plugins/quake_palette_import_plugin.gd"
+}, {
+"base": "Resource",
+"class": "QuakeWadFile",
+"language": "GDScript",
+"path": "res://addons/qodot/src/resources/quake_wad_file.gd"
+}, {
+"base": "EditorImportPlugin",
+"class": "QuakeWadImportPlugin",
+"language": "GDScript",
+"path": "res://addons/qodot/src/import_plugins/quake_wad_import_plugin.gd"
+}, {
+"base": "Spatial",
+"class": "SignalConnect",
+"language": "GDScript",
+"path": "res://scripts/entities/signal_connect.gd"
+}, {
+"base": "LiquidLayer",
+"class": "SlimeLayer",
+"language": "GDScript",
+"path": "res://addons/qodot/game_definitions/worldspawn_layers/liquid/slime.gd"
+}, {
+"base": "Spatial",
+"class": "Text",
+"language": "GDScript",
+"path": "res://scripts/entities/Text.gd"
+}, {
+"base": "ImmediateGeometry",
+"class": "Trail3D",
+"language": "GDScript",
+"path": "res://scripts/entities/3dtrail.gd"
+}, {
+"base": "Resource",
+"class": "TrenchBroomFaceAttrib",
+"language": "GDScript",
+"path": "res://addons/qodot/src/resources/game-definitions/trenchbroom/trenchbroom_face_attrib.gd"
+}, {
+"base": "Resource",
+"class": "TrenchBroomGameConfigFile",
+"language": "GDScript",
+"path": "res://addons/qodot/src/resources/game-definitions/trenchbroom/trenchbroom_game_config_file.gd"
+}, {
+"base": "Resource",
+"class": "TrenchBroomGameConfigFolder",
+"language": "GDScript",
+"path": "res://addons/qodot/src/resources/game-definitions/trenchbroom/trenchbroom_game_config_folder.gd"
+}, {
+"base": "Resource",
+"class": "TrenchBroomTag",
+"language": "GDScript",
+"path": "res://addons/qodot/src/resources/game-definitions/trenchbroom/trenchbroom_tag.gd"
+}, {
+"base": "KinematicBody",
+"class": "Uav",
+"language": "GDScript",
+"path": "res://scripts/entities/uav.gd"
+}, {
+"base": "LiquidLayer",
+"class": "WaterLayer",
+"language": "GDScript",
+"path": "res://addons/qodot/game_definitions/worldspawn_layers/liquid/water.gd"
+} ]
+_global_script_class_icons={
+"Bot": "",
+"Chicken": "",
+"Client": "",
+"CloudDome": "",
+"Controller": "",
+"GitAPI": "",
+"LODCPUParticles": "res://addons/lod/lod_cpu_particles.svg",
+"LODOmniLight": "res://addons/lod/lod_omni_light.svg",
+"LODParticles": "res://addons/lod/lod_particles.svg",
+"LODSpatial": "res://addons/lod/lod_spatial.svg",
+"LODSpotLight": "res://addons/lod/lod_spot_light.svg",
+"Ladder": "",
+"LavaLayer": "",
+"LiquidLayer": "",
+"OrbitArm": "",
+"Peer": "",
+"PhysBrush": "",
+"PhysicsBall": "",
+"PhysicsEntity": "",
+"Player": "",
+"PlayerSpawn": "",
+"PropStatic": "",
+"QodotDependencies": "",
+"QodotEntity": "",
+"QodotFGDBaseClass": "",
+"QodotFGDClass": "",
+"QodotFGDFile": "",
+"QodotFGDPointClass": "",
+"QodotFGDSolidClass": "",
+"QodotLight": "",
+"QodotMap": "",
+"QodotPlugin": "",
+"QodotRotateEntity": "",
+"QodotSpatial": "res://addons/qodot/icons/icon_qodot_spatial.svg",
+"QodotTextureLoader": "",
+"QodotUtil": "",
+"QodotWorldspawnLayer": "",
+"QuakeMapFile": "",
+"QuakeMapImportPlugin": "",
+"QuakePaletteFile": "",
+"QuakePaletteImportPlugin": "",
+"QuakeWadFile": "",
+"QuakeWadImportPlugin": "",
+"SignalConnect": "",
+"SlimeLayer": "",
+"Text": "",
+"Trail3D": "",
+"TrenchBroomFaceAttrib": "",
+"TrenchBroomGameConfigFile": "",
+"TrenchBroomGameConfigFolder": "",
+"TrenchBroomTag": "",
+"Uav": "",
+"WaterLayer": ""
+}
+
+[application]
+
+config/name="Vandata"
+run/main_scene="res://scenes/Control/Menu.tscn"
+config/icon="res://icon.png"
+
+[audio]
+
+default_bus_layout=""
+
+[autoload]
+
+Global="*res://scripts/Global.gd"
+network="*res://scripts/network.gd"
+Console="*res://scripts/control/Console.gd"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/decals/plugin.cfg", "res://addons/fire/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg", "res://addons/lod/plugin.cfg", "res://addons/orbit_camera/plugin.cfg", "res://addons/qodot/plugin.cfg", "res://addons/voxel_octree/plugin.cfg" )
+
+[gdnative]
+
+singletons=[ "res://git_api.gdnlib" ]
+
+[global]
+
+boxes=false
+
+[input]
+
+ui_left={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777231,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":2,"axis_value":-1.0,"script":null)
+ ]
+}
+ui_right={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777233,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":2,"axis_value":1.0,"script":null)
+ ]
+}
+ui_up={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777232,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":3,"axis_value":-1.0,"script":null)
+ ]
+}
+ui_down={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777234,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":3,"axis_value":1.0,"script":null)
+ ]
+}
+move_forward={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":87,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":1,"axis_value":-1.0,"script":null)
+ ]
+}
+move_backward={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":83,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":1,"axis_value":1.0,"script":null)
+ ]
+}
+move_left={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":65,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":0,"axis_value":-1.0,"script":null)
+ ]
+}
+move_right={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":68,"unicode":0,"echo":false,"script":null)
+, Object(InputEventJoypadMotion,"resource_local_to_scene":false,"resource_name":"","device":0,"axis":0,"axis_value":1.0,"script":null)
+ ]
+}
+move_jump={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"unicode":0,"echo":false,"script":null)
+ ]
+}
+ui_camera={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777218,"unicode":0,"echo":false,"script":null)
+ ]
+}
+move_walk={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777240,"unicode":0,"echo":false,"script":null)
+ ]
+}
+move_crouch={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777238,"unicode":0,"echo":false,"script":null)
+ ]
+}
+mouse_left={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":1,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+mouse_right={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":2,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+mouse_middle={
+"deadzone": 0.5,
+"events": [ Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"button_mask":0,"position":Vector2( 0, 0 ),"global_position":Vector2( 0, 0 ),"factor":1.0,"button_index":3,"pressed":false,"doubleclick":false,"script":null)
+ ]
+}
+move_run={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777237,"unicode":0,"echo":false,"script":null)
+ ]
+}
+ui_use={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":69,"unicode":0,"echo":false,"script":null)
+ ]
+}
+ui_reload={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":82,"unicode":0,"echo":false,"script":null)
+ ]
+}
+ui_screenshot={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777255,"unicode":0,"echo":false,"script":null)
+ ]
+}
+ui_chat={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":84,"unicode":0,"echo":false,"script":null)
+ ]
+}
+ui_tab={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777218,"unicode":0,"echo":false,"script":null)
+ ]
+}
+ui_flashlight={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":70,"unicode":0,"echo":false,"script":null)
+ ]
+}
+ui_console={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":96,"unicode":0,"echo":false,"script":null)
+ ]
+}
+ui_fullscreen={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777254,"unicode":0,"echo":false,"script":null)
+ ]
+}
+ui_spray={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":71,"unicode":0,"echo":false,"script":null)
+ ]
+}
+ui_1={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":49,"unicode":0,"echo":false,"script":null)
+ ]
+}
+ui_2={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":50,"unicode":0,"echo":false,"script":null)
+ ]
+}
+ui_3={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":51,"unicode":0,"echo":false,"script":null)
+ ]
+}
+ui_4={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":52,"unicode":0,"echo":false,"script":null)
+ ]
+}
+ui_5={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":53,"unicode":0,"echo":false,"script":null)
+ ]
+}
+ui_6={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":54,"unicode":0,"echo":false,"script":null)
+ ]
+}
+ui_build={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":66,"unicode":0,"echo":false,"script":null)
+ ]
+}
+
+[rendering]
+
+threads/thread_model=2
+quality/filters/msaa=2
+environment/default_environment="res://default_env.tres"

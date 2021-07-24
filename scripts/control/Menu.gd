@@ -15,10 +15,6 @@ onready var map_text = $MarginContainer2/ScrollContainer2/VBoxContainer/PanelCon
 
 
 func _ready():
-	#create a dummy server
-	var net = NetworkedMultiplayerENet.new()
-	net.create_server(9999, 1)
-	get_tree().set_network_peer(net)
 	
 	$Copyright.text = Global.version + " - " + Global.author
 	$ViewportContainer/Viewport/AnimationPlayer.playback_speed = 0.1

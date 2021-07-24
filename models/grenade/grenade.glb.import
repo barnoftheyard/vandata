@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/frag.glb-7e8c8eea1930315c802645c39fccd32b.scn"
+path="res://.import/grenade.glb-759fdf616921ce91c6f76d98f747c014.scn"
 
 [deps]
 
-source_file="res://models/frag/frag.glb"
-dest_files=[ "res://.import/frag.glb-7e8c8eea1930315c802645c39fccd32b.scn" ]
+source_file="res://models/grenade/grenade.glb"
+dest_files=[ "res://.import/grenade.glb-759fdf616921ce91c6f76d98f747c014.scn" ]
 
 [params]
 
@@ -16,6 +16,7 @@ nodes/root_name="Scene Root"
 nodes/root_scale=1.0
 nodes/custom_script=""
 nodes/storage=0
+nodes/use_legacy_names=true
 materials/location=1
 materials/storage=1
 materials/keep_on_reimport=true

@@ -359,6 +359,7 @@ func _ready():
 	
 	Console.connect_node(self)
 	
+	#connect to the player's animation controller
 	connect("change_playermodel_weapon", get_node("../../AnimController"),
 		"_on_change_playermodel_weapon")
 		
@@ -418,10 +419,6 @@ func _physics_process(delta):
 			grab_target.gravity_scale = 0
 			grab_target.global_transform.origin = grab_target.global_transform.origin.linear_interpolate(
 				$UseCast/EndPoint.global_transform.origin, sway * delta)
-			
-			#server side
-#			grab_target.rset_unreliable("global_transform.origin", grab_target.global_transform.origin.linear_interpolate(
-#				$UseCast/EndPoint.global_transform.origin, sway * delta))
 			
 			
 		else:
@@ -512,7 +509,7 @@ func _physics_process(delta):
 				
 				can_fire = false
 			
-			elif weapon_name == "grenade":
+			elif weapon_name == "grenade" and can_fire:
 				weapon_nodes[pos].get_node("ThrowPower").start()
 				
 				can_fire = false
@@ -537,7 +534,7 @@ func _physics_process(delta):
 			can_fire = true
 				
 			if weapon_name == "grenade" and current_ammo > 0:
-				var grenade_scene = load("res://scenes/Grenade.tscn").instance()
+				var grenade_scene = load("res://scenes/Entities/Grenade.tscn").instance()
 				var timer = weapon_nodes[pos].get_node("ThrowPower")
 				
 				get_tree().get_root().add_child(grenade_scene)		#add the grenade to the main world
@@ -546,7 +543,7 @@ func _physics_process(delta):
 				grenade_scene.global_transform.origin = self.global_transform.origin + -self.global_transform.basis.z
 				#starting from our foward location, we get our ThrowPower multiplier and subtract it from out total wait time
 				#the less time there was, the more power we have, we then multiply it just so its a bit stronger for our chad muscleman arms
-				grenade_scene.apply_central_impulse(-self.global_transform.basis.z * (timer.wait_time - timer.time_left) * 200)
+				grenade_scene.apply_central_impulse(-self.global_transform.basis.z * (timer.wait_time - timer.time_left) * 100)
 				throw_grenade(1)
 			
 			#bow shooting code

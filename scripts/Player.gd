@@ -34,7 +34,7 @@ export var god_mode = false
 
 
 var inertia = 0.1
-var speed = 12
+var speed = 6
 
 var always_run = true
 var step_time = 0
@@ -95,7 +95,7 @@ func init():
 	network.rpc("send_player_data", name, player_info)
 	network.rpc("console_msg", "Player " + player_info["name"] + " connected to server.")
 	
-func death():
+remotesync func death():
 	is_dead = true
 	
 	Global.is_paused = true
@@ -131,7 +131,7 @@ func respawn():
 	is_dead = false
 	is_invul = true
 	
-	if player_info["deaths"] > 0:
+	if self.player_info["deaths"] > 0:
 		$AnimController/ussr_male/Armature/Skeleton/USSR_Male.material_override = load("res://resources/SpatialMaterial/ghost.tres")
 	
 	$InvulTimer.start()
@@ -145,7 +145,7 @@ func damage(amount):
 		Global.play_rand($Pain, pain_sounds)
 		
 		
-remotesync func bullet_hit(damage, from, bullet_hit_pos, _force_multiplier):			#handles how bullets push the prop
+remotesync func bullet_hit(damage, id, bullet_hit_pos, _force_multiplier):			#handles how bullets push the prop
 	var direction_vect = global_transform.origin - bullet_hit_pos
 	direction_vect = direction_vect.normalized()
 	if !god_mode:
@@ -158,16 +158,20 @@ remotesync func bullet_hit(damage, from, bullet_hit_pos, _force_multiplier):			#
 		
 		#If our killer is a player and isn't ourselves
 		if from_str in network.player_list and from_str != "1":
+			
+			rpc_id(get_tree().get_rpc_sender_id(), "give_kill", from_str)
+			
+			
 			network.rpc("console_msg", player_info["name"] + " was killed by " + 
 			network.player_list[from_str]["name"])
-			$Hud/PanelContainer/VBoxContainer/ChatBox.text += "\n" + "You got killed by " + network.player_list[from_str]["name"] + "\n"
+			$Hud.chat_box.text += "\n" + "You got killed by " + network.player_list[from_str]["name"] + "\n"
 			
-			rpc_id(from, "give_kill")
 		else:
 			pass
-			
-remotesync func give_kill():
-	player_info["kills"] += 1
+
+#THIS WORKS
+remotesync func give_kill(from):
+	get_node("/root/characters/" + from).player_info["kills"] += 1
 
 func _ready():
 	Console.connect_node(self)
@@ -276,6 +280,11 @@ func _physics_process(delta):
 		if Input.is_action_pressed("ui_right"):
 			rotate_y(-4 * delta)
 			
+		if Input.is_action_just_pressed("move_run"):
+			speed *= 2
+		elif Input.is_action_just_released("move_run"):
+			speed /= 2
+			
 		if Input.is_action_just_pressed("ui_build"):
 			is_in_build = !is_in_build
 			noclip = is_in_build
@@ -363,6 +372,8 @@ func _physics_process(delta):
 			
 	elif player_info["health"] > 100:
 		player_info["health"] = 100
+		
+	$Hud/ViewportContainer/Viewport/Compass.rotation = rotation
 	
 	#NETWORK CODE
 	

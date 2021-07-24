@@ -1,4 +1,4 @@
-[gd_scene load_steps=146 format=2]
+[gd_scene load_steps=147 format=2]
 
 [ext_resource path="res://scripts/entities/physbrush.gd" type="Script" id=1]
 [ext_resource path="res://addons/qodot/game_definitions/fgd/point_classes/light.gd" type="Script" id=2]
@@ -717,6 +717,8 @@ glow_bloom = 0.2
 adjustment_contrast = 1.1
 adjustment_saturation = 1.2
 
+[sub_resource type="MeshLibrary" id=120]
+
 [node name="Qodot" type="Spatial"]
 
 [node name="QodotMap" type="Spatial" parent="."]
@@ -1148,6 +1150,7 @@ shape = SubResource( 90 )
 
 [node name="entity_19_text" parent="QodotMap" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 2.5, 28 )
+text = "200 kilo block"
 properties = {
 "classname": "text",
 "origin": "448 -64 40",
@@ -1156,6 +1159,7 @@ properties = {
 
 [node name="entity_20_text" parent="QodotMap" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10.5, 2.5, 28 )
+text = "50 kilo blocks"
 properties = {
 "classname": "text",
 "origin": "448 -168 40",
@@ -1164,6 +1168,7 @@ properties = {
 
 [node name="entity_21_text" parent="QodotMap" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 2.5, 28 )
+text = "Line wrapping  example.  The  quick  brown  fox  jumps  over  the  lazy dog."
 properties = {
 "classname": "text",
 "origin": "448 40 40",
@@ -1220,6 +1225,7 @@ shape = SubResource( 94 )
 
 [node name="entity_25_text" parent="QodotMap" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -40.5, 2.5, 34.5 )
+text = "Emitter =  \"door_button\";  Target  =  \"door\";  Signal  = \"toggle\""
 properties = {
 "classname": "text",
 "origin": "552 -648 40",
@@ -1262,6 +1268,7 @@ shape = SubResource( 98 )
 
 [node name="entity_28_text" parent="QodotMap" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.5, 2.5, 34.5 )
+text = "Emitter =  \"door_button1\";  Target  =  \"door\";  Signal  = \"open\""
 properties = {
 "classname": "text",
 "origin": "552 -696 40",
@@ -1270,6 +1277,7 @@ properties = {
 
 [node name="entity_29_text" parent="QodotMap" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -46.5, 2.5, 34.5 )
+text = "Emitter =  \"door_button2\";  Target  =  \"door\";  Signal  = \"close\""
 properties = {
 "classname": "text",
 "origin": "552 -744 40",
@@ -1278,6 +1286,7 @@ properties = {
 
 [node name="entity_30_text" parent="QodotMap" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.5, 2.5, 32.5 )
+text = "Automatic entity  signal connecting."
 properties = {
 "classname": "text",
 "origin": "520 -696 40",
@@ -1308,6 +1317,7 @@ properties = {
 
 [node name="entity_33_text" parent="QodotMap" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -50.5, 2.5, 39.5 )
+text = "There are  three  ways  of  opening  this  sliding  door.  Signal  activation,  use  key,  or damage."
 properties = {
 "classname": "text",
 "origin": "632 -808 40",
@@ -1362,6 +1372,7 @@ shape = SubResource( 102 )
 
 [node name="entity_37_text" parent="QodotMap" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -59.5, 2, 36 )
+text = "Sliding doors  can  be  also  used  in  unorthodox  ways.  Such  as  this  linear  bridge.  This  door  has  no  interpolation  and  has  constant acceleration."
 properties = {
 "classname": "text",
 "origin": "576 -952 32",
@@ -1567,3 +1578,16 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -43.5051, 11.0694, 54.9383 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.497602, 1.74526, 54.9383 )
 
 [node name="Ladder" parent="." instance=ExtResource( 26 )]
+
+[node name="WeaponPickup" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, 12.5 )
+to_load = "grenade"
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = SubResource( 120 )
+data = {
+"cells": PoolIntArray(  )
+}
+__meta__ = {
+"_editor_clip_": 0
+}

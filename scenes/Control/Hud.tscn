@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://resources/DynamicFonts/buttons.tres" type="DynamicFont" id=1]
 [ext_resource path="res://textures/crosshairs64.png" type="Texture" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://scripts/FilmGrain.gd" type="Script" id=9]
 [ext_resource path="res://resources/Theme.tres" type="Theme" id=10]
 [ext_resource path="res://fonts/conduit/conduit_itc_bold1.ttf" type="DynamicFontData" id=11]
+[ext_resource path="res://textures/hd.png" type="Texture" id=12]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.35, 0.78, 1, 1 )
@@ -24,7 +25,7 @@ corner_radius_bottom_right = 45
 corner_radius_bottom_left = 45
 
 [sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.198107, 0.255268, 0.28125, 0.784314 )
+bg_color = Color( 0.2, 0.254902, 0.282353, 0.784314 )
 border_width_left = 6
 border_width_top = 6
 border_width_right = 6
@@ -90,8 +91,8 @@ noise = SubResource( 6 )
 
 [sub_resource type="ShaderMaterial" id=8]
 shader = SubResource( 5 )
-shader_param/randx = 0.0388429
-shader_param/randy = 0.237865
+shader_param/randx = 0.0026001
+shader_param/randy = 0.268512
 shader_param/grain_alpha = 0.1
 shader_param/grain_scale = 10.0
 shader_param/noise_tex = SubResource( 7 )
@@ -171,12 +172,13 @@ __meta__ = {
 }
 
 [node name="HealthMeter" type="ProgressBar" parent="."]
+modulate = Color( 1, 1, 1, 0.501961 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -192.0
-margin_top = 20.0
+margin_top = 24.1398
 margin_right = 192.0
-margin_bottom = 50.0
+margin_bottom = 54.1398
 size_flags_horizontal = 3
 custom_styles/fg = SubResource( 1 )
 custom_styles/bg = SubResource( 2 )
@@ -188,12 +190,13 @@ __meta__ = {
 }
 
 [node name="ArmorMeter" type="ProgressBar" parent="."]
+modulate = Color( 1, 1, 1, 0.501961 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -168.0
-margin_top = 50.0
+margin_top = 54.1398
 margin_right = 168.0
-margin_bottom = 72.0
+margin_bottom = 76.1398
 size_flags_horizontal = 3
 custom_styles/fg = SubResource( 3 )
 custom_styles/bg = SubResource( 4 )
@@ -434,6 +437,68 @@ valign = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/fade = SubResource( 11 )
+
+[node name="ViewportContainer" type="ViewportContainer" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -192.0
+margin_right = 192.0
+margin_bottom = 24.0
+stretch = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="ViewportContainer"]
+size = Vector2( 384, 24 )
+transparent_bg = true
+handle_input_locally = false
+hdr = false
+render_target_update_mode = 0
+
+[node name="Camera" type="Camera" parent="ViewportContainer/Viewport"]
+current = true
+fov = 22.9354
+size = 0.5
+
+[node name="Compass" type="Spatial" parent="ViewportContainer/Viewport"]
+
+[node name="N" type="Sprite3D" parent="ViewportContainer/Viewport/Compass"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1 )
+offset = Vector2( 3.5, -2.071 )
+billboard = 2
+texture = ExtResource( 12 )
+hframes = 16
+vframes = 16
+frame = 78
+
+[node name="E" type="Sprite3D" parent="ViewportContainer/Viewport/Compass"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0 )
+offset = Vector2( 3.5, -2.071 )
+billboard = 2
+texture = ExtResource( 12 )
+hframes = 16
+vframes = 16
+frame = 69
+
+[node name="W" type="Sprite3D" parent="ViewportContainer/Viewport/Compass"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0 )
+offset = Vector2( 3.5, -2.071 )
+billboard = 2
+texture = ExtResource( 12 )
+hframes = 16
+vframes = 16
+frame = 87
+
+[node name="S" type="Sprite3D" parent="ViewportContainer/Viewport/Compass"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 )
+offset = Vector2( 3.5, -2.071 )
+billboard = 2
+texture = ExtResource( 12 )
+hframes = 16
+vframes = 16
+frame = 83
 
 [connection signal="draw" from="PanelContainer/VBoxContainer/ChatBox" to="." method="_on_ChatBox_draw"]
 [connection signal="timeout" from="PanelContainer/VBoxContainer/ChatBox/Timer" to="." method="_on_Timer_timeout"]

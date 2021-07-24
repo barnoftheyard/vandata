@@ -102,7 +102,7 @@ func _physics_process(delta):
 			
 		if get_parent().is_on_floor():
 			jumpscale = 0
-			anim_tree.set("parameters/speed/scale", 1)
+			anim_tree.set("parameters/speed/scale", get_parent().speed / 12)
 		
 		else:
 			anim_tree.set("parameters/speed/scale", lerp(1, 0.1, jumpscale))

@@ -1,0 +1,10 @@
+[gd_resource type="Environment" load_steps=2 format=2]
+
+[ext_resource path="res://resources/Skies/sunny.tres" type="ProceduralSky" id=1]
+
+[resource]
+background_mode = 2
+background_sky = ExtResource( 1 )
+ambient_light_color = Color( 1, 1, 1, 1 )
+auto_exposure_scale = 0.82
+ssao_enabled = true

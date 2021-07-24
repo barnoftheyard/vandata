@@ -70,7 +70,8 @@ func _physics_process(delta):
 	
 	vel = move_and_slide(vel, Vector3(0, 1, 0), false, 4, deg2rad(40), false)
 	
-	rpc_unreliable("network_update", translation, rotation, delta * network.interp_scale)
+	if get_tree().get_network_peer() != null:
+		rpc_unreliable("network_update", translation, rotation, delta * network.interp_scale)
 	
 remotesync func network_update(new_translation, new_rotation, delta):
 	if interp:

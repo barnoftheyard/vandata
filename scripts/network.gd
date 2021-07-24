@@ -247,8 +247,8 @@ func kick_cmd(command):
 	if command != null:
 		rpc("kick_player", command)
 		
-func host_cmd(command):
-	call_deferred("create_server", "res://scenes/Qodot.tscn", "", int(command))
+func host_cmd(port):
+	call_deferred("create_server", "res://scenes/Qodot.tscn", "", int(port))
 	
 const interp_scale_help = "How much to scale the interpolation"
 func interp_scale_cmd(command):

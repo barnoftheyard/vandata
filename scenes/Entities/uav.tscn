@@ -46,7 +46,7 @@ resource_local_to_scene = true
 material = ExtResource( 9 )
 size = Vector2( 2, 2 )
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=9]
 length = 3.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("smoke:mesh:material:shader_param/smoke_volume")
@@ -90,7 +90,7 @@ tracks/2/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=10]
 length = 3.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("hover:pitch_scale")
@@ -122,7 +122,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=11]
 length = 0.7
 step = 0.01
 tracks/0/type = "value"
@@ -150,7 +150,7 @@ tracks/1/keys = {
 "values": [ Vector3( 0, 1.64917, 0 ), Vector3( 0, 0.8, 0 ), Vector3( 0, 1.16261, 0 ), Vector3( 0, 1.64917, 0 ) ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=12]
 tracks/0/type = "value"
 tracks/0/path = NodePath("hover:pitch_scale")
 tracks/0/interp = 2
@@ -178,7 +178,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=13]
 resource_name = "blade spin"
 length = 0.2
 loop = true
@@ -207,13 +207,13 @@ tracks/1/keys = {
 "values": [ Vector3( 0, 360, 0 ), Vector3( 0, 180, 0 ), Vector3( 0, 0, 0 ) ]
 }
 
-[sub_resource type="SpatialMaterial" id=15]
+[sub_resource type="SpatialMaterial" id=14]
 flags_transparent = true
 albedo_texture = ExtResource( 10 )
 uv1_scale = Vector3( 2, 2, 2 )
 
-[sub_resource type="CylinderMesh" id=16]
-material = SubResource( 15 )
+[sub_resource type="CylinderMesh" id=15]
+material = SubResource( 14 )
 top_radius = 0.75
 bottom_radius = 0.75
 height = 0.001
@@ -224,7 +224,7 @@ rings = 1
 script = ExtResource( 2 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.880295, 0 )
 shape = SubResource( 1 )
 
 [node name="Area" type="Area" parent="."]
@@ -299,31 +299,31 @@ mesh = SubResource( 8 )
 material/0 = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/die = SubResource( 10 )
-anims/fade = SubResource( 11 )
-anims/hit = SubResource( 12 )
-anims/start = SubResource( 13 )
+anims/die = SubResource( 9 )
+anims/fade = SubResource( 10 )
+anims/hit = SubResource( 11 )
+anims/start = SubResource( 12 )
 
 [node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
 autoplay = "blade spin"
-"anims/blade spin" = SubResource( 14 )
+"anims/blade spin" = SubResource( 13 )
 
 [node name="uav" parent="." instance=ExtResource( 1 )]
-transform = Transform( -4.37114e-08, 0, 1, 0, 0.999999, 0, -1, 0, -4.37114e-08, 0, 1.64917, 0 )
+transform = Transform( -4.37114e-08, 0, 1, 0, 0.999999, 0, -1, 0, -4.37114e-08, 0, 1.44917, 0 )
 
 [node name="smg" parent="uav/X" index="0" instance=ExtResource( 4 )]
-transform = Transform( 4.37114e-08, -3.82137e-15, -1, -8.74228e-08, -1, 0, -1, 8.74228e-08, -4.37114e-08, -0.0111498, -1.38111, 0.005997 )
+transform = Transform( 4.37114e-08, -3.82137e-15, -1, -8.74228e-08, -1, 0, -1, 8.74228e-08, -4.37114e-08, -0.0219579, -1.38111, 0.005997 )
 
 [node name="Blade1" type="MeshInstance" parent="uav"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.229439, 0 )
 visible = false
-mesh = SubResource( 16 )
+mesh = SubResource( 15 )
 material/0 = null
 
 [node name="Blade2" type="MeshInstance" parent="uav"]
 transform = Transform( 1, 0, 1.74846e-07, 0, 1, 0, -1.74846e-07, 0, 1, 0, 0.0294393, 0 )
 visible = false
-mesh = SubResource( 16 )
+mesh = SubResource( 15 )
 material/0 = null
 
 [connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]

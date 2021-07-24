@@ -55,7 +55,9 @@ func bullet_hit(damage_, id, _bullet_hit_pos, _force_multiplier):
 			print("UAV killed by " + killer.player_info["name"])
 			
 			killer.get_node("Hud").chat_box.text += ("UAV killed by " + killer.player_info["name"] + "\n")
-			killer.player_info["kills"] += 1
+			rpc("give_kill", killer)
+			
+			
 			#$Timer.start()
 			#$hover.stop()
 			Global.play_rand($die, die)
@@ -72,6 +74,9 @@ func bullet_hit(damage_, id, _bullet_hit_pos, _force_multiplier):
 			
 			if !is_on_floor():
 				$AnimationPlayer.play("hit")
+				
+remotesync func give_kill(from):
+	from.player_info["kills"] += 1
 		
 func create_decal(body, trans, normal, color, decal_scale, image_path):
 	var b = decal.instance()
@@ -237,7 +242,8 @@ func _physics_process(delta):
 	
 	vel = move_and_slide(vel, Vector3(0, 1, 0), false, 4, deg2rad(40), false)
 	
-	rpc_unreliable("network_update", translation, rotation, delta * network.interp_scale)
+	if get_tree().get_network_peer() != null:
+		rpc_unreliable("network_update", translation, rotation, delta * network.interp_scale)
 	
 remotesync func network_update(new_translation, new_rotation, delta):
 	if interp:

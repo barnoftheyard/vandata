@@ -1,7 +1,7 @@
 extends Area
 
 #the available weapons to pick up
-var weapons = ["pistol", "smg", "br", "double barrel", "frag", "bow", "shovel"]
+var weapons = ["pistol", "smg", "br", "double barrel", "grenade", "bow", "shovel"]
 
 export var to_load = ""
 export var remove_on_pickup = false
@@ -52,8 +52,8 @@ func _ready():
 	
 		spinny = weapon.instance()
 		
-		if to_load == "frag":
-			spinny.scale *= 0.25
+		if to_load == "grenade":
+			spinny.scale *= 0.15
 		elif to_load == "pistol":
 			spinny.scale *= 0.75
 		elif to_load == "shovel":
@@ -96,16 +96,16 @@ remotesync func _on_WeaponPickup_body_entered(body):
 			connect("update_weapon_list", target, "_on_update_weapon_list")
 		var our_weapon = null
 		
-		if to_load == "frag":
-			our_weapon = load("res://scenes/weapons/grenade.tscn").instance()
-		elif to_load in weapons:
+		if to_load in weapons:
 			our_weapon = load("res://scenes/weapons/" + to_load + ".tscn").instance()
 		else:
 			our_weapon = weapon.instance()
 		
 		#if we already have the weapon in our inventory, add more ammo instead
 		#of another weapon
-		if target.hitscan.has_node(to_load) and to_load != "shovel":
+		if (target.hitscan.has_node(to_load) and to_load != "shovel" 
+		and to_load != "grenade"):
+			
 			var difference = (target.weapons[to_load]["clip"] + 
 				target.weapons[to_load]["times_fired"]) * 2
 			
