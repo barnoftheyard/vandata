@@ -1,6 +1,6 @@
 # Vandata
 ### What is this?
-An in-development fast-action Godot FPS game featuring multiplayer, physics, Qodot/Quake map intergration in the vein of Valve's Half-Life.
+An in-development fast-action Godot FPS game featuring multiplayer, physics, ~~Qodot/Quake map intergration~~ in the vein of Valve's Half-Life.
 
 ### Features:
 * Simple TCP/IP multiplayer networking deathmatch.
