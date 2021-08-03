@@ -2,13 +2,13 @@
 ### What is this?
 An in-development fast-action Godot FPS game featuring multiplayer, physics, Qodot/Quake map intergration in the vein of Valve's Half-Life.
 
-### Features
+### Features:
 * Simple TCP/IP multiplayer networking deathmatch.
-* Six Fully implemented weapons, such as the pistol, smg, BR, bow, grenade, and shovel.
+* Six fully implemented weapons, such as the pistol, smg, BR, bow, grenade, and shovel.
 * Full player animations done by me.
-* Programmed enemies.
+* Hostile and passive actors/mobs.
 * Console debug system.
-* Custom map entities.
+* Custom map entities, such as physics.
 And much more coming soon!
 
 ### Is it done?
