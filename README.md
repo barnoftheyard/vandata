@@ -1,6 +1,16 @@
 # Vandata
 ### What is this?
 An in-development fast-action Godot FPS game featuring multiplayer, physics, Qodot/Quake map intergration in the vein of Valve's Half-Life.
+
+### Features
+* Simple TCP/IP multiplayer networking deathmatch.
+* Six Fully implemented weapons, such as the pistol, smg, BR, bow, grenade, and shovel.
+* Full player animations done by me.
+* Programmed enemies.
+* Console debug system.
+* Custom map entities.
+And much more coming soon!
+
 ### Is it done?
 Not yet. Code wise a lot of what I want to implement is about ~70% done (as of 2/1/21), multiplayer still has lots of work ahead. Art is totally unfinished and either in mock up, or infancy.
 ### How do I keep in touch?
