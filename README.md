@@ -16,4 +16,5 @@ Not yet. Code wise a lot of what I want to implement is about ~70% done (as of 2
 ### How do I keep in touch?
 I'll plan to have a small community once the game becomes somewhat playable, either through Discord or a forum. Until then you can contact me at bseifert@hvare.xyz
 
-![alt text](https://github.com/barnoftheyard/vandata/blob/master/screenshots/2021_02_01_011151_0.png?raw=true)
+![alt text](https://github.com/barnoftheyard/vandata/blob/master/screenshots/2021_02_21_224141_0.png?raw=true?raw=true)
+![alt text](https://github.com/barnoftheyard/vandata/blob/master/screenshots/2021_07_07_183740_0.png?raw=true?raw=true)
