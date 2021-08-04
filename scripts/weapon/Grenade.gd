@@ -5,6 +5,8 @@ var time = 2
 var targets = []
 var last_body = null
 
+var thrower = ""
+
 func _ready():
 	$Timer.wait_time = time
 	
@@ -24,9 +26,9 @@ func _on_Timer_timeout():
 				explosion_force_dir.normalized()
 				
 				if distance >= 1:
-					target.bullet_hit(100 * (1 / distance), self, explosion_force_dir, 100)
+					target.bullet_hit(100 * (1 / distance), thrower, explosion_force_dir, 100)
 				else:			#to prevent divide by zero or divide by some hilariously low-
-					target.bullet_hit(100, self, explosion_force_dir, 100)	#decimal when players get too close
+					target.bullet_hit(100, thrower, explosion_force_dir, 100)	#decimal when players get too close
 				
 	#do our clean up after explosion
 	$grenade.hide()

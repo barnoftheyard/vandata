@@ -91,8 +91,8 @@ noise = SubResource( 6 )
 
 [sub_resource type="ShaderMaterial" id=8]
 shader = SubResource( 5 )
-shader_param/randx = 0.0026001
-shader_param/randy = 0.268512
+shader_param/randx = 0.281139
+shader_param/randy = 0.326061
 shader_param/grain_alpha = 0.1
 shader_param/grain_scale = 10.0
 shader_param/noise_tex = SubResource( 7 )
@@ -110,7 +110,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
+"times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
@@ -371,6 +371,7 @@ __meta__ = {
 frame_switch_time = 0.01
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
+modulate = Color( 1, 1, 1, 0 )
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -92.0
@@ -381,6 +382,13 @@ theme = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Panel" type="Panel" parent="PanelContainer"]
+modulate = Color( 1, 1, 1, 0.501961 )
+margin_left = 6.0
+margin_top = 4.0
+margin_right = 378.0
+margin_bottom = 88.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 margin_left = 6.0

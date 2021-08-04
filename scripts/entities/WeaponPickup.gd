@@ -97,9 +97,7 @@ remotesync func _on_WeaponPickup_body_entered(body):
 		var our_weapon = null
 		
 		if to_load in weapons:
-			our_weapon = load("res://scenes/weapons/" + to_load + ".tscn").instance()
-		else:
-			our_weapon = weapon.instance()
+			our_weapon = load("res://scenes/Weapons/" + to_load + ".tscn").instance()
 		
 		#if we already have the weapon in our inventory, add more ammo instead
 		#of another weapon

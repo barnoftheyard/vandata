@@ -198,10 +198,13 @@ func switch_weapon(index):
 		anim = weapon_nodes[pos].get_node("AnimationPlayer")
 		if !anim.is_connected("animation_finished", self, "_on_animation_finished"):
 			anim.connect("animation_finished", self, "_on_animation_finished")
-			
+		
+		#set the path of our muzzle flash scene to our variable
 		muzzle_flash = weapon_nodes[pos].get_node_or_null("muzzle_flash")
 	else:
+		#clean up!
 		anim = null
+		muzzle_flash = null
 		
 	emit_signal("weapon_switch")
 	
@@ -319,11 +322,11 @@ func fire_hitscan(damage, ray_range):
 				#clientside, fire damage, id, collision point, and force
 				body.rpc("bullet_hit", damage, player_node.name, ray.get_collision_point(), 0.5)
 				
-		elif body is StaticBody:
-			#bullet decal adding
-			create_decal(body, ray.get_collision_point(), ray.get_collision_normal(), 
-			Color(1, 1, 1, 1), 0.5, 
-			bullet_holes[Global.rng.randi_range(0, bullet_holes.size() - 1)])
+#		elif body is StaticBody:
+#			#bullet decal adding
+#			create_decal(body, ray.get_collision_point(), ray.get_collision_normal(), 
+#			Color(1, 1, 1, 1), 0.5, 
+#			bullet_holes[Global.rng.randi_range(0, bullet_holes.size() - 1)])
 			
 func use_hitscan():
 	var ray = $UseCast
@@ -535,6 +538,8 @@ func _physics_process(delta):
 				
 			if weapon_name == "grenade" and current_ammo > 0:
 				var grenade_scene = load("res://scenes/Entities/Grenade.tscn").instance()
+				grenade_scene.thrower = player_node.name
+				
 				var timer = weapon_nodes[pos].get_node("ThrowPower")
 				
 				get_tree().get_root().add_child(grenade_scene)		#add the grenade to the main world

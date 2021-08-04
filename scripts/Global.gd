@@ -45,7 +45,6 @@ func files_in_dir(path, check_ext):
 	var dir = Directory.new()
 	
 	if dir.open(path) != OK:
-		print("shit")
 		return
 		
 	dir.list_dir_begin()

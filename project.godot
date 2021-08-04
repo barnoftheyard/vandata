@@ -348,7 +348,7 @@ Console="*res://scripts/control/Console.gd"
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/decals/plugin.cfg", "res://addons/fire/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg", "res://addons/lod/plugin.cfg", "res://addons/orbit_camera/plugin.cfg", "res://addons/qodot/plugin.cfg", "res://addons/voxel_octree/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/cloud/plugin.cfg", "res://addons/decals/plugin.cfg", "res://addons/fire/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg", "res://addons/jm_pp_outlines/plugin.cfg", "res://addons/lod/plugin.cfg", "res://addons/orbit_camera/plugin.cfg", "res://addons/qodot/plugin.cfg", "res://addons/voxel_octree/plugin.cfg" )
 
 [gdnative]
 

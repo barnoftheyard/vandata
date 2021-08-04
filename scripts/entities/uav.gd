@@ -48,7 +48,7 @@ func update_properties():
 
 func bullet_hit(damage_, id, _bullet_hit_pos, _force_multiplier):
 	
-	if !is_dead:
+	if !is_dead and id in network.player_list:
 		if health <= 0:
 			#execute our dying code
 			var killer = get_node("/root/characters/" + id)

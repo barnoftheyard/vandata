@@ -22,6 +22,7 @@ export var background_server : bool = false
 
 export var interp = true
 export var interp_scale = 50
+export var tick_rate = 128
 
 # Preload a character and controllers
 # Character is a node which we control by the controller node
@@ -44,30 +45,6 @@ func _ready():
 	get_tree().connect("connected_to_server", self, "_on_connected_to_server")
 	get_tree().connect("connection_failed", self, "_on_connection_failed")
 	get_tree().connect("server_disconnected", self, "_on_server_disconnected")
-
-# When Connect button is pressed
-func join_server(ip, port):
-
-	
-	# Set up an ENet instance
-	var net = NetworkedMultiplayerENet.new()
-	net.create_client(ip, port)
-	get_tree().set_network_peer(net)
-	
-	# Upon successful connection get the unique network ID
-	# This ID is used to name the character node so the network can distinguish the characters
-	var id = get_tree().get_network_unique_id()
-	
-	#yield program until we get our map name from server
-	#yield()
-	
-	#load our map
-	client_map = load("res://scenes/Qodot.tscn")
-	
-	# Create a player
-	if get_tree().change_scene_to(client_map) == OK:
-		# Create our player, 1 is a reference for a host/server
-		call_deferred("create_player", id, false)
 
 func _on_peer_connected(id):
 	# When other players connect a character and a child player controller are created
@@ -95,6 +72,28 @@ func _on_server_disconnected():
 	Console.emit_signal("open_console")
 	console_msg("Connection to the server ended.")
 
+# When Connect button is pressed
+func join_server(ip, port):
+	# Set up an ENet instance
+	var net = NetworkedMultiplayerENet.new()
+	net.create_client(ip, port)
+	get_tree().set_network_peer(net)
+	
+	# Upon successful connection get the sunique network ID
+	# This ID is used to name the character node so the network can distinguish the characters
+	var id = get_tree().get_network_unique_id()
+	
+	#yield program until we get our map name from server
+	#yield()
+	
+	#load our map
+	client_map = load("res://scenes/Qodot.tscn")
+	
+	# Create a player
+	if get_tree().change_scene_to(client_map) == OK:
+		# Create our player, 1 is a reference for a host/server
+		call_deferred("create_player", id, false)
+
 func create_server(map, server_name, port):
 	# Connect network events
 	
@@ -113,12 +112,13 @@ func create_server(map, server_name, port):
 		# Create our player, 1 is a reference for a host/server
 		call_deferred("create_player", 1, false)
 		
+		#collect world state on start up
 		world_state = sync_world_server(get_tree().get_root(), {})
 		
 	print("Server ", server_name, " created on port ", port,". Playing on ", map)
-	
+
+# get world state from server
 func sync_world_server(node, node_list):
-	
 	for n in node.get_children():
 		if n.get_child_count() > 0:
 			sync_world_server(n, node_list)
@@ -126,12 +126,14 @@ func sync_world_server(node, node_list):
 			node_list[str(n.get_path())] = n.global_transform
 			
 	return node_list
-	
-puppetsync func sync_world_client(node_list):
+
+# apply world state from server to client if it differs	
+mastersync func sync_world_client(node_list, delta):
 	for n in node_list.keys():
 		var target = get_node_or_null(n)
-		if target != null:
-			target.global_transform = node_list[n]
+		if target != null and target.global_transform != node_list[n]:
+			target.translation = target.translation.linear_interpolate(node_list[n].origin, delta)
+			target.rotation = target.rotation.linear_interpolate(node_list[n].basis.get_euler(), delta)
 
 func create_player(id, is_peer):
 	# Create a player with a client or a peer controller attached
@@ -226,6 +228,11 @@ remotesync func send_file(file_path):
 	file.open(file_path, File.READ)
 	var content = file.get_as_text()
 	
+func _process(delta):
+	if player_list.size() > 1:
+		yield(get_tree().create_timer(1/tick_rate), "timeout")
+		rpc("sync_world_client", sync_world_server(get_tree().get_root(), {}), delta * interp_scale)
+	
 const bot_add_desc = "Add a multiplayer bot"
 const bot_add_help = "Add a multiplayer bot"
 func bot_add_cmd():
@@ -276,9 +283,8 @@ func interp_cmd(command):
 		print("cheats is not set to true!")
 		Console.print("cheats is not set to true!")
 		
-const sync_desc = "Syncs clients from server"
-const sync_help = "syncs clients from server"
-func sync_cmd(command):
-	if get_tree().is_network_master():
-		rpc("sync_world_client", sync_world_server(get_tree().get_root(), {}))
-		console_msg("Syncing clients to server...")
+#const sync_desc = "Syncs clients from server"
+#const sync_help = "syncs clients from server"
+#func sync_cmd(command):
+#	if get_tree().is_network_server():
+#		rpc("sync_world_client", sync_world_server(get_tree().get_root(), {}, delta))

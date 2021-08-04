@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scripts/entities/Ladder.gd" type="Script" id=1]
-[ext_resource path="res://textures/Orange/texture_10.png" type="Texture" id=2]
+[ext_resource path="res://textures/Dev/Orange/texture_10.png" type="Texture" id=2]
 
 [sub_resource type="SpatialMaterial" id=123]
 albedo_texture = ExtResource( 2 )
