@@ -91,8 +91,8 @@ noise = SubResource( 6 )
 
 [sub_resource type="ShaderMaterial" id=8]
 shader = SubResource( 5 )
-shader_param/randx = 0.206718
-shader_param/randy = 0.349314
+shader_param/randx = 0.0487114
+shader_param/randy = 0.307692
 shader_param/grain_alpha = 0.1
 shader_param/grain_scale = 10.0
 shader_param/noise_tex = SubResource( 7 )
@@ -313,6 +313,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="VisualNoise" type="ColorRect" parent="."]
+material = SubResource( 8 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+frame_switch_time = 0.01
+
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -324,6 +334,7 @@ __meta__ = {
 }
 
 [node name="PlayerList" type="PanelContainer" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -346,35 +357,20 @@ margin_right = 384.0
 margin_bottom = 14.0
 
 [node name="Label" type="Label" parent="PlayerList/VBoxContainer2/VBoxContainer"]
-anchor_left = 0.031
-anchor_top = 1.0
-anchor_right = 0.156
-anchor_bottom = 1.0
 margin_right = 384.0
 margin_bottom = 14.0
 text = "Player List:"
 
 [node name="Grid" type="GridContainer" parent="PlayerList/VBoxContainer2"]
-margin_left = 13.0
-margin_top = 30.0
-margin_right = 380.0
-margin_bottom = 167.0
+margin_top = 18.0
+margin_right = 384.0
+margin_bottom = 18.0
 columns = 4
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VisualNoise" type="ColorRect" parent="."]
-material = SubResource( 8 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-script = ExtResource( 9 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-frame_switch_time = 0.01
-
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 modulate = Color( 1, 1, 1, 0 )
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -387,29 +383,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="PanelContainer"]
-modulate = Color( 1, 1, 1, 0.501961 )
-margin_left = 6.0
-margin_top = 4.0
-margin_right = 378.0
-margin_bottom = 88.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
-margin_left = 6.0
-margin_top = 4.0
-margin_right = 378.0
-margin_bottom = 88.0
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+margin_right = 384.0
+margin_bottom = 92.0
 grow_vertical = 0
-alignment = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/panel = ExtResource( 4 )
 
-[node name="ChatBox" type="Label" parent="PanelContainer/VBoxContainer"]
-margin_top = 53.0
-margin_right = 372.0
-margin_bottom = 84.0
+[node name="ChatBox" type="Label" parent="VBoxContainer/PanelContainer"]
+margin_right = 384.0
+margin_bottom = 92.0
 grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 custom_fonts/font = SubResource( 9 )
 valign = 2
 autowrap = true
@@ -417,20 +404,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Timer" type="Timer" parent="PanelContainer/VBoxContainer/ChatBox"]
+[node name="Timer" type="Timer" parent="VBoxContainer/PanelContainer/ChatBox"]
 wait_time = 5.0
 one_shot = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="PanelContainer/VBoxContainer/ChatBox"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="VBoxContainer/PanelContainer/ChatBox"]
 anims/fadeout = SubResource( 10 )
 
-[node name="ChatLine" type="LineEdit" parent="PanelContainer/VBoxContainer"]
+[node name="ChatLine" type="LineEdit" parent="VBoxContainer"]
 visible = false
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = 536.0
+margin_top = 479.0
 margin_right = 320.0
-margin_bottom = 560.0
+margin_bottom = 503.0
 clear_button_enabled = true
 caret_blink = true
 
@@ -512,7 +499,7 @@ hframes = 16
 vframes = 16
 frame = 83
 
-[connection signal="draw" from="PanelContainer/VBoxContainer/ChatBox" to="." method="_on_ChatBox_draw"]
-[connection signal="timeout" from="PanelContainer/VBoxContainer/ChatBox/Timer" to="." method="_on_Timer_timeout"]
-[connection signal="focus_entered" from="PanelContainer/VBoxContainer/ChatLine" to="." method="_on_ChatLine_focus_entered"]
-[connection signal="text_entered" from="PanelContainer/VBoxContainer/ChatLine" to="." method="_on_LineEdit_text_entered"]
+[connection signal="draw" from="VBoxContainer/PanelContainer/ChatBox" to="." method="_on_ChatBox_draw"]
+[connection signal="timeout" from="VBoxContainer/PanelContainer/ChatBox/Timer" to="." method="_on_Timer_timeout"]
+[connection signal="focus_entered" from="VBoxContainer/ChatLine" to="." method="_on_ChatLine_focus_entered"]
+[connection signal="text_entered" from="VBoxContainer/ChatLine" to="." method="_on_LineEdit_text_entered"]

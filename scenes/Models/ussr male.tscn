@@ -8,11 +8,14 @@
 
 [node name="ussr male" instance=ExtResource( 2 )]
 
+[node name="Skeleton" parent="Armature" index="0"]
+bones/15/bound_children = [ NodePath("hand_r") ]
+
 [node name="USSR_Male" parent="Armature/Skeleton" index="0"]
 layers = 8
 
 [node name="hand_r" type="BoneAttachment" parent="Armature/Skeleton" index="1"]
-transform = Transform( -0.442598, 0.520481, 0.73021, 0.849399, 0.504373, 0.155333, -0.287451, 0.688989, -0.665331, -0.187296, 1.42016, 0.228603 )
+transform = Transform( -0.439274, 0.516913, 0.734738, 0.843287, 0.519207, 0.138892, -0.309686, 0.680606, -0.66398, -0.18817, 1.42666, 0.215366 )
 bone_name = "Hand.R"
 
 [node name="helper" type="Spatial" parent="Armature/Skeleton/hand_r" index="0"]
@@ -30,13 +33,7 @@ visible = false
 transform = Transform( 0.25, -2.45615e-05, -8.25964e-07, 2.45481e-05, 0.249998, 0.000951909, 7.42267e-07, -0.000951916, 0.249998, 0.00155479, -0.00127719, 0.0602579 )
 visible = false
 
-[node name="SkeletonIK" type="SkeletonIK" parent="Armature/Skeleton" index="2"]
-process_priority = 1
-root_bone = "Hips"
-tip_bone = "Chest"
-target_node = NodePath("../tilt")
-
-[node name="tilt" type="Position3D" parent="Armature/Skeleton" index="3"]
+[node name="tilt" type="Position3D" parent="Armature/Skeleton" index="2"]
 transform = Transform( 1, 0, -7.45058e-09, -1.86265e-09, 0.969656, -0.244473, 0, 0.244473, 0.969656, -2.32831e-10, 0.879324, -0.0264011 )
 
 [node name="AnimationTree" type="AnimationTree" parent="." index="2"]

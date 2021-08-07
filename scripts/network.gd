@@ -52,7 +52,6 @@ func _ready():
 
 func _on_peer_connected(id):
 	# When other players connect a character and a child player controller are created
-	
 	create_player(id, true)
 
 func _on_peer_disconnected(id):
@@ -128,7 +127,7 @@ func remove_player(id):
 	
 	print("Player ", player_list[player]["name"], " disconnected")
 	# Remove unused characters
-	get_node("/root/characters/" + player).call_deferred("free")
+	get_node("/root/characters/" + player).queue_free()
 	#erase player from player list
 	player_list.erase(player)
 	
@@ -167,6 +166,17 @@ func create_server(map, server_name, port):
 #	if OS.execute("ping", command, true) != 1:
 #		console_msg("Server already running!")
 #		return
+
+	# remove players if they're connected to an existing server instance and clean up
+	if player_list.size() > 0:
+		
+		for n in player_list:
+			remove_player(n)
+			
+		get_tree().set_network_peer(null)
+		get_node("/root/characters").queue_free()
+		#wait until its fully out of the tree
+		yield(get_node("/root/characters"), "tree_exited")
 	
 	# Set up an ENet instance
 	var net = NetworkedMultiplayerENet.new()
@@ -176,12 +186,16 @@ func create_server(map, server_name, port):
 	server_map = map
 	if get_tree().change_scene_to(load(map)) == OK:
 		# Create our player, 1 is a reference for a host/server
-		create_player(1, false)
+		# KEEP THIS AS CALL DEFERRED FUCKER, it allows for the spawn point system to work!
+		call_deferred("create_player", 1, false)
 		
 		#collect world state on start up
 		world_state = get_world_state(get_tree().get_root(), {})
+	else:
+		Console.print("Can not load map!")
+		return
 		
-	print("Server ", server_name, " created on port ", port,". Playing on ", map)
+	print("Server created on port ", port,". Playing on ", map)
 
 # get world state from server
 func get_world_state(node, node_list):
@@ -206,12 +220,8 @@ remotesync func console_msg(text):
 	Console.print(text)
 	
 remotesync func change_cheats(status):
-	if get_tree().get_rpc_sender_id() == 1:
-		cheats = status
-		console_msg("cheats set to " + str(cheats))
-	else:
-		print("You are not the server master.")
-		Console.print("You are not the server master.")
+	cheats = status
+	console_msg("cheats set to " + str(cheats))
 
 remotesync func kick_player(player_name):
 	for i in player_list:
@@ -250,14 +260,15 @@ func cheats_cmd(command):
 	if command != null and get_tree().is_network_server():
 		rpc("change_cheats", bool(int(command)))
 		
+		
 const kick_desc = "Kicks a player from the server"
 const kick_help = "Kicks a player from the server"
 func kick_cmd(command):
 	if command != null:
 		rpc("kick_player", command)
 		
-func host_cmd(port):
-	call_deferred("create_server", "res://scenes/Qodot.tscn", "", int(port))
+func host_cmd(map, port):
+	create_server("res://scenes/" + map + ".tscn", "", int(port))
 	
 const interp_scale_help = "How much to scale the interpolation"
 func interp_scale_cmd(command):

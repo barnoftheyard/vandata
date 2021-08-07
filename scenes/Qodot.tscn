@@ -1612,5 +1612,4 @@ material/0 = null
 shape = SubResource( 122 )
 
 [node name="PlayerSpawn" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 2.2, 6.5 )
 script = ExtResource( 27 )

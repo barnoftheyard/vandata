@@ -1,13 +1,15 @@
 extends Control
 
 var moving = false
+var first_spawn = true
 
 var mouse_accel = Vector2()
 
-onready var chat_box = $PanelContainer/VBoxContainer/ChatBox
+onready var chat_box = $VBoxContainer/PanelContainer/ChatBox
+onready var chat_line = $VBoxContainer/ChatLine
 var chat_text = ""
 
-var player_list = null
+var player_list = {}
 
 func pain():
 	$PainOverlay.self_modulate.a = 1
@@ -41,22 +43,22 @@ func _input(event):
 			
 		#Pop up the chat window
 		if Input.is_action_just_pressed("ui_chat"):
-			if $PanelContainer/VBoxContainer/ChatLine.visible:
+			if chat_line.visible:
 				Global.is_paused = false
 				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 				
-				$PanelContainer/VBoxContainer/ChatLine.release_focus()
-				$PanelContainer/VBoxContainer/ChatLine.hide()
+				chat_line.release_focus()
+				chat_line.hide()
 				
 				chat_box.get_node("Timer").start()
 			else:
 				Global.is_paused = true
 				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 				
-				$PanelContainer/VBoxContainer/ChatLine.grab_focus()
-				$PanelContainer/VBoxContainer/ChatLine.show()
+				chat_line.grab_focus()
+				chat_line.show()
 				
-				$PanelContainer.modulate.a = 1
+				$VBoxContainer.modulate.a = 1
 				
 				chat_box.get_node("Timer").stop()
 		
@@ -108,7 +110,7 @@ func _process(delta):
 			$AmmoCounter.text = ""
 	
 	# if our player list doesn't match the network's (something has changed)
-	if player_list != network.player_list:
+	if player_list.hash() != network.player_list.hash():
 		# remove every name from player list UI (not the best method but it works)
 		for child in $PlayerList/VBoxContainer2/Grid.get_children():
 			child.queue_free()
@@ -117,20 +119,21 @@ func _process(delta):
 		# as a name in the net work player list
 		for player in network.player_list:
 			var label = Label.new()
-			label.text = network.player_list[player]["name"]
+			label.text = (network.player_list[player]["name"] + " - Kills: " + 
+			str(network.player_list[player]["kills"]) + " - Deaths: " + str(network.player_list[player]["deaths"]))
 			$PlayerList/VBoxContainer2/Grid.add_child(label)
 	
-	# set out player list to the network's
-	player_list = network.player_list
+		# set out player list to the network's
+		player_list = network.player_list
 
 
 func _on_LineEdit_text_entered(text):
-	$PanelContainer/VBoxContainer/ChatLine.clear()
+	chat_line.clear()
 	
 	Global.is_paused = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
-	$PanelContainer/VBoxContainer/ChatLine.hide()
+	chat_line.hide()
 	
 	if text != "":
 		rpc("update_chat", text)
@@ -140,8 +143,8 @@ func _on_LineEdit_text_entered(text):
 #Update our chat
 remotesync func update_chat(new_text):
 	var the_text = network.player_list[str(get_tree().get_rpc_sender_id())]["name"] + ": " + new_text
-	$PanelContainer/VBoxContainer/ChatBox.text += the_text + '\n'
-	$PanelContainer/VBoxContainer/ChatBox.rset("text", the_text + '\n')
+	chat_box.text += the_text + '\n'
+	chat_box.rset("text", the_text + '\n')
 	network.console_msg(the_text)
 	
 #func list_change():
@@ -159,13 +162,13 @@ remotesync func update_chat(new_text):
 
 
 func _on_ChatBox_draw():
-	chat_box.get_node("AnimationPlayer").stop()
-	if Global.delta_time > 10:
-		$PanelContainer.modulate.a = 1
-	chat_box.get_node("Timer").start()
+	if chat_box.text != "":
+		chat_box.get_node("AnimationPlayer").stop()
+		$VBoxContainer.modulate.a = 1
+		chat_box.get_node("Timer").start()
 
 func _on_Timer_timeout():
-	$PanelContainer/VBoxContainer/ChatBox/AnimationPlayer.play("fadeout")
+	chat_box.get_node("AnimationPlayer").play("fadeout")
 	
 const hud_desc = "Enables/disables the player HUD"
 const hud_help = "Enables/disables the player HUD"
@@ -185,4 +188,4 @@ func list_cmd():
 
 func _on_ChatLine_focus_entered():
 	yield(get_tree().create_timer(0.001), "timeout")
-	$PanelContainer/VBoxContainer/ChatLine.text = ""
+	chat_line.text = ""

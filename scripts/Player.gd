@@ -115,9 +115,7 @@ func respawn():
 	#request the spawn point controller to find us a spawn
 	var spawn = $SpawnPointController.choose_spawn()
 	if spawn != null:
-		transform = spawn
-	else:
-		print("cant find spawn points")
+		translation = spawn
 	
 	self.show()
 	$PlayerCollision.disabled = false
