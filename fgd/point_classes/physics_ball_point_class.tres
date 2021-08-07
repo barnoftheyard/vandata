@@ -1,6 +1,6 @@
 [gd_resource type="Resource" load_steps=4 format=2]
 
-[ext_resource path="res://scenes/Entities/PhysicsBall.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/entities/PhysicsBall.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/qodot/src/resources/game-definitions/fgd/qodot_fgd_point_class.gd" type="Script" id=2]
 [ext_resource path="res://scripts/entities/physics_ball.gd" type="Script" id=3]
 

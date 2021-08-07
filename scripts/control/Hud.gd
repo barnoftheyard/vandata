@@ -160,7 +160,8 @@ remotesync func update_chat(new_text):
 
 func _on_ChatBox_draw():
 	chat_box.get_node("AnimationPlayer").stop()
-	$PanelContainer.modulate.a = 1
+	if Global.delta_time > 10:
+		$PanelContainer.modulate.a = 1
 	chat_box.get_node("Timer").start()
 
 func _on_Timer_timeout():

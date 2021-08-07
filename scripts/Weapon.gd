@@ -387,7 +387,8 @@ func _input(event):
 		if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			mouse_accel.x = -event.relative.x * 0.0075
 			mouse_accel.y = -event.relative.y * 0.0075
-			
+		
+		#keyboard weapon switching
 		if Input.is_action_just_pressed("ui_1"):
 			switch_to_weapon("shovel")
 		elif Input.is_action_just_pressed("ui_2"):
@@ -438,6 +439,8 @@ func _physics_process(delta):
 			grab_target = null
 			
 	if !disabled:
+		#visual hud effects
+		
 		#directional sway
 		hitscan.translation = hitscan.translation.linear_interpolate(mouse_accel + hitscan_initpos, sway * delta)
 		
@@ -521,7 +524,8 @@ func _physics_process(delta):
 				weapon_nodes[pos].extend()
 				
 				can_fire = false
-				
+			
+			#if we run out of ammo in the clip, we reload
 			elif (current_clip == 0 and current_ammo > 0 and !anim.is_playing() 
 			and weapon_name != "bow"):
 				reload_weapon()
@@ -605,11 +609,12 @@ func _on_weapon_switch():
 	hitscan_initpos, 1, Tween.TRANS_QUART, Tween.EASE_IN_OUT)
 	$Tween.start()
 	
-	hitscan.get_node("../hands").get_helpers(hitscan)
+	#hitscan.get_node("../hands").get_helpers(hitscan)
 	
 	_on_update_weapon_list()
 	
 func _on_animation_finished(anim_name):
+	#reload the weapon when the animation finishes
 	if anim_name == "reload" and da_wep == weapon_name:
 		weapons[weapon_name]["ammo"] -= weapons[weapon_name]["times_fired"]
 		

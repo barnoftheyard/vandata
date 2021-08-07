@@ -1,32 +1,31 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://resources/Buttons/button_pressed.tres" type="StyleBox" id=1]
-[ext_resource path="res://resources/DynamicFonts/menu.tres" type="DynamicFont" id=2]
-[ext_resource path="res://scripts/control/Button.gd" type="Script" id=3]
-[ext_resource path="res://sounds/Audio/bong_001.ogg" type="AudioStream" id=4]
-[ext_resource path="res://sounds/Audio/select_001.ogg" type="AudioStream" id=5]
-[ext_resource path="res://resources/Buttons/button_normal.tres" type="StyleBox" id=6]
-[ext_resource path="res://resources/Buttons/button_hover.tres" type="StyleBox" id=7]
-
+[ext_resource path="res://resources/Buttons/button_normal.tres" type="StyleBox" id=1]
+[ext_resource path="res://resources/Buttons/button_pressed.tres" type="StyleBox" id=2]
+[ext_resource path="res://resources/Buttons/button_hover.tres" type="StyleBox" id=3]
+[ext_resource path="res://resources/DynamicFonts/menu.tres" type="DynamicFont" id=4]
+[ext_resource path="res://sounds/Audio/bong_001.ogg" type="AudioStream" id=5]
+[ext_resource path="res://sounds/Audio/select_001.ogg" type="AudioStream" id=6]
+[ext_resource path="res://scripts/control/Button.gd" type="Script" id=7]
 
 [node name="Resume" type="Button"]
 margin_right = 324.0
 margin_bottom = 269.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/hover = ExtResource( 7 )
-custom_styles/pressed = ExtResource( 1 )
-custom_styles/normal = ExtResource( 6 )
-custom_fonts/font = ExtResource( 2 )
+custom_styles/hover = ExtResource( 3 )
+custom_styles/pressed = ExtResource( 2 )
+custom_styles/normal = ExtResource( 1 )
+custom_fonts/font = ExtResource( 4 )
 shortcut_in_tooltip = false
 text = "RESUME"
-script = ExtResource( 3 )
+script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Hover" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 4 )
+stream = ExtResource( 5 )
 
 [node name="Select" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 5 )
+stream = ExtResource( 6 )

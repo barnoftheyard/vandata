@@ -1,5 +1,4 @@
 extends KinematicBody
-tool
 
 signal open
 signal close

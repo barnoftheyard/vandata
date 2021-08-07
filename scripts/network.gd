@@ -33,6 +33,8 @@ var client_scene = preload("res://scenes/client.tscn")
 var peer_scene = preload("res://scenes/peer.tscn")
 var bot_scene = preload("res://scenes/bot.tscn")
 
+signal server_info(info)
+
 func _ready():
 	Console.connect_node(self)
 	player_scene.set_local_to_scene(true)
@@ -45,11 +47,11 @@ func _ready():
 	get_tree().connect("connected_to_server", self, "_on_connected_to_server")
 	get_tree().connect("connection_failed", self, "_on_connection_failed")
 	get_tree().connect("server_disconnected", self, "_on_server_disconnected")
+	
+	rpc_config("emit_signal", MultiplayerAPI.RPC_MODE_REMOTE)
 
 func _on_peer_connected(id):
 	# When other players connect a character and a child player controller are created
-	#rset_id(id, "client_map", server_map)
-	#rpc_id(id, "resume")
 	
 	create_player(id, true)
 
@@ -69,72 +71,8 @@ func _on_server_disconnected():
 	get_tree().change_scene("res://scenes/Control/Menu.tscn")
 	get_node("/root/characters").queue_free()
 	
-	Console.emit_signal("open_console")
 	console_msg("Connection to the server ended.")
-
-# When Connect button is pressed
-func join_server(ip, port):
-	# Set up an ENet instance
-	var net = NetworkedMultiplayerENet.new()
-	net.create_client(ip, port)
-	get_tree().set_network_peer(net)
 	
-	# Upon successful connection get the sunique network ID
-	# This ID is used to name the character node so the network can distinguish the characters
-	var id = get_tree().get_network_unique_id()
-	
-	#yield program until we get our map name from server
-	#yield()
-	
-	#load our map
-	client_map = load("res://scenes/Qodot.tscn")
-	
-	# Create a player
-	if get_tree().change_scene_to(client_map) == OK:
-		# Create our player, 1 is a reference for a host/server
-		call_deferred("create_player", id, false)
-
-func create_server(map, server_name, port):
-	# Connect network events
-	
-#	var command = ["-n", "1", "-w", "3", "127.0.0.1"]
-#	if OS.execute("ping", command, true) != 1:
-#		console_msg("Server already running!")
-#		return
-	
-	# Set up an ENet instance
-	var net = NetworkedMultiplayerENet.new()
-	net.create_server(port, MAX_PLAYERS - 1)
-	get_tree().set_network_peer(net)
-	
-	server_map = load(map)
-	if get_tree().change_scene_to(server_map) == OK:
-		# Create our player, 1 is a reference for a host/server
-		call_deferred("create_player", 1, false)
-		
-		#collect world state on start up
-		world_state = sync_world_server(get_tree().get_root(), {})
-		
-	print("Server ", server_name, " created on port ", port,". Playing on ", map)
-
-# get world state from server
-func sync_world_server(node, node_list):
-	for n in node.get_children():
-		if n.get_child_count() > 0:
-			sync_world_server(n, node_list)
-		if n is RigidBody:
-			node_list[str(n.get_path())] = n.global_transform
-			
-	return node_list
-
-# apply world state from server to client if it differs	
-mastersync func sync_world_client(node_list, delta):
-	for n in node_list.keys():
-		var target = get_node_or_null(n)
-		if target != null and target.global_transform != node_list[n]:
-			target.translation = target.translation.linear_interpolate(node_list[n].origin, delta)
-			target.rotation = target.rotation.linear_interpolate(node_list[n].basis.get_euler(), delta)
-
 func create_player(id, is_peer):
 	# Create a player with a client or a peer controller attached
 	var controller : Controller
@@ -197,6 +135,71 @@ func remove_player(id):
 
 remotesync func send_player_data(id, player_info):
 	player_list[id] = player_info
+
+remote func request_server_info():
+	rpc_id(get_tree().get_rpc_sender_id(), "emit_signal", "server_info", server_map)
+
+# When Connect button is pressed
+func join_server(ip, port):
+	# Set up an ENet instance
+	var net = NetworkedMultiplayerENet.new()
+	net.create_client(ip, port)
+	get_tree().set_network_peer(net)
+	
+	# Upon successful connection get the sunique network ID
+	# This ID is used to name the character node so the network can distinguish the characters
+	var id = get_tree().get_network_unique_id()
+	
+	#yield program until we get our map name from server
+	yield(get_tree(), "connected_to_server")
+	rpc_id(1, "request_server_info")
+	client_map = yield(self, "server_info")
+	
+	# Create a player
+	if get_tree().change_scene_to(load(client_map)) == OK:
+		# Create our player, 1 is a reference for a host/server
+		call_deferred("create_player", id, false)
+
+func create_server(map, server_name, port):
+	# Connect network events
+	
+#	var command = ["-n", "1", "-w", "3", "127.0.0.1"]
+#	if OS.execute("ping", command, true) != 1:
+#		console_msg("Server already running!")
+#		return
+	
+	# Set up an ENet instance
+	var net = NetworkedMultiplayerENet.new()
+	net.create_server(port, MAX_PLAYERS - 1)
+	get_tree().set_network_peer(net)
+	
+	server_map = map
+	if get_tree().change_scene_to(load(map)) == OK:
+		# Create our player, 1 is a reference for a host/server
+		create_player(1, false)
+		
+		#collect world state on start up
+		world_state = get_world_state(get_tree().get_root(), {})
+		
+	print("Server ", server_name, " created on port ", port,". Playing on ", map)
+
+# get world state from server
+func get_world_state(node, node_list):
+	for n in node.get_children():
+		if n.get_child_count() > 0:
+			get_world_state(n, node_list)
+		if n is RigidBody:
+			node_list[str(n.get_path())] = n.global_transform
+			
+	return node_list
+
+# apply world state from server to client if it differs	
+remotesync func sync_world_to_clients(node_list, delta):
+	for n in node_list.keys():
+		var target = get_node_or_null(n)
+		if target != null and target.global_transform != node_list[n]:
+			target.translation = target.translation.linear_interpolate(node_list[n].origin, delta)
+			target.rotation = target.rotation.linear_interpolate(node_list[n].basis.get_euler(), delta)
 	
 remotesync func console_msg(text):
 	print(text)
@@ -228,10 +231,9 @@ remotesync func send_file(file_path):
 	file.open(file_path, File.READ)
 	var content = file.get_as_text()
 	
-func _process(delta):
+func _physics_process(delta):
 	if player_list.size() > 1:
-		yield(get_tree().create_timer(1/tick_rate), "timeout")
-		rpc("sync_world_client", sync_world_server(get_tree().get_root(), {}), delta * interp_scale)
+		rpc_unreliable("sync_world_to_clients", get_world_state(get_tree().get_root(), {}), delta * interp_scale)
 	
 const bot_add_desc = "Add a multiplayer bot"
 const bot_add_help = "Add a multiplayer bot"

@@ -151,27 +151,27 @@ remotesync func bullet_hit(damage, id, bullet_hit_pos, _force_multiplier):			#ha
 	if !god_mode:
 		damage(damage)
 	
-	var from_str = str(get_tree().get_rpc_sender_id())
+	id = str(get_tree().get_rpc_sender_id())
 	
 	#if we got killed handle the score
 	if player_info["health"] <= 0 and !is_dead:
 		
 		#If our killer is a player and isn't ourselves
-		if from_str in network.player_list and from_str != "1":
+		if id in network.player_list:
 			
-			rpc_id(get_tree().get_rpc_sender_id(), "give_kill", from_str)
-			
-			
+			rpc("give_kill", id)
 			network.rpc("console_msg", player_info["name"] + " was killed by " + 
-			network.player_list[from_str]["name"])
-			$Hud.chat_box.text += "\n" + "You got killed by " + network.player_list[from_str]["name"] + "\n"
+			network.player_list[id]["name"])
+			
+			$Hud.chat_box.text += "\n" + "You got killed by " + network.player_list[id]["name"] + "\n"
 			
 		else:
 			pass
 
 #THIS WORKS
 remotesync func give_kill(from):
-	get_node("/root/characters/" + from).player_info["kills"] += 1
+	network.player_list[from]["kills"] += 1
+	#get_node("/root/characters/" + from).player_info["kills"] += 1
 
 func _ready():
 	Console.connect_node(self)
@@ -229,7 +229,7 @@ func _physics_process(delta):
 	
 	if !Global.is_paused and !is_dead and is_network_master():
 		
-		if camera_mode and is_inside_tree():					#FPS
+		if camera_mode:					#FPS
 			cam = camera.get_global_transform()
 			
 		if cmd[Command.FORWARD]:

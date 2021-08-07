@@ -11,7 +11,7 @@
 [ext_resource path="res://resources/Panels/panel.tres" type="StyleBox" id=9]
 [ext_resource path="res://resources/DynamicFonts/conduit.tres" type="DynamicFont" id=10]
 [ext_resource path="res://resources/Theme.tres" type="Theme" id=11]
-[ext_resource path="res://scenes/Control/Button.tscn" type="PackedScene" id=12]
+[ext_resource path="res://scenes/control/Button.tscn" type="PackedScene" id=12]
 
 [node name="Settings" type="Control"]
 anchor_right = 1.0

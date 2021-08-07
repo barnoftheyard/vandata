@@ -5,7 +5,7 @@ class_name Client
 #not want to process server information
 #All the client code goes here
 
-var options_scene = preload("res://scenes/Control/Options.tscn")
+var options_scene = preload("res://scenes/control/Options.tscn")
 var options_node = null
 
 signal paused

@@ -1,16 +1,16 @@
 [gd_scene load_steps=24 format=2]
 
-[ext_resource path="res://resources/DynamicFonts/buttons.tres" type="DynamicFont" id=1]
-[ext_resource path="res://textures/crosshairs64.png" type="Texture" id=2]
-[ext_resource path="res://scripts/control/Hud.gd" type="Script" id=3]
-[ext_resource path="res://resources/DynamicFonts/greekish.tres" type="DynamicFont" id=4]
-[ext_resource path="res://textures/player/hurt.png" type="Texture" id=5]
-[ext_resource path="res://textures/player/vignette.png" type="Texture" id=6]
+[ext_resource path="res://fonts/conduit/conduit_itc_bold1.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://resources/Theme.tres" type="Theme" id=2]
+[ext_resource path="res://textures/crosshairs64.png" type="Texture" id=3]
+[ext_resource path="res://resources/StyleBoxFlat/Hud.tres" type="StyleBox" id=4]
+[ext_resource path="res://resources/DynamicFonts/buttons.tres" type="DynamicFont" id=5]
+[ext_resource path="res://resources/DynamicFonts/greekish.tres" type="DynamicFont" id=6]
 [ext_resource path="res://resources/DynamicFonts/conduit.tres" type="DynamicFont" id=7]
-[ext_resource path="res://resources/StyleBoxFlat/Hud.tres" type="StyleBox" id=8]
+[ext_resource path="res://scripts/control/Hud.gd" type="Script" id=8]
 [ext_resource path="res://scripts/FilmGrain.gd" type="Script" id=9]
-[ext_resource path="res://resources/Theme.tres" type="Theme" id=10]
-[ext_resource path="res://fonts/conduit/conduit_itc_bold1.ttf" type="DynamicFontData" id=11]
+[ext_resource path="res://textures/player/hurt.png" type="Texture" id=10]
+[ext_resource path="res://textures/player/vignette.png" type="Texture" id=11]
 [ext_resource path="res://textures/hd.png" type="Texture" id=12]
 
 [sub_resource type="StyleBoxFlat" id=1]
@@ -91,8 +91,8 @@ noise = SubResource( 6 )
 
 [sub_resource type="ShaderMaterial" id=8]
 shader = SubResource( 5 )
-shader_param/randx = 0.281139
-shader_param/randy = 0.326061
+shader_param/randx = 0.206718
+shader_param/randy = 0.349314
 shader_param/grain_alpha = 0.1
 shader_param/grain_scale = 10.0
 shader_param/noise_tex = SubResource( 7 )
@@ -100,7 +100,7 @@ shader_param/noise_tex = SubResource( 7 )
 [sub_resource type="DynamicFont" id=9]
 size = 24
 use_filter = true
-font_data = ExtResource( 11 )
+font_data = ExtResource( 1 )
 
 [sub_resource type="Animation" id=10]
 tracks/0/type = "value"
@@ -151,7 +151,7 @@ margin_left = 0.0734863
 margin_top = -0.139801
 margin_right = 0.0734863
 margin_bottom = -0.139771
-script = ExtResource( 3 )
+script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -212,7 +212,7 @@ anchor_left = 0.90625
 anchor_top = 0.933333
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = ExtResource( 5 )
 align = 2
 __meta__ = {
 "_edit_use_anchors_": true
@@ -223,7 +223,7 @@ anchor_left = 0.90625
 anchor_top = 0.873333
 anchor_right = 1.0
 anchor_bottom = 0.933333
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = ExtResource( 5 )
 align = 2
 __meta__ = {
 "_edit_use_anchors_": true
@@ -234,7 +234,7 @@ anchor_left = 0.8125
 anchor_top = 0.786667
 anchor_right = 1.0
 anchor_bottom = 0.846667
-custom_fonts/font = ExtResource( 1 )
+custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 0.784314 )
 align = 2
 valign = 2
@@ -260,7 +260,7 @@ __meta__ = {
 
 [node name="Crosshair" type="Sprite" parent="CenterContainer"]
 position = Vector2( 20, 20 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 hframes = 8
 vframes = 8
 
@@ -279,7 +279,7 @@ __meta__ = {
 self_modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = ExtResource( 5 )
+texture = ExtResource( 10 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -291,7 +291,7 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-texture = ExtResource( 6 )
+texture = ExtResource( 11 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -306,7 +306,7 @@ margin_left = -20.0
 margin_top = -21.5002
 margin_right = 20.0
 margin_bottom = 21.5002
-custom_fonts/font = ExtResource( 4 )
+custom_fonts/font = ExtResource( 6 )
 align = 1
 valign = 1
 __meta__ = {
@@ -324,7 +324,6 @@ __meta__ = {
 }
 
 [node name="PlayerList" type="PanelContainer" parent="."]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -333,7 +332,7 @@ margin_left = -192.0
 margin_top = -84.0
 margin_right = 192.0
 margin_bottom = 84.0
-custom_styles/panel = ExtResource( 8 )
+custom_styles/panel = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -347,14 +346,19 @@ margin_right = 384.0
 margin_bottom = 14.0
 
 [node name="Label" type="Label" parent="PlayerList/VBoxContainer2/VBoxContainer"]
+anchor_left = 0.031
+anchor_top = 1.0
+anchor_right = 0.156
+anchor_bottom = 1.0
 margin_right = 384.0
 margin_bottom = 14.0
 text = "Player List:"
 
 [node name="Grid" type="GridContainer" parent="PlayerList/VBoxContainer2"]
-margin_top = 18.0
-margin_right = 384.0
-margin_bottom = 18.0
+margin_left = 13.0
+margin_top = 30.0
+margin_right = 380.0
+margin_bottom = 167.0
 columns = 4
 __meta__ = {
 "_edit_use_anchors_": false
@@ -378,7 +382,7 @@ margin_top = -92.0
 margin_right = 384.0
 grow_horizontal = 0
 grow_vertical = 0
-theme = ExtResource( 10 )
+theme = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

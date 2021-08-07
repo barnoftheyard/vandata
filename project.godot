@@ -333,7 +333,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Vandata"
-run/main_scene="res://scenes/Control/Menu.tscn"
+run/main_scene="res://scenes/control/Menu.tscn"
 config/icon="res://icon.png"
 
 [audio]
@@ -357,6 +357,7 @@ singletons=[ "res://git_api.gdnlib" ]
 [global]
 
 boxes=false
+pause=false
 
 [input]
 

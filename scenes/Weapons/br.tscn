@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://models/br/br.glb" type="PackedScene" id=1]
-[ext_resource path="res://scenes/Weapons/muzzle_flash.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/weapons/muzzle_flash.tscn" type="PackedScene" id=2]
 [ext_resource path="res://sounds/br/aug-1.wav" type="AudioStream" id=3]
 [ext_resource path="res://sounds/br/aug_clipout.wav" type="AudioStream" id=4]
 

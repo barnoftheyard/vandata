@@ -20,6 +20,13 @@ func _ready():
 	$ViewportContainer/Viewport/AnimationPlayer.playback_speed = 0.1
 	$ViewportContainer/Viewport/AnimationPlayer.play("gesture")
 	
+	#move the console node to the bottom
+	get_parent().call_deferred("move_child", get_node("/root/Console"), 
+	get_parent().get_child_count() - 1)
+
+	#hide the console if it isn't already hidden
+	get_node("/root/Console").hide()
+	
 func _process(delta):
 	$FlavorText.rect_rotation += 200 * delta
 
