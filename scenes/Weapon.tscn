@@ -1,10 +1,9 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scripts/Weapon.gd" type="Script" id=1]
 [ext_resource path="res://sounds/double barrel/sbarrel1.wav" type="AudioStream" id=2]
 [ext_resource path="res://scripts/EndPoint.gd" type="Script" id=3]
 [ext_resource path="res://sounds/dryfire1.wav" type="AudioStream" id=4]
-[ext_resource path="res://scenes/hands.tscn" type="PackedScene" id=5]
 [ext_resource path="res://default_env.tres" type="Environment" id=6]
 [ext_resource path="res://sounds/spray.ogg" type="AudioStream" id=7]
 [ext_resource path="res://sounds/double barrel/scock1.wav" type="AudioStream" id=10]
@@ -73,10 +72,6 @@ render_target_update_mode = 3
 
 [node name="Hitscan" type="Spatial" parent="ViewportContainer/Viewport/TransformHelper"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6, -1.25 )
-
-[node name="hands" parent="ViewportContainer/Viewport/TransformHelper" instance=ExtResource( 5 )]
-transform = Transform( -2, 0, -3.01992e-07, 0, 2, 0, 3.01992e-07, 0, -2, 0, -3.50132, -0.0404123 )
-visible = false
 
 [node name="Camera" type="Camera" parent="ViewportContainer/Viewport/TransformHelper"]
 cull_mask = 6

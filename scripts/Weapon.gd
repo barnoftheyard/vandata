@@ -609,8 +609,6 @@ func _on_weapon_switch():
 	hitscan_initpos, 1, Tween.TRANS_QUART, Tween.EASE_IN_OUT)
 	$Tween.start()
 	
-	#hitscan.get_node("../hands").get_helpers(hitscan)
-	
 	_on_update_weapon_list()
 	
 func _on_animation_finished(anim_name):

@@ -91,8 +91,8 @@ noise = SubResource( 6 )
 
 [sub_resource type="ShaderMaterial" id=8]
 shader = SubResource( 5 )
-shader_param/randx = 0.0487114
-shader_param/randy = 0.307692
+shader_param/randx = 0.0971112
+shader_param/randy = 0.206763
 shader_param/grain_alpha = 0.1
 shader_param/grain_scale = 10.0
 shader_param/noise_tex = SubResource( 7 )
