@@ -16,7 +16,7 @@ onready var map_text = $MarginContainer2/ScrollContainer2/VBoxContainer/PanelCon
 
 func _ready():
 	
-	$Copyright.text = Global.version + " - " + Global.author
+	#$Copyright.text = Global.version + " - " + Global.author
 	$ViewportContainer/Viewport/AnimationPlayer.playback_speed = 0.1
 	$ViewportContainer/Viewport/AnimationPlayer.play("gesture")
 	
