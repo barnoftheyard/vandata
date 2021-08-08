@@ -13,11 +13,9 @@ func check_button():
 	if self.pressed and !just_pressed:
 		$Select.play()
 		just_pressed = true
-		return true
 		
 	elif !self.pressed and just_pressed:
 		just_pressed = false
-		return false
 
 
 func _process(_delta):

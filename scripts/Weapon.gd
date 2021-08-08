@@ -419,7 +419,7 @@ func _physics_process(delta):
 	if grab_target != null:
 		if grab:
 			#client side
-			grab_target.mode = RigidBody.MODE_KINEMATIC
+			#grab_target.mode = RigidBody.MODE_KINEMATIC
 			grab_target.gravity_scale = 0
 			grab_target.global_transform.origin = grab_target.global_transform.origin.linear_interpolate(
 				$UseCast/EndPoint.global_transform.origin, sway * delta)

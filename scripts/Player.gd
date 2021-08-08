@@ -93,7 +93,6 @@ func init():
 	speed = RUN_SPEED
 	#add our initial player info, under the node name (which is our network ID), to the server list
 	network.rpc("send_player_data", name, player_info)
-	network.rpc("console_msg", "Player " + player_info["name"] + " connected to server.")
 	
 remotesync func death():
 	is_dead = true

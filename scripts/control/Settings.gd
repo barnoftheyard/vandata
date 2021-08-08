@@ -1,6 +1,6 @@
 extends Control
 
-onready var options = $AspectRatioContainer/ScrollContainer/OptionsList
+onready var options = $CenterContainer/OptionsList
 
 func init_config():		#I should really set up some sort of clever for loop that takes care of all the path-setting for me
 	Global.config_file.set_value("game", "player_name", 

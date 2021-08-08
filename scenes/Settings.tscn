@@ -30,8 +30,8 @@ __meta__ = {
 }
 
 [node name="Title" type="Label" parent="."]
-margin_right = 1016.0
-margin_bottom = 564.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color_shadow = Color( 0.2, 0.2, 0.2, 1 )
 text = "SETTINGS
@@ -64,114 +64,48 @@ margin_right = -4.0
 margin_bottom = -4.0
 text = "RESOLUTION"
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -250.5
-margin_top = -300.0
-margin_right = 250.5
-margin_bottom = 300.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource( 11 )
-stretch_mode = 3
-alignment_horizontal = 0
-alignment_vertical = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ScrollContainer" type="ScrollContainer" parent="AspectRatioContainer"]
-margin_right = 600.0
-margin_bottom = 600.0
+[node name="CenterContainer" type="CenterContainer" parent="."]
+anchor_top = 0.0666667
+anchor_right = 1.00098
+anchor_bottom = 0.788333
+margin_top = -3.8147e-06
 grow_horizontal = 0
-grow_vertical = 0
-scroll_horizontal_enabled = false
+grow_vertical = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+theme = ExtResource( 11 )
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": true
 }
 
-[node name="OptionsList" type="VBoxContainer" parent="AspectRatioContainer/ScrollContainer"]
-margin_right = 233.0
-margin_bottom = 801.0
+[node name="OptionsList" type="GridContainer" parent="CenterContainer"]
+margin_left = 136.0
+margin_top = 56.0
+margin_right = 888.0
+margin_bottom = 376.0
 grow_horizontal = 2
 grow_vertical = 2
-custom_constants/separation = 10
-alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+size_flags_horizontal = 2
+size_flags_vertical = 2
+custom_constants/vseparation = 10
+custom_constants/hseparation = 10
+columns = 4
 
-[node name="Visuals" type="PanelContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList"]
+[node name="MouseSensitivity" type="PanelContainer" parent="CenterContainer/OptionsList"]
 margin_right = 233.0
 margin_bottom = 141.0
 custom_styles/panel = ExtResource( 9 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/Visuals"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/OptionsList/MouseSensitivity"]
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 225.0
 margin_bottom = 137.0
-alignment = 2
-
-[node name="Label" type="Label" parent="AspectRatioContainer/ScrollContainer/OptionsList/Visuals/VBoxContainer"]
-margin_right = 221.0
-margin_bottom = 37.0
-custom_fonts/font = ExtResource( 10 )
-text = "VISUALS"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CheckBox1" type="CheckBox" parent="AspectRatioContainer/ScrollContainer/OptionsList/Visuals/VBoxContainer"]
-margin_top = 41.0
-margin_right = 221.0
-margin_bottom = 69.0
-custom_fonts/font = ExtResource( 4 )
-text = "FULLSCREEN"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="CheckBox2" type="CheckBox" parent="AspectRatioContainer/ScrollContainer/OptionsList/Visuals/VBoxContainer"]
-margin_top = 73.0
-margin_right = 221.0
-margin_bottom = 101.0
-custom_fonts/font = ExtResource( 4 )
-text = "SHOW FPS"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="CheckBox3" type="CheckBox" parent="AspectRatioContainer/ScrollContainer/OptionsList/Visuals/VBoxContainer"]
-margin_top = 105.0
-margin_right = 221.0
-margin_bottom = 133.0
-custom_fonts/font = ExtResource( 4 )
-text = "FLIP GUNS"
-__meta__ = {
-"_edit_use_anchors_": true
-}
-
-[node name="MouseSensitivity" type="PanelContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList"]
-margin_top = 151.0
-margin_right = 233.0
-margin_bottom = 242.0
-custom_styles/panel = ExtResource( 9 )
-
-[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/MouseSensitivity"]
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 225.0
-margin_bottom = 87.0
-alignment = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="AspectRatioContainer/ScrollContainer/OptionsList/MouseSensitivity/VBoxContainer"]
+[node name="Label" type="Label" parent="CenterContainer/OptionsList/MouseSensitivity/VBoxContainer"]
 margin_right = 221.0
 margin_bottom = 37.0
 custom_fonts/font = ExtResource( 10 )
@@ -180,12 +114,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/MouseSensitivity/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/OptionsList/MouseSensitivity/VBoxContainer"]
 margin_top = 41.0
 margin_right = 221.0
 margin_bottom = 63.0
 
-[node name="LineEdit" type="LineEdit" parent="AspectRatioContainer/ScrollContainer/OptionsList/MouseSensitivity/VBoxContainer/HBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="CenterContainer/OptionsList/MouseSensitivity/VBoxContainer/HBoxContainer"]
 margin_right = 60.0
 margin_bottom = 22.0
 caret_blink = true
@@ -194,7 +128,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MouseSenseSlider" type="HSlider" parent="AspectRatioContainer/ScrollContainer/OptionsList/MouseSensitivity/VBoxContainer"]
+[node name="MouseSenseSlider" type="HSlider" parent="CenterContainer/OptionsList/MouseSensitivity/VBoxContainer"]
 margin_top = 67.0
 margin_right = 221.0
 margin_bottom = 83.0
@@ -206,21 +140,72 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="InvertMouse" type="PanelContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList"]
-margin_top = 252.0
-margin_right = 233.0
-margin_bottom = 361.0
+[node name="Visuals" type="PanelContainer" parent="CenterContainer/OptionsList"]
+margin_left = 243.0
+margin_right = 402.0
+margin_bottom = 141.0
 custom_styles/panel = ExtResource( 9 )
 
-[node name="VBboxContainer" type="VBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/InvertMouse"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/OptionsList/Visuals"]
 margin_left = 4.0
 margin_top = 4.0
-margin_right = 225.0
-margin_bottom = 105.0
+margin_right = 151.0
+margin_bottom = 137.0
 alignment = 2
 
-[node name="Label" type="Label" parent="AspectRatioContainer/ScrollContainer/OptionsList/InvertMouse/VBboxContainer"]
-margin_right = 221.0
+[node name="Label" type="Label" parent="CenterContainer/OptionsList/Visuals/VBoxContainer"]
+margin_right = 147.0
+margin_bottom = 37.0
+custom_fonts/font = ExtResource( 10 )
+text = "VISUALS"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckBox1" type="CheckBox" parent="CenterContainer/OptionsList/Visuals/VBoxContainer"]
+margin_top = 41.0
+margin_right = 147.0
+margin_bottom = 69.0
+custom_fonts/font = ExtResource( 4 )
+text = "FULLSCREEN"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="CheckBox2" type="CheckBox" parent="CenterContainer/OptionsList/Visuals/VBoxContainer"]
+margin_top = 73.0
+margin_right = 147.0
+margin_bottom = 101.0
+custom_fonts/font = ExtResource( 4 )
+text = "SHOW FPS"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="CheckBox3" type="CheckBox" parent="CenterContainer/OptionsList/Visuals/VBoxContainer"]
+margin_top = 105.0
+margin_right = 147.0
+margin_bottom = 133.0
+custom_fonts/font = ExtResource( 4 )
+text = "FLIP GUNS"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="InvertMouse" type="PanelContainer" parent="CenterContainer/OptionsList"]
+margin_left = 412.0
+margin_right = 595.0
+margin_bottom = 141.0
+custom_styles/panel = ExtResource( 9 )
+
+[node name="VBboxContainer" type="VBoxContainer" parent="CenterContainer/OptionsList/InvertMouse"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 175.0
+margin_bottom = 137.0
+
+[node name="Label" type="Label" parent="CenterContainer/OptionsList/InvertMouse/VBboxContainer"]
+margin_right = 171.0
 margin_bottom = 37.0
 custom_fonts/font = ExtResource( 10 )
 text = "INVERT MOUSE"
@@ -228,9 +213,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CheckBox1" type="CheckBox" parent="AspectRatioContainer/ScrollContainer/OptionsList/InvertMouse/VBboxContainer"]
+[node name="CheckBox1" type="CheckBox" parent="CenterContainer/OptionsList/InvertMouse/VBboxContainer"]
 margin_top = 41.0
-margin_right = 221.0
+margin_right = 171.0
 margin_bottom = 69.0
 custom_fonts/font = ExtResource( 4 )
 text = " INVERT X"
@@ -238,9 +223,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CheckBox2" type="CheckBox" parent="AspectRatioContainer/ScrollContainer/OptionsList/InvertMouse/VBboxContainer"]
+[node name="CheckBox2" type="CheckBox" parent="CenterContainer/OptionsList/InvertMouse/VBboxContainer"]
 margin_top = 73.0
-margin_right = 221.0
+margin_right = 171.0
 margin_bottom = 101.0
 custom_fonts/font = ExtResource( 4 )
 text = " INVERT Y"
@@ -248,21 +233,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Crosshair" type="PanelContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList"]
-margin_top = 371.0
-margin_right = 233.0
-margin_bottom = 444.0
+[node name="Crosshair" type="PanelContainer" parent="CenterContainer/OptionsList"]
+margin_left = 605.0
+margin_right = 752.0
+margin_bottom = 141.0
 custom_styles/panel = ExtResource( 9 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/OptionsList/Crosshair"]
 margin_left = 4.0
 margin_top = 4.0
-margin_right = 225.0
-margin_bottom = 69.0
-alignment = 2
+margin_right = 139.0
+margin_bottom = 137.0
 
-[node name="Label" type="Label" parent="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair/VBoxContainer"]
-margin_right = 221.0
+[node name="Label" type="Label" parent="CenterContainer/OptionsList/Crosshair/VBoxContainer"]
+margin_right = 135.0
 margin_bottom = 37.0
 custom_fonts/font = ExtResource( 10 )
 text = "CROSSHAIR"
@@ -270,9 +254,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/OptionsList/Crosshair/VBoxContainer"]
 margin_top = 41.0
-margin_right = 221.0
+margin_right = 135.0
 margin_bottom = 65.0
 custom_constants/separation = 12
 alignment = 1
@@ -280,21 +264,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CrosshairSub" type="Control" parent="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer"]
-margin_left = 79.0
-margin_right = 79.0
+[node name="CrosshairSub" type="Control" parent="CenterContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer"]
+margin_left = 36.0
+margin_right = 36.0
 margin_bottom = 24.0
 script = ExtResource( 8 )
 
-[node name="Crosshair" type="Sprite" parent="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer/CrosshairSub"]
-position = Vector2( 111, -4 )
+[node name="Crosshair" type="Sprite" parent="CenterContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer/CrosshairSub"]
+position = Vector2( 50, 50 )
 texture = ExtResource( 3 )
 hframes = 8
 vframes = 8
 
-[node name="Button" type="Button" parent="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer"]
-margin_left = 91.0
-margin_right = 110.0
+[node name="Button" type="Button" parent="CenterContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer"]
+margin_left = 48.0
+margin_right = 67.0
 margin_bottom = 24.0
 grow_horizontal = 0
 grow_vertical = 0
@@ -307,9 +291,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button2" type="Button" parent="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer"]
-margin_left = 122.0
-margin_right = 141.0
+[node name="Button2" type="Button" parent="CenterContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer"]
+margin_left = 79.0
+margin_right = 98.0
 margin_bottom = 24.0
 custom_styles/hover = ExtResource( 7 )
 custom_styles/pressed = ExtResource( 6 )
@@ -320,19 +304,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Spray" type="PanelContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList"]
-margin_top = 454.0
+[node name="Spray" type="PanelContainer" parent="CenterContainer/OptionsList"]
+margin_top = 151.0
 margin_right = 233.0
-margin_bottom = 623.0
+margin_bottom = 320.0
 custom_styles/panel = ExtResource( 9 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/Spray"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/OptionsList/Spray"]
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 225.0
 margin_bottom = 165.0
 
-[node name="Label" type="Label" parent="AspectRatioContainer/ScrollContainer/OptionsList/Spray/VBoxContainer"]
+[node name="Label" type="Label" parent="CenterContainer/OptionsList/Spray/VBoxContainer"]
 margin_right = 221.0
 margin_bottom = 37.0
 custom_fonts/font = ExtResource( 10 )
@@ -341,40 +325,40 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/Spray/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/OptionsList/Spray/VBoxContainer"]
 margin_top = 41.0
 margin_right = 221.0
 margin_bottom = 161.0
 
-[node name="TextureRect" type="TextureRect" parent="AspectRatioContainer/ScrollContainer/OptionsList/Spray/VBoxContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/OptionsList/Spray/VBoxContainer/HBoxContainer"]
 margin_right = 120.0
 margin_bottom = 120.0
 rect_min_size = Vector2( 120, 120 )
 expand = true
 stretch_mode = 5
 
-[node name="Load" parent="AspectRatioContainer/ScrollContainer/OptionsList/Spray/VBoxContainer/HBoxContainer" instance=ExtResource( 12 )]
+[node name="Load" parent="CenterContainer/OptionsList/Spray/VBoxContainer/HBoxContainer" instance=ExtResource( 12 )]
 margin_left = 124.0
 margin_right = 221.0
 margin_bottom = 120.0
 custom_fonts/font = ExtResource( 10 )
 text = "LOAD"
 
-[node name="Fov" type="PanelContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList"]
-margin_top = 633.0
-margin_right = 233.0
-margin_bottom = 724.0
+[node name="Fov" type="PanelContainer" parent="CenterContainer/OptionsList"]
+margin_left = 243.0
+margin_top = 151.0
+margin_right = 402.0
+margin_bottom = 320.0
 custom_styles/panel = ExtResource( 9 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/Fov"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/OptionsList/Fov"]
 margin_left = 4.0
 margin_top = 4.0
-margin_right = 225.0
-margin_bottom = 87.0
-alignment = 2
+margin_right = 151.0
+margin_bottom = 165.0
 
-[node name="Label" type="Label" parent="AspectRatioContainer/ScrollContainer/OptionsList/Fov/VBoxContainer"]
-margin_right = 221.0
+[node name="Label" type="Label" parent="CenterContainer/OptionsList/Fov/VBoxContainer"]
+margin_right = 147.0
 margin_bottom = 37.0
 custom_fonts/font = ExtResource( 10 )
 text = "FOV"
@@ -382,9 +366,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FovSlider" type="HSlider" parent="AspectRatioContainer/ScrollContainer/OptionsList/Fov/VBoxContainer"]
+[node name="FovSlider" type="HSlider" parent="CenterContainer/OptionsList/Fov/VBoxContainer"]
 margin_top = 41.0
-margin_right = 221.0
+margin_right = 147.0
 margin_bottom = 57.0
 min_value = 50.0
 max_value = 150.0
@@ -394,12 +378,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/Fov/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/OptionsList/Fov/VBoxContainer"]
 margin_top = 61.0
-margin_right = 221.0
+margin_right = 147.0
 margin_bottom = 83.0
 
-[node name="FovEdit" type="LineEdit" parent="AspectRatioContainer/ScrollContainer/OptionsList/Fov/VBoxContainer/HBoxContainer"]
+[node name="FovEdit" type="LineEdit" parent="CenterContainer/OptionsList/Fov/VBoxContainer/HBoxContainer"]
 margin_right = 60.0
 margin_bottom = 22.0
 caret_blink = true
@@ -408,20 +392,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PlayerName" type="PanelContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList"]
-margin_top = 734.0
-margin_right = 233.0
-margin_bottom = 801.0
+[node name="PlayerName" type="PanelContainer" parent="CenterContainer/OptionsList"]
+margin_left = 412.0
+margin_top = 151.0
+margin_right = 595.0
+margin_bottom = 320.0
 custom_styles/panel = ExtResource( 9 )
 
-[node name="VBoxContainer" type="VBoxContainer" parent="AspectRatioContainer/ScrollContainer/OptionsList/PlayerName"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/OptionsList/PlayerName"]
 margin_left = 4.0
 margin_top = 4.0
-margin_right = 225.0
-margin_bottom = 63.0
+margin_right = 175.0
+margin_bottom = 165.0
 
-[node name="Label" type="Label" parent="AspectRatioContainer/ScrollContainer/OptionsList/PlayerName/VBoxContainer"]
-margin_right = 221.0
+[node name="Label" type="Label" parent="CenterContainer/OptionsList/PlayerName/VBoxContainer"]
+margin_right = 171.0
 margin_bottom = 37.0
 custom_fonts/font = ExtResource( 10 )
 text = "PLAYER NAME"
@@ -429,11 +414,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LineEdit" type="LineEdit" parent="AspectRatioContainer/ScrollContainer/OptionsList/PlayerName/VBoxContainer"]
+[node name="LineEdit" type="LineEdit" parent="CenterContainer/OptionsList/PlayerName/VBoxContainer"]
 margin_top = 41.0
-margin_right = 221.0
-margin_bottom = 59.0
+margin_right = 171.0
+margin_bottom = 65.0
 custom_styles/normal = ExtResource( 5 )
+custom_fonts/font = ExtResource( 4 )
 caret_blink = true
 caret_blink_speed = 0.5
 __meta__ = {
@@ -441,24 +427,24 @@ __meta__ = {
 }
 
 [node name="OptionsButtons" type="VBoxContainer" parent="."]
-anchor_top = 1.0
+anchor_top = 0.88
+anchor_right = 0.136719
 anchor_bottom = 1.0
-margin_top = -70.0
-margin_right = 184.0
+size_flags_vertical = 3
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": true
 }
 
 [node name="Save" parent="OptionsButtons" instance=ExtResource( 12 )]
-margin_right = 184.0
-margin_bottom = 33.0
+margin_right = 140.0
+margin_bottom = 34.0
 custom_fonts/font = ExtResource( 10 )
 text = "SAVE"
 
 [node name="Back" parent="OptionsButtons" instance=ExtResource( 12 )]
-margin_top = 37.0
-margin_right = 184.0
-margin_bottom = 70.0
+margin_top = 38.0
+margin_right = 140.0
+margin_bottom = 72.0
 custom_fonts/font = ExtResource( 10 )
 text = "BACK"
 
@@ -482,13 +468,13 @@ __meta__ = {
 
 [connection signal="id_pressed" from="PopupMenu" to="." method="_on_PopupMenu_id_pressed"]
 [connection signal="pressed" from="Resolution" to="." method="_on_Resolution_pressed"]
-[connection signal="text_entered" from="AspectRatioContainer/ScrollContainer/OptionsList/MouseSensitivity/VBoxContainer/HBoxContainer/LineEdit" to="." method="_on_LineEdit_text_entered"]
-[connection signal="value_changed" from="AspectRatioContainer/ScrollContainer/OptionsList/MouseSensitivity/VBoxContainer/MouseSenseSlider" to="." method="_on_MouseSenseSlider_value_changed"]
-[connection signal="pressed" from="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer/Button" to="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer/CrosshairSub" method="_on_Button_pressed"]
-[connection signal="pressed" from="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer/Button2" to="AspectRatioContainer/ScrollContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer/CrosshairSub" method="_on_Button2_pressed"]
-[connection signal="pressed" from="AspectRatioContainer/ScrollContainer/OptionsList/Spray/VBoxContainer/HBoxContainer/Load" to="." method="_on_Load_pressed"]
-[connection signal="value_changed" from="AspectRatioContainer/ScrollContainer/OptionsList/Fov/VBoxContainer/FovSlider" to="." method="_on_FovSlider_value_changed"]
-[connection signal="text_entered" from="AspectRatioContainer/ScrollContainer/OptionsList/Fov/VBoxContainer/HBoxContainer/FovEdit" to="." method="_on_FovEdit_text_entered"]
+[connection signal="text_entered" from="CenterContainer/OptionsList/MouseSensitivity/VBoxContainer/HBoxContainer/LineEdit" to="." method="_on_LineEdit_text_entered"]
+[connection signal="value_changed" from="CenterContainer/OptionsList/MouseSensitivity/VBoxContainer/MouseSenseSlider" to="." method="_on_MouseSenseSlider_value_changed"]
+[connection signal="pressed" from="CenterContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer/Button" to="CenterContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer/CrosshairSub" method="_on_Button_pressed"]
+[connection signal="pressed" from="CenterContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer/Button2" to="CenterContainer/OptionsList/Crosshair/VBoxContainer/HBoxContainer/CrosshairSub" method="_on_Button2_pressed"]
+[connection signal="pressed" from="CenterContainer/OptionsList/Spray/VBoxContainer/HBoxContainer/Load" to="." method="_on_Load_pressed"]
+[connection signal="value_changed" from="CenterContainer/OptionsList/Fov/VBoxContainer/FovSlider" to="." method="_on_FovSlider_value_changed"]
+[connection signal="text_entered" from="CenterContainer/OptionsList/Fov/VBoxContainer/HBoxContainer/FovEdit" to="." method="_on_FovEdit_text_entered"]
 [connection signal="pressed" from="OptionsButtons/Save" to="." method="_on_Save_pressed"]
 [connection signal="pressed" from="OptionsButtons/Back" to="." method="_on_Back_pressed"]
 [connection signal="file_selected" from="SprayFileDialog" to="." method="_on_SprayFileDialog_file_selected"]

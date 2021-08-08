@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scripts/control/Menu.gd" type="Script" id=1]
 [ext_resource path="res://screenshots/2021_02_21_224144_0.png" type="Texture" id=2]
+[ext_resource path="res://scenes/control/Button.tscn" type="PackedScene" id=3]
 [ext_resource path="res://resources/DynamicFonts/conduit.tres" type="DynamicFont" id=4]
 [ext_resource path="res://fonts/devine town/DevineTownLinear.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://resources/Buttons/button_pressed.tres" type="StyleBox" id=6]
@@ -116,19 +117,16 @@ __meta__ = {
 }
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-anchor_top = 1.0
+anchor_top = 0.5
+anchor_right = 0.295898
 anchor_bottom = 1.0
-margin_top = -367.0
-margin_right = 526.0
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
-margin_right = 526.0
-margin_bottom = 367.0
-grow_horizontal = 0
-grow_vertical = 0
+margin_right = 303.0
+margin_bottom = 300.0
 scroll_horizontal_enabled = false
 __meta__ = {
 "_edit_use_anchors_": true
@@ -136,9 +134,9 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/ScrollContainer"]
 margin_right = 291.0
-margin_bottom = 286.0
+margin_bottom = 300.0
+size_flags_vertical = 3
 custom_constants/separation = 6
-alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -154,48 +152,40 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Multiplayer" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="Singleplayer" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource( 3 )]
 margin_top = 97.0
 margin_right = 291.0
-margin_bottom = 130.0
-custom_styles/hover = ExtResource( 8 )
-custom_styles/pressed = ExtResource( 6 )
-custom_styles/normal = ExtResource( 7 )
+margin_bottom = 132.0
+custom_fonts/font = ExtResource( 4 )
+disabled = true
+toggle_mode = true
+text = "SINGLEPLAYER"
+
+[node name="Multiplayer" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource( 3 )]
+margin_top = 138.0
+margin_right = 291.0
+margin_bottom = 174.0
 custom_fonts/font = ExtResource( 4 )
 toggle_mode = true
-text = "MULTI PLAYER"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+text = "MULTIPLAYER"
 
-[node name="Host" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="Host" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource( 3 )]
 visible = false
-margin_top = 41.0
-margin_right = 184.0
-margin_bottom = 76.0
-custom_styles/hover = ExtResource( 8 )
-custom_styles/pressed = ExtResource( 6 )
-custom_styles/normal = ExtResource( 7 )
+margin_top = 196.0
+margin_right = 360.0
+margin_bottom = 240.0
 custom_fonts/font = ExtResource( 4 )
+disabled = true
 text = "HOST"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Join" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="Join" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource( 3 )]
 visible = false
-margin_top = 136.0
-margin_right = 249.0
-margin_bottom = 169.0
-custom_styles/hover = ExtResource( 8 )
-custom_styles/pressed = ExtResource( 6 )
-custom_styles/normal = ExtResource( 7 )
+margin_top = 213.0
+margin_right = 360.0
+margin_bottom = 265.0
 custom_fonts/font = ExtResource( 4 )
 toggle_mode = true
 text = "JOIN"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="IP" type="PanelContainer" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 visible = false
@@ -215,6 +205,7 @@ margin_bottom = 31.0
 margin_top = 5.0
 margin_right = 21.0
 margin_bottom = 19.0
+custom_fonts/font = ExtResource( 4 )
 text = "IP: "
 
 [node name="LineEdit" type="LineEdit" parent="MarginContainer/ScrollContainer/VBoxContainer/IP/HBoxContainer"]
@@ -222,6 +213,7 @@ margin_left = 25.0
 margin_right = 83.0
 margin_bottom = 24.0
 text = "127.0.0.1"
+align = 2
 
 [node name="Port" type="PanelContainer" parent="MarginContainer/ScrollContainer/VBoxContainer"]
 visible = false
@@ -241,123 +233,88 @@ margin_bottom = 31.0
 margin_top = 5.0
 margin_right = 34.0
 margin_bottom = 19.0
-text = "Port: "
+custom_fonts/font = ExtResource( 4 )
+text = "PORT: "
 
 [node name="LineEdit" type="LineEdit" parent="MarginContainer/ScrollContainer/VBoxContainer/Port/HBoxContainer"]
 margin_left = 38.0
 margin_right = 96.0
 margin_bottom = 24.0
 text = "9999"
+align = 2
 
-[node name="JoinServer" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="JoinServer" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource( 3 )]
 visible = false
-margin_top = 136.0
-margin_right = 249.0
-margin_bottom = 169.0
-custom_styles/hover = ExtResource( 8 )
-custom_styles/pressed = ExtResource( 6 )
-custom_styles/normal = ExtResource( 7 )
+margin_top = 375.0
+margin_right = 360.0
+margin_bottom = 439.0
 custom_fonts/font = ExtResource( 4 )
 text = "JOIN SERVER"
 
-[node name="Singleplayer" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 136.0
+[node name="Settings" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource( 3 )]
+margin_top = 180.0
 margin_right = 291.0
-margin_bottom = 169.0
-custom_styles/hover = ExtResource( 8 )
-custom_styles/pressed = ExtResource( 6 )
-custom_styles/normal = ExtResource( 7 )
+margin_bottom = 216.0
 custom_fonts/font = ExtResource( 4 )
-disabled = true
-toggle_mode = true
-text = "SINGLE PLAYER"
-
-[node name="Settings" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 175.0
-margin_right = 291.0
-margin_bottom = 208.0
-custom_styles/hover = ExtResource( 8 )
-custom_styles/pressed = ExtResource( 6 )
-custom_styles/normal = ExtResource( 7 )
-custom_fonts/font = ExtResource( 4 )
-toggle_mode = true
 text = "SETTINGS"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Credits" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 214.0
+[node name="Credits" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource( 3 )]
+margin_top = 222.0
 margin_right = 291.0
-margin_bottom = 247.0
-custom_styles/hover = ExtResource( 8 )
-custom_styles/pressed = ExtResource( 6 )
-custom_styles/normal = ExtResource( 7 )
+margin_bottom = 258.0
 custom_fonts/font = ExtResource( 4 )
-toggle_mode = true
 text = "CREDITS"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Quit" type="Button" parent="MarginContainer/ScrollContainer/VBoxContainer"]
-margin_top = 253.0
+[node name="Quit" parent="MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource( 3 )]
+margin_top = 264.0
 margin_right = 291.0
-margin_bottom = 286.0
-custom_styles/hover = ExtResource( 8 )
-custom_styles/pressed = ExtResource( 6 )
-custom_styles/normal = ExtResource( 7 )
+margin_bottom = 300.0
 custom_fonts/font = ExtResource( 4 )
 toggle_mode = true
 text = "QUIT"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="MarginContainer2" type="WindowDialog" parent="."]
 anchor_left = 1.0
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_bottom = 0.5
 margin_left = -560.0
-margin_top = -248.0
-grow_horizontal = 0
-grow_vertical = 0
-rect_min_size = Vector2( 502, 248 )
+margin_top = -124.0
+margin_bottom = 124.0
+rect_min_size = Vector2( 560, 248 )
 theme = ExtResource( 12 )
 window_title = "Map Selection"
+resizable = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ScrollContainer2" type="ScrollContainer" parent="MarginContainer2"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -280.0
-margin_top = -121.0
-margin_right = 280.0
-margin_bottom = 121.0
+anchor_left = 0.00496405
+anchor_top = 0.0121557
+anchor_right = 1.00542
+anchor_bottom = 0.987903
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
-"_edit_use_anchors_": false
+"_edit_use_anchors_": true
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer2/ScrollContainer2"]
-margin_right = 400.0
-margin_bottom = 219.0
+margin_right = 560.253
+margin_bottom = 241.985
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer2/ScrollContainer2/VBoxContainer"]
-margin_right = 519.0
+margin_right = 548.0
 margin_bottom = 30.0
 theme = ExtResource( 12 )
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2/ScrollContainer2/VBoxContainer/PanelContainer"]
 margin_left = 6.0
 margin_top = 4.0
-margin_right = 513.0
+margin_right = 542.0
 margin_bottom = 26.0
 
 [node name="ServerName" type="Label" parent="MarginContainer2/ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer"]
@@ -391,7 +348,7 @@ margin_bottom = 22.0
 
 [node name="Qodot" type="PanelContainer" parent="MarginContainer2/ScrollContainer2/VBoxContainer"]
 margin_top = 34.0
-margin_right = 519.0
+margin_right = 548.0
 margin_bottom = 242.0
 rect_min_size = Vector2( 400, 207 )
 theme = ExtResource( 12 )
@@ -403,7 +360,7 @@ __meta__ = {
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2/ScrollContainer2/VBoxContainer/Qodot"]
 margin_left = 4.0
 margin_top = 4.0
-margin_right = 515.0
+margin_right = 544.0
 margin_bottom = 204.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -465,17 +422,33 @@ margin_left = -258.5
 margin_top = -82.0
 margin_right = 259.5
 margin_bottom = 69.0
-text = "Brandon \"barnoftheyard\" Eifert - Everthing ;)"
+text = "Brandon \"barnoftheyard\" Eifert - Everthing ;)
+Godot Engine
+Blender"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DisconnectDialog" type="AcceptDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -97.0
+margin_top = -34.0
+margin_right = 97.0
+margin_bottom = 34.0
+window_title = ""
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [connection signal="confirmed" from="QuitDialog" to="." method="_on_AcceptDialog_confirmed"]
+[connection signal="toggled" from="MarginContainer/ScrollContainer/VBoxContainer/Singleplayer" to="." method="_on_Singleplayer_toggled"]
 [connection signal="toggled" from="MarginContainer/ScrollContainer/VBoxContainer/Multiplayer" to="." method="_on_Multiplayer_toggled"]
 [connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/Host" to="." method="_on_Host_pressed"]
 [connection signal="toggled" from="MarginContainer/ScrollContainer/VBoxContainer/Join" to="." method="_on_Join_toggled"]
 [connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/JoinServer" to="." method="_on_JoinServer_pressed"]
-[connection signal="toggled" from="MarginContainer/ScrollContainer/VBoxContainer/Singleplayer" to="." method="_on_Singleplayer_toggled"]
 [connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/Settings" to="." method="_on_Settings_pressed"]
 [connection signal="pressed" from="MarginContainer/ScrollContainer/VBoxContainer/Credits" to="." method="_on_Credits_pressed"]
 [connection signal="toggled" from="MarginContainer/ScrollContainer/VBoxContainer/Quit" to="." method="_on_Quit_toggled"]

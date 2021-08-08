@@ -30,33 +30,16 @@ func _ready():
 func _process(delta):
 	$FlavorText.rect_rotation += 200 * delta
 
-func _on_TestAreaButton_pressed():
-	selected_map = maps["TestArea"]
-	selected_map_name = "TestArea"
-	
-	map_text.text = "Map: " + selected_map_name
-	
-	if Global.game_mode == Global.game_modes.SINGLEPLAYER:
-		get_tree().change_scene(selected_map)
-
 func _on_Button_pressed():
 	selected_map = maps["Qodot"]
 	selected_map_name = "Jungle"
 	
 	map_text.text = "Map: " + selected_map_name
 	
-	if Global.game_mode == Global.game_modes.SINGLEPLAYER:
-		get_tree().change_scene(selected_map)
-		
-func _on_TestButton_pressed():
-	selected_map = maps["ladder test"]
-	selected_map_name = "ladder test"
-	
-	map_text.text = "Map: " + selected_map_name
+	$MarginContainer/ScrollContainer/VBoxContainer/Host.disabled = false
 	
 	if Global.game_mode == Global.game_modes.SINGLEPLAYER:
 		get_tree().change_scene(selected_map)
-
 
 func _on_Singleplayer_toggled(button_pressed):
 	if button_pressed:
@@ -75,15 +58,27 @@ func _on_Multiplayer_toggled(button_pressed):
 		Global.game_mode = Global.game_modes.MULTIPLAYER
 		
 		$MarginContainer/ScrollContainer/VBoxContainer/Singleplayer.pressed = false
-		$MarginContainer2.show()
+		$MarginContainer2.popup_centered()
 		$MarginContainer/ScrollContainer/VBoxContainer/Host.show()
 		$MarginContainer/ScrollContainer/VBoxContainer/Join.show()
+		
+		$MarginContainer/ScrollContainer/VBoxContainer/Settings.hide()
+		$MarginContainer/ScrollContainer/VBoxContainer/Credits.hide()
+		$MarginContainer/ScrollContainer/VBoxContainer/Quit.hide()
 	else:
 		Global.game_mode = null
 		
 		$MarginContainer2.hide()
 		$MarginContainer/ScrollContainer/VBoxContainer/Host.hide()
 		$MarginContainer/ScrollContainer/VBoxContainer/Join.hide()
+		
+		$MarginContainer/ScrollContainer/VBoxContainer/JoinServer.hide()
+		$MarginContainer/ScrollContainer/VBoxContainer/IP.hide()
+		$MarginContainer/ScrollContainer/VBoxContainer/Port.hide()
+		
+		$MarginContainer/ScrollContainer/VBoxContainer/Settings.show()
+		$MarginContainer/ScrollContainer/VBoxContainer/Credits.show()
+		$MarginContainer/ScrollContainer/VBoxContainer/Quit.show()
 
 
 func _on_Host_pressed():
@@ -95,7 +90,7 @@ func _on_Host_pressed():
 		var server_name = $MarginContainer2/ScrollContainer2/VBoxContainer/PanelContainer/HBoxContainer/ServerEdit.text
 	
 		# And create the server, using the function previously added into the code
-		get_tree().set_network_peer(null)
+		#get_tree().set_network_peer(null)
 		network.create_server(selected_map, server_name, port)
 		
 func _on_ready_to_play():
