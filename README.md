@@ -1,6 +1,6 @@
 # Vandata
 
-#Project is depricated! No longer works with Godot 4. Pleae check the newest interation of my FPS godot project, Gladio: https://github.com/barnoftheyard/gladio-godot
+### Project is depricated! No longer works with Godot 4. Pleae check the newest interation of my FPS godot project, Gladio: https://github.com/barnoftheyard/gladio-godot
 
 ### What is this?
 An in-development fast-action Godot FPS game featuring multiplayer, physics, ~~Qodot/Quake map intergration~~ in the vein of Valve's Half-Life.
